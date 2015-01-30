@@ -1,0 +1,56 @@
+<section class="mainbar">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="box">
+                        <div class="box-icon">
+                            <span class="fa fa-4x fa-sign-in"></span>
+                        </div>
+                        <div class="info">
+                            <h4 class="text-center">Sign Up</h4>
+
+                            <form class="form" name="form" >
+
+                                <div class="form-group">
+                                    <input type="text" name="firstName" ng-model="vm.newPatient.firstName" class="form-control" placeholder="Prénom">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" name="lastName" ng-model="vm.newPatient.lastName" class="form-control" placeholder="Nom de famille">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="email" name="email" ng-model="vm.newPatient.email" class="form-control" placeholder="Email">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="tel" name="phone" ng-model="vm.newPatient.phone" class="form-control" placeholder="Numéro de téléphone">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" name="address" ng-model="vm.newPatient.address" class="form-control" placeholder="Adresse">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="password" name="password" ng-model="vm.newPatient.password" class="form-control" placeholder="Mot de passe">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="password" name="confirmation" ng-model="vm.newPatient.confirmation" class="form-control" placeholder="Confirmez votre mot de passe">
+                                </div>
+
+                                <div>
+                                    <button class="btn btn-log" ng-click="vm.addPatient(vm.newPatient)" type="submit">
+                                        Créer mon compte
+                                    </button>
+                                    <!--<input type="hidden" name="_csrf" value="<%= _csrf %>" />-->
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

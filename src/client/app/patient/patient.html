@@ -1,0 +1,65 @@
+<section id="patient-view" class="mainbar">
+    <section class="matter">
+        <div class="container">
+            <h1>Mes rendez-vous</h1>
+            <div ng-repeat="appointment in vm.appointments">
+            <span ng-switch="$index % 4">
+              <div class="row" ng-switch-when="0">
+                  <div class="col-sm-3" ng-if="vm.appointments[$index+0]">
+                      <div class="thumbnail">
+                          <div class="caption">
+                              <h3>{{vm.appointments[$index+0].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                              <address>
+                                  <strong>{{vm.appointments[$index+0].doctor.name}}</strong><br>
+                                  {{vm.appointments[$index+0].doctor.address}}
+                                  <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
+                              </address>
+                              <p><button class="btn btn-success" role="button" ng-click="vm.open()">Valider le rendez-vous ?</button></p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-sm-3" ng-if="vm.appointments[$index+1]">
+                      <div class="thumbnail">
+                          <div class="caption">
+                              <h3>{{vm.appointments[$index+1].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                              <address>
+                                  <strong>{{vm.appointments[$index+1].doctor.name}}</strong><br>
+                                  {{vm.appointments[$index+1].doctor.address}}
+                                  <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
+                              </address>
+                              <p><button class="btn btn-success" role="button" ng-click="vm.open()">Valider le rendez-vous ?</button></p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-sm-3" ng-if="vm.appointments[$index+2]">
+                      <div class="thumbnail">
+                          <div class="caption">
+                              <h3>{{vm.appointments[$index+2].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                              <address>
+                                  <strong>{{vm.appointments[$index+2].doctor.name}}</strong><br>
+                                  {{vm.appointments[$index+2].doctor.address}}
+                                  <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
+                              </address>
+                              <p><button class="btn btn-success" role="button" ng-click="vm.open()">Valider le rendez-vous ?</button></p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-sm-3" ng-if="vm.appointments[$index+3]">
+                      <div class="thumbnail">
+                          <div class="caption">
+                              <h3>{{vm.appointments[$index+3].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                              <address>
+                                  <strong>{{vm.appointments[$index+3].doctor.name}}</strong><br>
+                                  {{vm.appointments[$index+3].doctor.address}}
+                                  <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
+                              </address>
+                              <p><button class="btn btn-success" role="button" ng-click="vm.open()">Valider le rendez-vous ?</button></p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </span>
+            </div>
+        </div>
+    </section>
+</section>

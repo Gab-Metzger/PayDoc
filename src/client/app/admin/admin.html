@@ -1,0 +1,98 @@
+<section class="mainbar">
+    <section class="matter">
+        <div class="container">
+            <h1>Liste des patients</h1>
+            <input type="text" ng-model="selected" typeahead="patient.name for patient in vm.patients | filter:$viewValue | limitTo:8" typeahead-on-select="vm.onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
+        </div>
+
+        <div class="container">
+            <div ng-if="vm.patient">
+                <h3>{{vm.patient.name}}</h3>
+                <p>{{vm.patient.phone}}</p>
+                <p>{{vm.patient.address}}</p>
+                <p>{{vm.patient.email}}</p>
+                <div class="row">
+                    <div class="col-md-2">
+                        <p class="input-group">
+                            <input type="text" class="form-control" datepicker-popup="{{vm.format}}" ng-model="vm.dt" is-open="vm.opened" datepicker-options="vm.dateOptions" min-date="vm.minDate" date-disabled="vm.disabled(date, mode)" ng-required="true" close-text="Close" />
+                            <span class="input-group-btn">
+                              <button type="button" class="btn btn-default" ng-click="vm.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <timepicker ng-model="vm.time" hour-step="1" minute-step="15" show-meridian="false"></timepicker>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-large btn-primary" ng-click="vm.addAppointment()">Ajouter un rendez-vous</i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" style="margin-top: 100px">
+            <h1>Mes rendez-vous</h1>
+            <div ng-repeat="appointment in vm.appointments">
+                <span ng-switch="$index % 4">
+                  <div class="row" ng-switch-when="0">
+                      <div class="col-sm-3" ng-if="vm.appointments[$index+0]">
+                          <div class="thumbnail">
+                              <div class="caption">
+                                  <h3>{{vm.appointments[$index+0].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                                  <address>
+                                      <strong>{{vm.appointments[$index+0].patient.name}}</strong><br>
+                                      <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].patient.phone}}
+                                  </address>
+                                  <p><button class="btn btn-danger" role="button" ng-click="vm.cancelAppointment(vm.appointments[$index+0].id)">Annuler le rendez-vous ?</button></p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-sm-3" ng-if="vm.appointments[$index+1]">
+                          <div class="thumbnail">
+                              <div class="caption">
+                                  <h3>{{vm.appointments[$index+1].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                                  <address>
+                                      <strong>{{vm.appointments[$index+1].patient.name}}</strong><br>
+                                      <abbr title="Phone">P:</abbr> {{vm.appointments[$index+1].patient.phone}}
+                                  </address>
+                                  <p><button class="btn btn-danger" role="button" ng-click="vm.cancelAppointment(vm.appointments[$index+1].id)">Annuler le rendez-vous ?</button></p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-sm-3" ng-if="vm.appointments[$index+2]">
+                          <div class="thumbnail">
+                              <div class="caption">
+                                  <h3>{{vm.appointments[$index+2].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                                  <address>
+                                      <strong>{{vm.appointments[$index+2].patient.name}}</strong><br>
+                                      <abbr title="Phone">P:</abbr> {{vm.appointments[$index+2].patient.phone}}
+                                  </address>
+                                  <p><button class="btn btn-danger" role="button" ng-click="vm.cancelAppointment(vm.appointments[$index+2].id)">Annuler le rendez-vous ?</button></p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-sm-3" ng-if="vm.appointments[$index+3]">
+                          <div class="thumbnail">
+                              <div class="caption">
+                                  <h3>{{vm.appointments[$index+3].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                                  <address>
+                                      <strong>{{vm.appointments[$index+3].patient.name}}</strong><br>
+                                      <abbr title="Phone">P:</abbr> {{vm.appointments[$index+3].patient.phone}}
+                                  </address>
+                                  <p><button class="btn btn-danger" role="button" ng-click="vm.cancelAppointment(vm.appointments[$index+3].id)">Annuler le rendez-vous ?</button></p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </span>
+            </div>
+        </div>
+        <div class="container">
+            <a class="btn btn-primary btn-lg" href="/signup" role="button">Ajouter un patient</a>
+        </div>
+    </section>
+</section>
