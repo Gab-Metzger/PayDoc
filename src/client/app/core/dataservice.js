@@ -5,9 +5,9 @@
         .module('app.core')
         .factory('dataservice', dataservice);
 
-    dataservice.$inject = ['$http'];
+    dataservice.$inject = ['$http', 'BackEndUrl'];
     /* @ngInject */
-    function dataservice($http) {
+    function dataservice($http, BackEndUrl) {
         var service = {
             getDoctorsList: getDoctorsList,
             getPatientsList: getPatientsList,
@@ -26,7 +26,7 @@
 
 
         function getDoctorsList() {
-            return $http.get('http://localhost:1337/doctor')
+            return $http.get(BackEndUrl+'doctor')
                 .then(getDoctorsComplete)
                 .catch(getDoctorsFailed);
 
@@ -40,7 +40,7 @@
         }
 
         function getPatientsList() {
-            return $http.get('http://localhost:1337/patient')
+            return $http.get(BackEndUrl+'patient')
                 .then(getPatientsListComplete)
                 .catch(getPatientsListFailed);
 
@@ -54,7 +54,7 @@
         }
 
         function getPatientById(id) {
-            return $http.get('http://localhost:1337/patient/'+id+'?populate=appointments')
+            return $http.get(BackEndUrl+'patient/'+id+'?populate=appointments')
                 .then(getPatientByIdComplete)
                 .catch(getPatientByIdFailed);
 
@@ -69,7 +69,7 @@
 
         function getAppointmentsByPatient(id)
         {
-            return $http.get('http://localhost:1337/appointment?where={"patient":'+id+'}&populate=doctor')
+            return $http.get(BackEndUrl+'appointment?where={"patient":'+id+'}&populate=doctor')
                 .then(getAppointmentsByPatientComplete)
                 .catch(getAppointmentsByPatientFailed);
 
@@ -83,7 +83,7 @@
         }
 
         function getPatientsByDoctor(id) {
-            return $http.get('http://localhost:1337/doctor')
+            return $http.get(BackEndUrl+'doctor')
                 .then(getPatientsByDoctorComplete)
                 .catch(getPatientsByDoctorFailed);
 
@@ -98,7 +98,7 @@
 
         function getAppointmentsByDoctor(id)
         {
-            return $http.get('http://localhost:1337/appointment?where={"doctor":'+id+', "cancelled": false}&populate=patient')
+            return $http.get(BackEndUrl+'appointment?where={"doctor":'+id+', "cancelled": false}&populate=patient')
                 .then(getAppointmentsByDoctorComplete)
                 .catch(getAppointmentsByDoctorFailed);
 
@@ -112,17 +112,17 @@
         }
 
         function cancelAppointment(id) {
-            return $http.put('http://localhost:1337/appointment/'+id, {cancelled: true});
+            return $http.put(BackEndUrl+'appointment/'+id, {cancelled: true});
 
         }
 
         function validateAppointment(id) {
-            return $http.put('http://localhost:1337/appointment/'+id, {validated: true});
+            return $http.put(BackEndUrl+'appointment/'+id, {validated: true});
 
         }
 
         function addAppointment(idPatient, idDoctor, startDate) {
-            return $http.post('http://localhost:1337/appointment', {patient: idPatient, doctor: idDoctor, startDate: startDate})
+            return $http.post(BackEndUrl+'appointment', {patient: idPatient, doctor: idDoctor, startDate: startDate})
                 .then(addAppointmentComplete)
                 .catch(addAppointmentFailed);
 
@@ -136,7 +136,7 @@
         }
 
         function addPatient(patient) {
-            return $http.post('http://localhost:1337/patient', patient)
+            return $http.post(BackEndUrl+'patient', patient)
                 .then(addPatientComplete)
                 .catch(addPatientFailed);
 
@@ -150,7 +150,7 @@
         }
 
         function updatePatient(id, patient) {
-            return $http.put('http://localhost:1337/patient/'+id, patient)
+            return $http.put(BackEndUrl+'patient/'+id, patient)
                 .then(updatePatientComplete)
                 .catch(updatePatientFailed);
 

@@ -48,9 +48,9 @@
         .module('app.core')
         .factory('authservice', authservice);
 
-    authservice.$inject = ['$http', '$state', 'storageservice', 'USER_ROLES', 'logger'];
+    authservice.$inject = ['$http', '$state', 'storageservice', 'USER_ROLES', 'logger', 'BackEndUrl'];
 
-    function authservice($http, $state, storageservice, USER_ROLES, logger) {
+    function authservice($http, $state, storageservice, USER_ROLES, logger, BackEndUrl) {
 
         var service = {
             authorize: authorize,
@@ -81,7 +81,7 @@
 
         function login(credentials) {
             return $http
-                .post('http://localhost:1337/auth/create', credentials, {withCredentials: true})
+                .post(BackEndUrl+'create', credentials, {withCredentials: true})
                 .then(function(response) {
                     storageservice.set('auth_token', JSON.stringify(response.data));
                     return response.data;

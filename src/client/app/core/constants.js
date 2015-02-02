@@ -10,5 +10,6 @@
             all: '*',
             doctor: 'doctor',
             patient: 'patient'
-        });
+        })
+        .constant('BackEndUrl', 'https://paydocapi.herokuapp.com/');
 })();
