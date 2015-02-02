@@ -45,11 +45,14 @@
             });
         }
 
-        vm.open = function (size) {
+        function validateAppointment(id) {
+            dataservice.validateAppointment(id);
+        };
+
+        vm.open = function (id) {
 
             var modalInstance = $modal.open({
                 templateUrl: 'app/widgets/modalContent.html',
-                size: size,
                 controller: ['$modalInstance',
                     function($modalInstance) {
                         var vm = this;
@@ -67,7 +70,7 @@
             });
 
             modalInstance.result.then(function () {
-
+                validateAppointment(id);
                 logger.info('Votre rendez-vous à bien été validé !');
             }, function () {
                 logger.error('Veuillez entrer vos informations bancaires');

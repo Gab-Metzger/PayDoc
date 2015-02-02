@@ -28,7 +28,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-large btn-primary" ng-click="vm.addAppointment()">Ajouter un rendez-vous</i></button>
+                        <button type="button" class="btn btn-large btn-primary" ng-click="vm.addAppointment(vm.patient.id)">Ajouter un rendez-vous</i></button>
                     </div>
                 </div>
             </div>
@@ -47,6 +47,8 @@
                                       <strong>{{vm.appointments[$index+0].patient.name}}</strong><br>
                                       <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].patient.phone}}
                                   </address>
+                                  <p ng-if="vm.appointments[$index+0].validated" style="color: #008000">Validé</p>
+                                  <p ng-if="!vm.appointments[$index+0].validated" style="color: red">Non Validé</p>
                                   <p><button class="btn btn-danger" role="button" ng-click="vm.cancelAppointment(vm.appointments[$index+0].id)">Annuler le rendez-vous ?</button></p>
                               </div>
                           </div>

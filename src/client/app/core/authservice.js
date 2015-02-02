@@ -57,14 +57,16 @@
             isAuthenticated: isAuthenticated,
             login: login,
             logout: logout,
-            currentUser: currentUser
+            currentUser: currentUser,
+            isPatient: isPatient,
+            isDoctor: isDoctor
         }
 
         return service;
 
         function authorize(accessLevel) {
             if (accessLevel === USER_ROLES.patient) {
-                return this.isAuthenticated();
+                return this.isAuthenticated() && (angular.fromJson(storageservice.get('auth_token')).role === USER_ROLES.patient);
             } else if (accessLevel === USER_ROLES.doctor) {
                 return this.isAuthenticated() && (angular.fromJson(storageservice.get('auth_token')).role === USER_ROLES.doctor);
             }
@@ -95,6 +97,14 @@
         function currentUser() {
             var current = storageservice.get('auth_token');
             return JSON.parse(current);
+        }
+
+        function isPatient() {
+            return (angular.fromJson(storageservice.get('auth_token')).role === 'patient');
+        }
+
+        function isDoctor() {
+            return (angular.fromJson(storageservice.get('auth_token')).role === 'doctor');
         }
     }
 }());

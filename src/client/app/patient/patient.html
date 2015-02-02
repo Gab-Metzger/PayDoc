@@ -14,7 +14,8 @@
                                   {{vm.appointments[$index+0].doctor.address}}
                                   <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
                               </address>
-                              <p><button class="btn btn-success" role="button" ng-click="vm.open()">Valider le rendez-vous ?</button></p>
+                              <p ng-if="!vm.appointments[$index+0].validated"><button class="btn btn-success" role="button" ng-click="vm.open(vm.appointments[$index+0].id)">Valider le rendez-vous ?</button></p>
+                              <p ng-if="vm.appointments[$index+0].validated" style="color: #008000">Rendez-vous validé !</p>
                           </div>
                       </div>
                   </div>
@@ -27,7 +28,8 @@
                                   {{vm.appointments[$index+1].doctor.address}}
                                   <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
                               </address>
-                              <p><button class="btn btn-success" role="button" ng-click="vm.open()">Valider le rendez-vous ?</button></p>
+                              <p ng-if="!vm.appointments[$index+1].validated"><button class="btn btn-success" role="button" ng-click="vm.open(vm.appointments[$index+1].id)">Valider le rendez-vous ?</button></p>
+                              <p ng-if="vm.appointments[$index+1].validated" style="color: #008000">Rendez-vous validé !</p>
                           </div>
                       </div>
                   </div>
@@ -40,7 +42,8 @@
                                   {{vm.appointments[$index+2].doctor.address}}
                                   <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
                               </address>
-                              <p><button class="btn btn-success" role="button" ng-click="vm.open()">Valider le rendez-vous ?</button></p>
+                              <p ng-if="!vm.appointments[$index+2].validated"><button class="btn btn-success" role="button" ng-click="vm.open(vm.appointments[$index+2].id)">Valider le rendez-vous ?</button></p>
+                              <p ng-if="vm.appointments[$index+2].validated" style="color: #008000">Rendez-vous validé !</p>
                           </div>
                       </div>
                   </div>
@@ -53,7 +56,8 @@
                                   {{vm.appointments[$index+3].doctor.address}}
                                   <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
                               </address>
-                              <p><button class="btn btn-success" role="button" ng-click="vm.open()">Valider le rendez-vous ?</button></p>
+                              <p ng-if="!vm.appointments[$index+3].validated"><button class="btn btn-success" role="button" ng-click="vm.open(vm.appointments[$index+3].id)">Valider le rendez-vous ?</button></p>
+                              <p ng-if="vm.appointments[$index+3].validated" style="color: #008000">Rendez-vous validé !</p>
                           </div>
                       </div>
                   </div>

@@ -16,6 +16,7 @@
             getPatientsByDoctor: getPatientsByDoctor,
             getAppointmentsByDoctor: getAppointmentsByDoctor,
             cancelAppointment: cancelAppointment,
+            validateAppointment: validateAppointment,
             addAppointment: addAppointment,
             addPatient: addPatient,
             updatePatient: updatePatient
@@ -97,7 +98,7 @@
 
         function getAppointmentsByDoctor(id)
         {
-            return $http.get('http://localhost:1337/appointment?where={"doctor":'+id+'}&populate=patient')
+            return $http.get('http://localhost:1337/appointment?where={"doctor":'+id+', "cancelled": false}&populate=patient')
                 .then(getAppointmentsByDoctorComplete)
                 .catch(getAppointmentsByDoctorFailed);
 
@@ -112,6 +113,11 @@
 
         function cancelAppointment(id) {
             return $http.put('http://localhost:1337/appointment/'+id, {cancelled: true});
+
+        }
+
+        function validateAppointment(id) {
+            return $http.put('http://localhost:1337/appointment/'+id, {validated: true});
 
         }
 

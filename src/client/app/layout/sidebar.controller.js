@@ -19,11 +19,28 @@
         function activate() { getNavRoutes(); }
 
         function getNavRoutes() {
-            vm.navRoutes = states.filter(function(r) {
-                return r.settings && r.settings.nav;
-            }).sort(function(r1, r2) {
-                return r1.settings.nav - r2.settings.nav;
-            });
+            if (authservice.authorize('patient')) {
+                vm.navRoutes = states.filter(function(r) {
+                    return r.settings && r.settings.nav && (r.authorizedRoles === 'patient');
+                }).sort(function(r1, r2) {
+                    return r1.settings.nav - r2.settings.nav;
+                });
+            }
+            else if (authservice.authorize('doctor')) {
+                vm.navRoutes = states.filter(function(r) {
+                    return r.settings && r.settings.nav && (r.authorizedRoles === 'doctor');
+                }).sort(function(r1, r2) {
+                    return r1.settings.nav - r2.settings.nav;
+                });
+            }
+            else {
+                vm.navRoutes = states.filter(function(r) {
+                    return r.settings && r.settings.nav && (r.authorizedRoles === '*');
+                }).sort(function(r1, r2) {
+                    return r1.settings.nav - r2.settings.nav;
+                });
+            }
+
         }
 
         function isCurrent(route) {

@@ -5,9 +5,9 @@
         .module('app.admin')
         .controller('AdminController', AdminController);
 
-    AdminController.$inject = ['logger', 'dataservice', '$q'];
+    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice'];
     /* @ngInject */
-    function AdminController(logger, dataservice, $q) {
+    function AdminController(logger, dataservice, $q, authservice) {
         var vm = this;
         vm.title = 'Admin';
         vm.patients = [];
@@ -35,10 +35,12 @@
         vm.time.setMinutes(0);
         vm.update = update;
 
+        var idCurrent = authservice.currentUser().id;
+
         activate();
 
         function activate() {
-            var promises = [getPatients(), getAppointments(1)];
+            var promises = [getPatients(), getAppointments(idCurrent)];
             return $q.all(promises).then(function() {
                 logger.info('Activated Patient View');
             });
@@ -74,9 +76,9 @@
             vm.appointments.splice(id,1);
         };
 
-        function addAppointment() {
+        function addAppointment(idPatient) {
             var startDate = new Date(vm.dt.toDateString() + " " + vm.time.toLocaleTimeString());
-            dataservice.addAppointment(5,1,startDate).then(function(data) {
+            dataservice.addAppointment(idPatient,idCurrent,startDate).then(function(data) {
                 logger.info('Le rendez-vous à été ajouté !')
                 vm.appointments.push(data);
             })
