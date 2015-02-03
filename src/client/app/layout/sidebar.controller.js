@@ -22,7 +22,7 @@
         function getNavRoutes() {
             if (authservice.authorize('patient')) {
                 vm.navRoutes = states.filter(function(r) {
-                    return r.settings && r.settings.nav && (r.authorizedRoles === 'patient');
+                    return r.settings && r.settings.nav && ((r.authorizedRoles === 'patient') || (r.authorizedRoles === '*'));
                 }).sort(function(r1, r2) {
                     return r1.settings.nav - r2.settings.nav;
                 });

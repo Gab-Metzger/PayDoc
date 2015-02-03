@@ -63,11 +63,24 @@
         };
 
         function authorize(accessLevel) {
-            var role = angular.fromJson(storageservice.get('auth_token')).role;
+
             if (accessLevel === USER_ROLES.patient) {
-                return this.isAuthenticated() && (role === USER_ROLES.patient);
-            } else if (accessLevel === USER_ROLES.doctor) {
-                return this.isAuthenticated() && (role === USER_ROLES.doctor);
+                if (this.isAuthenticated()) {
+                    var role = angular.fromJson(storageservice.get('auth_token')).role;
+                    return (role === USER_ROLES.patient);
+                }
+                else {
+                    return false;
+                }
+            }
+            else if (accessLevel === USER_ROLES.doctor) {
+                if (this.isAuthenticated()) {
+                    var role = angular.fromJson(storageservice.get('auth_token')).role;
+                    return (role === USER_ROLES.doctor);
+                }
+                else {
+                    return false;
+                }
             }
             else if (accessLevel === USER_ROLES.all) {
                 return true;
@@ -99,11 +112,11 @@
         }
 
         function isPatient() {
-            return (angular.fromJson(storageservice.get('auth_token')).role === 'patient');
+            return this.authorize('patient');
         }
 
         function isDoctor() {
-            return (angular.fromJson(storageservice.get('auth_token')).role === 'doctor');
+            return this.authorize('doctor');
         }
     }
 }());
