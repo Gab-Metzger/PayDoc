@@ -16,7 +16,7 @@
                         <p class="input-group">
                             <input type="text" class="form-control" datepicker-popup="{{vm.format}}" ng-model="vm.dt" is-open="vm.opened" datepicker-options="vm.dateOptions" min-date="vm.minDate" date-disabled="vm.disabled(date, mode)" ng-required="true" close-text="Close" />
                             <span class="input-group-btn">
-                              <button type="button" class="btn btn-default" ng-click="vm.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                              <button type="button" class="btn btn-default" ng-click="vm.showDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                             </span>
                         </p>
                     </div>

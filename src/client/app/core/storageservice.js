@@ -16,13 +16,11 @@
 
     function storageservice() {
 
-        var service = {
+        return {
             get: get,
             set: set,
             unset: unset
-        }
-
-        return service;
+        };
 
         function get(key) {
             return localStorage.getItem(key);

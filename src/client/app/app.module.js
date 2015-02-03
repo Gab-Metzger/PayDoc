@@ -9,6 +9,6 @@
         'app.patient',
         'app.account',
         'app.layout'
-    ])
+    ]);
 
 })();

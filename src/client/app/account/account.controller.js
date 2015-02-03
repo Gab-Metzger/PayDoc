@@ -51,7 +51,7 @@
             return dataservice.addPatient(patient)
                 .then(function (data) {
                     vm.newPatient = {};
-                    $location.path('/');
+                    $state.go('dashboard');
                     return data;
                 });
         }

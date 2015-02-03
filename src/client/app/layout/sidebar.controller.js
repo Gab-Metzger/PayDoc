@@ -8,6 +8,7 @@
     SidebarController.$inject = ['$state', 'routerHelper', 'authservice'];
     /* @ngInject */
     function SidebarController($state, routerHelper, authservice) {
+        /* jshint validthis: true */
         var vm = this;
         var states = routerHelper.getStates();
         vm.isCurrent = isCurrent;

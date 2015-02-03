@@ -26,7 +26,7 @@
             formatYear: 'yy',
             startingDay: 1
         };
-        vm.open = open;
+        vm.showDatepicker = showDatepicker;
         vm.clear = clear;
 
         //TimePicker
@@ -74,28 +74,28 @@
         function cancelAppointment(id) {
             dataservice.cancelAppointment(id);
             vm.appointments.splice(id,1);
-        };
+        }
 
         function addAppointment(idPatient) {
-            var startDate = new Date(vm.dt.toDateString() + " " + vm.time.toLocaleTimeString());
+            var startDate = new Date(vm.dt.toDateString() + ' ' + vm.time.toLocaleTimeString());
             dataservice.addAppointment(idPatient,idCurrent,startDate).then(function(data) {
-                logger.info('Le rendez-vous à été ajouté !')
+                logger.info('Le rendez-vous à été ajouté !');
                 vm.appointments.push(data);
             })
         }
 
         //Datepicker
 
-        function open($event) {
+        function showDatepicker($event) {
             $event.preventDefault();
             $event.stopPropagation();
 
             vm.opened = true;
-        };
+        }
 
         function clear() {
             vm.dt = null;
-        };
+        }
 
         //Timepicker
 
@@ -104,6 +104,6 @@
             d.setHours( 14 );
             d.setMinutes( 0 );
             vm.mytime = d;
-        };
+        }
     }
 })();

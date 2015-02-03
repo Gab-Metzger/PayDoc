@@ -8,6 +8,7 @@
     DashboardController.$inject = ['$q', 'dataservice', 'logger'];
     /* @ngInject */
     function DashboardController($q, dataservice, logger) {
+        /* jshint validthis: true */
         var vm = this;
         vm.news = {
             title: 'angularPapa',

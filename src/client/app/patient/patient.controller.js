@@ -47,7 +47,7 @@
 
         function validateAppointment(id) {
             dataservice.validateAppointment(id);
-        };
+        }
 
         vm.open = function (id) {
 

@@ -3,7 +3,7 @@
 
     angular
         .module('app.core')
-        .run(appRun)
+        .run(appRun);
 
     /* @ngInject */
     function appRun(routerHelper) {

@@ -52,7 +52,7 @@
 
     function authservice($http, $state, storageservice, USER_ROLES, logger, BackEndUrl) {
 
-        var service = {
+        return {
             authorize: authorize,
             isAuthenticated: isAuthenticated,
             login: login,
@@ -60,15 +60,14 @@
             currentUser: currentUser,
             isPatient: isPatient,
             isDoctor: isDoctor
-        }
-
-        return service;
+        };
 
         function authorize(accessLevel) {
+            var role = angular.fromJson(storageservice.get('auth_token')).role;
             if (accessLevel === USER_ROLES.patient) {
-                return this.isAuthenticated() && (angular.fromJson(storageservice.get('auth_token')).role === USER_ROLES.patient);
+                return this.isAuthenticated() && (role === USER_ROLES.patient);
             } else if (accessLevel === USER_ROLES.doctor) {
-                return this.isAuthenticated() && (angular.fromJson(storageservice.get('auth_token')).role === USER_ROLES.doctor);
+                return this.isAuthenticated() && (role === USER_ROLES.doctor);
             }
             else if (accessLevel === USER_ROLES.all) {
                 return true;
@@ -81,7 +80,7 @@
 
         function login(credentials) {
             return $http
-                .post(BackEndUrl+'create', credentials, {withCredentials: true})
+                .post(BackEndUrl+'auth/create', credentials, {withCredentials: true})
                 .then(function(response) {
                     storageservice.set('auth_token', JSON.stringify(response.data));
                     return response.data;
