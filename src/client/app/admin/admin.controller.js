@@ -85,7 +85,7 @@
         }
 
         //Datepicker
-
+        /* jshint validthis: true */
         function showDatepicker($event) {
             $event.preventDefault();
             $event.stopPropagation();

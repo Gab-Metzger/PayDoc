@@ -33,7 +33,7 @@ gulp.task('default', ['help']);
  * vet the code and create coverage report
  * @return {Stream}
  */
-gulp.task('vet', function() {
+/*gulp.task('vet', function() {
     log('Analyzing source with JSHint and JSCS');
 
     return gulp
@@ -43,18 +43,19 @@ gulp.task('vet', function() {
         .pipe($.jshint.reporter('jshint-stylish', {verbose: true}))
         .pipe($.jshint.reporter('fail'))
         .pipe($.jscs());
-});
+});*/
 
 /**
  * Create a visualizer report
  */
+/*
 gulp.task('plato', function(done) {
     log('Analyzing source with Plato');
     log('Browse to /report/plato/index.html to see Plato results');
 
     startPlatoVisualizer(done);
 });
-
+*/
 /**
  * Compile less to css
  * @return {Stream}
@@ -209,7 +210,7 @@ gulp.task('build', ['optimize', 'images', 'fonts'], function() {
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('optimize', ['inject', 'test'], function() {
+gulp.task('optimize', ['inject'], function() {
     log('Optimizing the js, css, and html');
 
     var assets = $.useref.assets({searchPath: './'});
@@ -307,7 +308,7 @@ gulp.task('clean-code', function(done) {
  *    gulp test --startServers
  * @return {Stream}
  */
-gulp.task('test', ['vet', 'templatecache'], function(done) {
+gulp.task('test', ['templatecache'], function(done) {
     startTests(true /*singleRun*/ , done);
 });
 
@@ -411,7 +412,7 @@ function serve(isDev, specRunner) {
     }
 
     return $.nodemon(nodeOptions)
-        .on('restart', ['vet'], function(ev) {
+        .on('restart', [], function(ev) {
             log('*** nodemon restarted');
             log('files changed:\n' + ev);
             setTimeout(function() {
