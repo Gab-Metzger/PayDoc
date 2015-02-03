@@ -95,8 +95,15 @@
             return $http
                 .post(BackEndUrl+'auth/create', credentials, {withCredentials: true})
                 .then(function(response) {
-                    storageservice.set('auth_token', JSON.stringify(response.data));
-                    return response.data;
+                    if (response.data.message) {
+                        logger.error(response.data.message);
+                        $state.go('signin');
+                        return response.data.message;
+                    }
+                    else {
+                        storageservice.set('auth_token', JSON.stringify(response.data));
+                        return response.data;
+                    }
                 });
         }
 
