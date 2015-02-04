@@ -104,7 +104,7 @@
                     if (!authservice.authorize(authorizedRoles)) {
                         event.preventDefault();
                         // user is not logged in
-                        logger.error('user is not logged in');
+                        logger.error('Vous n\'êtes pas connecté !');
                         $state.go('signin');
                     }
                 });

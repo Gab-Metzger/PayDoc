@@ -31,11 +31,7 @@
                 var idCurrent = authservice.currentUser().id;
                 var promises = [getPatient(idCurrent)];
                 return $q.all(promises).then(function() {
-                    logger.info('Activated Account View');
                 });
-            }
-            else {
-                logger.info('Activated Account View');
             }
         }
 
@@ -68,7 +64,6 @@
             return authservice.login(credentials)
                 .then(function(data) {
                     logger.success(data.firstName + ', vous êtes connecté');
-                    $state.go('dashboard');
                     return data;
                 });
         }

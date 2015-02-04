@@ -23,7 +23,6 @@
         function activate() {
             var promises = [getDoctors()];
             return $q.all(promises).then(function() {
-                logger.info('Activated Dashboard View');
             });
         }
 

@@ -5,9 +5,9 @@
         .module('app.layout')
         .controller('SidebarController', SidebarController);
 
-    SidebarController.$inject = ['$state', 'routerHelper', 'authservice'];
+    SidebarController.$inject = ['$state', 'routerHelper', 'authservice', 'logger'];
     /* @ngInject */
-    function SidebarController($state, routerHelper, authservice) {
+    function SidebarController($state, routerHelper, authservice, logger) {
         /* jshint validthis: true */
         var vm = this;
         var states = routerHelper.getStates();
@@ -53,7 +53,8 @@
         }
 
         function logout() {
-            return authservice.logout();
+            authservice.logout();
+            logger.success('Vous êtes déconnecté !');
         }
     }
 })();

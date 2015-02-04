@@ -42,7 +42,6 @@
         function activate() {
             var promises = [getPatients(), getAppointments(idCurrent)];
             return $q.all(promises).then(function() {
-                logger.info('Activated Patient View');
             });
         }
 

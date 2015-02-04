@@ -48,9 +48,9 @@
         .module('app.core')
         .factory('authservice', authservice);
 
-    authservice.$inject = ['$http', '$state', 'storageservice', 'USER_ROLES', 'logger', 'BackEndUrl'];
+    authservice.$inject = ['$http', '$state', 'storageservice', 'USER_ROLES', 'logger'];
 
-    function authservice($http, $state, storageservice, logger, BackEndUrl) {
+    function authservice($http, $state, storageservice, logger) {
 
         return {
             authorize: authorize,
@@ -82,7 +82,7 @@
 
         function login(credentials) {
             return $http
-                .post(BackEndUrl+'auth/create', credentials, {withCredentials: true})
+                .post('https://paydocapi.herokuapp.com/auth/create', credentials, {withCredentials: true})
                 .then(function(response) {
                     if (response.data.message) {
                         logger.error(response.data.message);
@@ -91,6 +91,14 @@
                     }
                     else {
                         storageservice.set('auth_token', JSON.stringify(response.data));
+                        console.log(response.data.role);
+                        if (response.data.role === 'doctor') {
+                            $state.go('admin');
+                        }
+                        else {
+                            $state.go('dashboard');
+                        }
+
                         return response.data;
                     }
                 });
@@ -98,7 +106,6 @@
 
         function logout() {
             storageservice.unset('auth_token');
-            logger.success('You have been logged out.');
             $state.go('signin');
         }
 
