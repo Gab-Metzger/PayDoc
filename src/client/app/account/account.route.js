@@ -47,7 +47,7 @@
                         nav: 3,
                         content: '<i class="fa fa-user"></i> Mon profil'
                     },
-                    authorizedRoles: 'patient'
+                    authorizedRoles: ['patient', 'doctor']
                 }
             }
         ];

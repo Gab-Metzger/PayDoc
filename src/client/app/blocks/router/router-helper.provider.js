@@ -103,15 +103,9 @@
                     var authorizedRoles = next.authorizedRoles;
                     if (!authservice.authorize(authorizedRoles)) {
                         event.preventDefault();
-                        if (authservice.isAuthenticated()) {
-                            // user is not allowed
-                            logger.error('user is not allowed');
-                            $state.go('dashboard');
-                        } else {
-                            // user is not logged in
-                            logger.error('user is not logged in');
-                            $state.go('signin');
-                        }
+                        // user is not logged in
+                        logger.error('user is not logged in');
+                        $state.go('signin');
                     }
                 });
             }

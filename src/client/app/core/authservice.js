@@ -50,7 +50,7 @@
 
     authservice.$inject = ['$http', '$state', 'storageservice', 'USER_ROLES', 'logger', 'BackEndUrl'];
 
-    function authservice($http, $state, storageservice, USER_ROLES, logger, BackEndUrl) {
+    function authservice($http, $state, storageservice, logger, BackEndUrl) {
 
         return {
             authorize: authorize,
@@ -62,28 +62,17 @@
             isDoctor: isDoctor
         };
 
-        function authorize(accessLevel) {
+        function authorize(authorizedRoles) {
 
-            if (accessLevel === USER_ROLES.patient) {
-                if (this.isAuthenticated()) {
-                    var role = angular.fromJson(storageservice.get('auth_token')).role;
-                    return (role === USER_ROLES.patient);
+            if (this.isAuthenticated()) {
+                var role = angular.fromJson(storageservice.get('auth_token')).role;
+                if (!angular.isArray(authorizedRoles)) {
+                    authorizedRoles = [authorizedRoles];
                 }
-                else {
-                    return false;
-                }
+                return (authorizedRoles.indexOf(role) !== -1);
             }
-            else if (accessLevel === USER_ROLES.doctor) {
-                if (this.isAuthenticated()) {
-                    var role = angular.fromJson(storageservice.get('auth_token')).role;
-                    return (role === USER_ROLES.doctor);
-                }
-                else {
-                    return false;
-                }
-            }
-            else if (accessLevel === USER_ROLES.all) {
-                return true;
+            else {
+                return (authorizedRoles.indexOf('*') !== -1);
             }
         }
 
