@@ -69,7 +69,7 @@
                 if (!angular.isArray(authorizedRoles)) {
                     authorizedRoles = [authorizedRoles];
                 }
-                return (authorizedRoles.indexOf(role) !== -1);
+                return (authorizedRoles.indexOf(role) !== -1) || (authorizedRoles.indexOf('*') !== -1);
             }
             else {
                 return (authorizedRoles.indexOf('*') !== -1);

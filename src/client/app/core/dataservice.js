@@ -11,6 +11,7 @@
         var service = {
             getDoctorsList: getDoctorsList,
             getPatientsList: getPatientsList,
+            getDoctorById: getDoctorById,
             getPatientById: getPatientById,
             getAppointmentsByPatient: getAppointmentsByPatient,
             getPatientsByDoctor: getPatientsByDoctor,
@@ -53,6 +54,20 @@
             }
         }
 
+        function getDoctorById(id) {
+            return $http.get(BackEndUrl+'doctor/'+id+'?populate=appointments')
+                .then(getDoctorByIdComplete)
+                .catch(getDoctorByIdFailed);
+
+            function getDoctorByIdComplete(response) {
+                return response.data;
+            }
+
+            function getDoctorByIdFailed(error) {
+                console.log('XHR Failed for getDoctorById.' + error.data);
+            }
+        }
+
         function getPatientById(id) {
             return $http.get(BackEndUrl+'patient/'+id+'?populate=appointments')
                 .then(getPatientByIdComplete)
@@ -69,7 +84,7 @@
 
         function getAppointmentsByPatient(id)
         {
-            return $http.get(BackEndUrl+'appointment?where={"patient":'+id+'}&populate=doctor')
+            return $http.get(BackEndUrl+'appointment?where={"patient":'+id+', "cancelled": "false"}&populate=doctor')
                 .then(getAppointmentsByPatientComplete)
                 .catch(getAppointmentsByPatientFailed);
 
@@ -98,7 +113,7 @@
 
         function getAppointmentsByDoctor(id)
         {
-            return $http.get(BackEndUrl+'appointment?where={"doctor":'+id+', "cancelled": false}&populate=patient')
+            return $http.get(BackEndUrl+'appointment?where={"doctor":'+id+', "startDate": {">": '+ new Date()+'}}&populate=patient')
                 .then(getAppointmentsByDoctorComplete)
                 .catch(getAppointmentsByDoctorFailed);
 

@@ -72,7 +72,7 @@
 
         function cancelAppointment(id) {
             dataservice.cancelAppointment(id);
-            vm.appointments.splice(id,1);
+            logger.info('Le rendez-vous a été annulé !')
         }
 
         function addAppointment(idPatient) {

@@ -49,7 +49,8 @@
                                   </address>
                                   <p ng-if="vm.appointments[$index+0].validated" style="color: #008000">Validé</p>
                                   <p ng-if="!vm.appointments[$index+0].validated" style="color: red">Non Validé</p>
-                                  <p><button class="btn btn-danger" role="button" ng-click="vm.cancelAppointment(vm.appointments[$index+0].id)">Annuler le rendez-vous ?</button></p>
+                                  <p ng-if="vm.appointments[$index+0].cancelled" style="color: red">Annulé !</p>
+                                  <p><button class="btn btn-danger" role="button" ng-if="!vm.appointments[$index+0].cancelled" ng-click="vm.cancelAppointment(vm.appointments[$index+0].id)">Annuler le rendez-vous ?</button></p>
                               </div>
                           </div>
                       </div>
@@ -61,7 +62,10 @@
                                       <strong>{{vm.appointments[$index+1].patient.name}}</strong><br>
                                       <abbr title="Phone">P:</abbr> {{vm.appointments[$index+1].patient.phone}}
                                   </address>
-                                  <p><button class="btn btn-danger" role="button" ng-click="vm.cancelAppointment(vm.appointments[$index+1].id)">Annuler le rendez-vous ?</button></p>
+                                  <p ng-if="vm.appointments[$index+1].validated" style="color: #008000">Validé</p>
+                                  <p ng-if="!vm.appointments[$index+1].validated" style="color: red">Non Validé</p>
+                                  <p ng-if="vm.appointments[$index+1].cancelled" style="color: red">Annulé !</p>
+                                  <p><button class="btn btn-danger" role="button" ng-if="!vm.appointments[$index+1].cancelled" ng-click="vm.cancelAppointment(vm.appointments[$index+1].id)">Annuler le rendez-vous ?</button></p>
                               </div>
                           </div>
                       </div>
@@ -73,7 +77,10 @@
                                       <strong>{{vm.appointments[$index+2].patient.name}}</strong><br>
                                       <abbr title="Phone">P:</abbr> {{vm.appointments[$index+2].patient.phone}}
                                   </address>
-                                  <p><button class="btn btn-danger" role="button" ng-click="vm.cancelAppointment(vm.appointments[$index+2].id)">Annuler le rendez-vous ?</button></p>
+                                  <p ng-if="vm.appointments[$index+2].validated" style="color: #008000">Validé</p>
+                                  <p ng-if="!vm.appointments[$index+2].validated" style="color: red">Non Validé</p>
+                                  <p ng-if="vm.appointments[$index+2].cancelled" style="color: red">Annulé !</p>
+                                  <p><button class="btn btn-danger" role="button" ng-if="!vm.appointments[$index+2].cancelled" ng-click="vm.cancelAppointment(vm.appointments[$index+2].id)">Annuler le rendez-vous ?</button></p>
                               </div>
                           </div>
                       </div>
@@ -85,7 +92,10 @@
                                       <strong>{{vm.appointments[$index+3].patient.name}}</strong><br>
                                       <abbr title="Phone">P:</abbr> {{vm.appointments[$index+3].patient.phone}}
                                   </address>
-                                  <p><button class="btn btn-danger" role="button" ng-click="vm.cancelAppointment(vm.appointments[$index+3].id)">Annuler le rendez-vous ?</button></p>
+                                  <p ng-if="vm.appointments[$index+3].validated" style="color: #008000">Validé</p>
+                                  <p ng-if="!vm.appointments[$index+3].validated" style="color: red">Non Validé</p>
+                                  <p ng-if="vm.appointments[$index+3].cancelled" style="color: red">Annulé !</p>
+                                  <p><button class="btn btn-danger" role="button" ng-if="!vm.appointments[$index+3].cancelled" ng-click="vm.cancelAppointment(vm.appointments[$index+3].id)">Annuler le rendez-vous ?</button></p>
                               </div>
                           </div>
                       </div>

@@ -25,7 +25,7 @@
                         nav: 1,
                         content: '<i class="fa fa-dashboard"></i> Dashboard'
                     },
-                    authorizedRoles: ['patient', 'doctor']
+                    authorizedRoles: ['patient']
                 }
             }
         ];

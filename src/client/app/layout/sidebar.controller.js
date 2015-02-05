@@ -22,21 +22,30 @@
         function getNavRoutes() {
             if (authservice.authorize('patient')) {
                 vm.navRoutes = states.filter(function(r) {
-                    return r.settings && r.settings.nav && ((r.authorizedRoles === 'patient') || (r.authorizedRoles === '*'));
+                    if (!angular.isArray(r.authorizedRoles)) {
+                        r.authorizedRoles = [r.authorizedRoles];
+                    }
+                    return r.settings && r.settings.nav && ((r.authorizedRoles.indexOf('patient') !== -1) || (r.authorizedRoles.indexOf('*') !== -1));
                 }).sort(function(r1, r2) {
                     return r1.settings.nav - r2.settings.nav;
                 });
             }
             else if (authservice.authorize('doctor')) {
                 vm.navRoutes = states.filter(function(r) {
-                    return r.settings && r.settings.nav && (r.authorizedRoles === 'doctor');
+                    if (!angular.isArray(r.authorizedRoles)) {
+                        r.authorizedRoles = [r.authorizedRoles];
+                    }
+                    return r.settings && r.settings.nav && (r.authorizedRoles.indexOf('doctor') !== -1);
                 }).sort(function(r1, r2) {
                     return r1.settings.nav - r2.settings.nav;
                 });
             }
             else {
                 vm.navRoutes = states.filter(function(r) {
-                    return r.settings && r.settings.nav && (r.authorizedRoles === '*');
+                    if (!angular.isArray(r.authorizedRoles)) {
+                        r.authorizedRoles = [r.authorizedRoles];
+                    }
+                    return r.settings && r.settings.nav && (r.authorizedRoles.indexOf('*') !== -1);
                 }).sort(function(r1, r2) {
                     return r1.settings.nav - r2.settings.nav;
                 });

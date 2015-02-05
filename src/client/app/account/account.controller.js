@@ -29,10 +29,25 @@
         function activate() {
             if (authservice.isAuthenticated()) {
                 var idCurrent = authservice.currentUser().id;
-                var promises = [getPatient(idCurrent)];
+                var data = [];
+                if (authservice.isDoctor()) {
+                    data.push(getDoctor(idCurrent));
+                }
+                else if (authservice.isPatient()) {
+                    data.push(getPatient(idCurrent))
+                }
+                var promises = data;
                 return $q.all(promises).then(function() {
                 });
             }
+        }
+
+        function getDoctor(id) {
+            return dataservice.getDoctorById(id)
+                .then(function (data) {
+                    vm.patient = data;
+                    return vm.patient;
+                });
         }
 
         function getPatient(id) {
@@ -47,7 +62,7 @@
             return dataservice.addPatient(patient)
                 .then(function (data) {
                     vm.newPatient = {};
-                    $state.go('dashboard');
+                    $state.go('signin');
                     return data;
                 });
         }
