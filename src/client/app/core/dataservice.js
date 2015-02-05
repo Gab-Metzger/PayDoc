@@ -20,7 +20,8 @@
             validateAppointment: validateAppointment,
             addAppointment: addAppointment,
             addPatient: addPatient,
-            updatePatient: updatePatient
+            updatePatient: updatePatient,
+            updateDoctor: updateDoctor
         };
 
         return service;
@@ -175,6 +176,20 @@
 
             function updatePatientFailed(error) {
                 console.log('XHR Failed for updatePatient.' + error.data);
+            }
+        }
+
+        function updateDoctor(id, doctor) {
+            return $http.put(BackEndUrl+'doctor/'+id, doctor)
+                .then(updateDoctorComplete)
+                .catch(updateDoctorFailed);
+
+            function updateDoctorComplete(response) {
+                return response.data;
+            }
+
+            function updateDoctorFailed(error) {
+                console.log('XHR Failed for updateDoctor.' + error.data);
             }
         }
     }

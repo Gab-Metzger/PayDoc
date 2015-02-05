@@ -16,10 +16,10 @@
         vm.activate = activate;
         vm.title = 'Account';
         vm.newPatient = {};
-        vm.patient = {};
+        vm.user = {};
         vm.credentials = {};
         vm.addPatient = addPatient;
-        vm.updatePatient = updatePatient;
+        vm.updateUser = updateUser;
         vm.login = login;
 
         activate();
@@ -45,16 +45,16 @@
         function getDoctor(id) {
             return dataservice.getDoctorById(id)
                 .then(function (data) {
-                    vm.patient = data;
-                    return vm.patient;
+                    vm.user = data;
+                    return vm.user;
                 });
         }
 
         function getPatient(id) {
             return dataservice.getPatientById(id)
                 .then(function (data) {
-                    vm.patient = data;
-                    return vm.patient;
+                    vm.user = data;
+                    return vm.user;
                 });
         }
 
@@ -67,12 +67,23 @@
                 });
         }
 
-        function updatePatient(id, patient) {
-            return dataservice.updatePatient(id, patient)
-                .then(function (data) {
-                    vm.patient = data;
-                    return vm.patient;
-                });
+        function updateUser(id, user) {
+            if (authservice.isPatient()) {
+                return dataservice.updatePatient(id, user)
+                    .then(function (data) {
+                        vm.user = data;
+                        logger.info('Vos informations ont été modifiées !');
+                        return vm.user;
+                    });
+            }
+            else {
+                return dataservice.updateDoctor(id, user)
+                    .then(function (data) {
+                        vm.user = data;
+                        logger.info('Vos informations ont été modifiées !');
+                        return vm.user;
+                    });
+            }
         }
 
         function login(credentials) {
