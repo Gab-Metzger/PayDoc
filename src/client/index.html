@@ -53,9 +53,15 @@
     <script src="/bower_components/toastr/toastr.js"></script>
     <script src="/bower_components/angular-animate/angular-animate.js"></script>
     <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/bower_components/sails.io.js/dist/sails.io.js"></script>
+    <script src="/bower_components/lodash/dist/lodash.compat.js"></script>
+    <script src="/bower_components/angularSails/dist/ngsails.io.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
-
+    <script type="text/javascript">
+        io.sails.useCORSRouteToGetCookie= false;
+        io.sails.url = 'http://localhost:1337';
+    </script>
     <!-- build:js js/app.js-->
 
     <!-- inject:js -->
@@ -103,5 +109,6 @@
     <!-- endinject -->
 
     <!-- endbuild -->
+
 </body>
 </html>

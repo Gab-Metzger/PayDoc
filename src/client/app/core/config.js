@@ -21,15 +21,16 @@
 
     core.config(configure);
 
-    configure.$inject = ['$logProvider', 'routerHelperProvider', 'exceptionHandlerProvider', '$httpProvider'];
+    configure.$inject = ['$logProvider', 'routerHelperProvider', 'exceptionHandlerProvider', '$httpProvider','$sailsSocketProvider'];
     /* @ngInject */
-    function configure($logProvider, routerHelperProvider, exceptionHandlerProvider, $httpProvider) {
+    function configure($logProvider, routerHelperProvider, exceptionHandlerProvider, $httpProvider,$sailsSocketProvider) {
         if ($logProvider.debugEnabled) {
             $logProvider.debugEnabled(true);
         }
         exceptionHandlerProvider.configure(config.appErrorPrefix);
         routerHelperProvider.configure({docTitle: config.appTitle + ': '});
         $httpProvider.interceptors.push('AuthInterceptor');
+        $sailsSocketProvider.interceptors.push('AuthInterceptor');
     }
 
 })();

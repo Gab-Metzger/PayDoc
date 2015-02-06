@@ -5,10 +5,10 @@
         .module('app.account')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['dataservice', 'logger', '$q', '$state', 'authservice', '$rootScope'];
+    AccountController.$inject = ['dataservice', 'logger', '$q', '$state', 'authservice', '$sailsSocket', '$rootScope'];
 
     /* @ngInject */
-    function AccountController(dataservice, logger, $q, $state, authservice, $rootScope)
+    function AccountController(dataservice, logger, $q, $state, authservice, $sailsSocket, $rootScope)
     {
         /* jshint validthis: true */
         var vm = this;
@@ -25,7 +25,12 @@
         activate();
 
         ////////////////
-
+        console.log("Bonjour!")
+        //$sailsSocket.get('http://localhost:1337/patient').success(function(doctor){
+        //    console.log(doctor)
+        //}).error(function(error){
+        //    console.log(error)
+        //})
         function activate() {
             if (authservice.isAuthenticated()) {
                 var idCurrent = authservice.currentUser().id;
