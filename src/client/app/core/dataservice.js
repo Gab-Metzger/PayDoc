@@ -114,7 +114,7 @@
 
         function getAppointmentsByDoctor(id)
         {
-            return $http.get(BackEndUrl+'appointment?where={"doctor":'+id+', "startDate": {">": '+ new Date()+'}}&populate=patient')
+            return $http.get(BackEndUrl+'appointment?where={"doctor":'+id+'}&populate=patient')
                 .then(getAppointmentsByDoctorComplete)
                 .catch(getAppointmentsByDoctorFailed);
 

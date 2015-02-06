@@ -11,12 +11,12 @@
         <div class="pull-right navbar-logo">
             <ul class="nav navbar-nav pull-right">
                 <li>
-                    <a href="/signin">
+                    <a href="/signin" ng-if="!isAuthenticated">
                         Sign In
                     </a>
                 </li>
                 <li>
-                    <a href="/signup">
+                    <a href="/signup" ng-if="!isAuthenticated">
                         Sign Up
                     </a>
                 </li>

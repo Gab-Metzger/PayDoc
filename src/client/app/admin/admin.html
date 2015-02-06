@@ -1,34 +1,32 @@
 <section class="mainbar">
     <section class="matter">
         <div class="container">
-            <h1>Liste des patients</h1>
-            <input type="text" ng-model="selected" typeahead="patient.name for patient in vm.patients | filter:$viewValue | limitTo:8" typeahead-on-select="vm.onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
-        </div>
-
-        <div class="container">
-            <div ng-if="vm.patient">
-                <h3>{{vm.patient.name}}</h3>
-                <p>{{vm.patient.phone}}</p>
-                <p>{{vm.patient.address}}</p>
-                <p>{{vm.patient.email}}</p>
-                <div class="row">
-                    <div class="col-md-2">
-                        <p class="input-group">
-                            <input type="text" class="form-control" datepicker-popup="{{vm.format}}" ng-model="vm.dt" is-open="vm.opened" datepicker-options="vm.dateOptions" min-date="vm.minDate" date-disabled="vm.disabled(date, mode)" ng-required="true" close-text="Close" />
-                            <span class="input-group-btn">
-                              <button type="button" class="btn btn-default" ng-click="vm.showDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                            </span>
-                        </p>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <input type="text" ng-model="selected" typeahead="patient.name for patient in vm.patients | filter:$viewValue | limitTo:8" typeahead-on-select="vm.onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
+                    </div>
+                    <div class="panel-body">
+                        <div ng-if="vm.patient">
+                            <h3>{{vm.patient.name}}</h3>
+                            <p>{{vm.patient.phone}}</p>
+                            <p>{{vm.patient.address}}</p>
+                            <p>{{vm.patient.email}}</p>
+                            <datetimepicker hour-step="1" minute-step="15" ng-model="vm.dt" show-meridian="false" date-format="dd/MM/yyyy" date-options="vm.dateOptions" min-date="vm.minDate" date-disabled="vm.disabled(date, mode)"></datetimepicker>
+                            <br />
+                            <button type="button" class="btn btn-large btn-primary" ng-click="vm.addAppointment(vm.patient.id)">Ajouter un rendez-vous</i></button>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <timepicker ng-model="vm.time" hour-step="1" minute-step="15" show-meridian="false"></timepicker>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Diffuser un rendez-vous</h3>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-large btn-primary" ng-click="vm.addAppointment(vm.patient.id)">Ajouter un rendez-vous</i></button>
+                    <div class="panel-body">
+                        <datetimepicker show-weeks="true" hour-step="1" minute-step="15" ng-model="date" show-meridian="false" date-format="dd/MM/yyyy"></datetimepicker>
+                        <button type="button" class="btn btn-large btn-primary" ng-click="">Diffuser le rendez-vous</i></button>
                     </div>
                 </div>
             </div>

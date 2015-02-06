@@ -5,10 +5,10 @@
         .module('app.account')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['dataservice', 'logger', '$q', '$state', 'authservice'];
+    AccountController.$inject = ['dataservice', 'logger', '$q', '$state', 'authservice', '$rootScope'];
 
     /* @ngInject */
-    function AccountController(dataservice, logger, $q, $state, authservice)
+    function AccountController(dataservice, logger, $q, $state, authservice, $rootScope)
     {
         /* jshint validthis: true */
         var vm = this;
@@ -90,6 +90,7 @@
             return authservice.login(credentials)
                 .then(function(data) {
                     logger.success(data.firstName + ', vous êtes connecté');
+                    $rootScope.isAuthenticated = authservice.isAuthenticated();
                     return data;
                 });
         }

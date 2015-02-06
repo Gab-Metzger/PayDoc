@@ -19,21 +19,13 @@
 
         //DatePicker
         vm.dt = null;
-        vm.opened = false;
         vm.minDate = new Date();
-        vm.format = 'dd/MM/yyyy';
         vm.dateOptions = {
             formatYear: 'yy',
             startingDay: 1
         };
-        vm.showDatepicker = showDatepicker;
         vm.clear = clear;
 
-        //TimePicker
-        vm.time = new Date();
-        vm.time.setHours(14);
-        vm.time.setMinutes(0);
-        vm.update = update;
 
         var idCurrent = authservice.currentUser().id;
 
@@ -76,33 +68,16 @@
         }
 
         function addAppointment(idPatient) {
-            var startDate = new Date(vm.dt.toDateString() + ' ' + vm.time.toLocaleTimeString());
-            dataservice.addAppointment(idPatient,idCurrent,startDate).then(function(data) {
+            dataservice.addAppointment(idPatient,idCurrent,vm.dt).then(function(data) {
                 logger.info('Le rendez-vous à été ajouté !');
                 vm.appointments.push(data);
             })
         }
 
         //Datepicker
-        /* jshint validthis: true */
-        function showDatepicker($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-
-            vm.opened = true;
-        }
 
         function clear() {
             vm.dt = null;
-        }
-
-        //Timepicker
-
-        function update() {
-            var d = new Date();
-            d.setHours( 14 );
-            d.setMinutes( 0 );
-            vm.mytime = d;
         }
     }
 })();
