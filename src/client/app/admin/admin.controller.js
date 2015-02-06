@@ -38,14 +38,14 @@
         }
 
         function getPatients() {
-            return dataservice.getPatientsList().then(function (data) {
+            return dataservice.getPatientsList().success(function (data) {
                 vm.patients = data;
                 return vm.patients;
             });
         }
 
         function getAppointments(id) {
-            return dataservice.getAppointmentsByDoctor(id).then(function (data) {
+            return dataservice.getAppointmentsByDoctor(id).success(function (data) {
                 vm.appointments = data;
                 return vm.appointments;
             });
@@ -53,7 +53,7 @@
 
         function getPatientById(id) {
             return dataservice.getPatientById(id)
-                .then(function (data) {
+                .success(function (data) {
                     return data.name;
                 });
         }
@@ -68,7 +68,7 @@
         }
 
         function addAppointment(idPatient) {
-            dataservice.addAppointment(idPatient,idCurrent,vm.dt).then(function(data) {
+            dataservice.addAppointment(idPatient,idCurrent,vm.dt).success(function(data) {
                 logger.info('Le rendez-vous à été ajouté !');
                 vm.appointments.push(data);
             })

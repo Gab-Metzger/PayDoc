@@ -27,7 +27,7 @@
         }
 
         function getDoctors() {
-            return dataservice.getDoctorsList().then(function (data) {
+            return dataservice.getDoctorsList().success(function (data) {
                 vm.doctors = data;
                 return vm.doctors;
             });

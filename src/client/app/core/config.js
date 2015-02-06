@@ -29,8 +29,9 @@
         }
         exceptionHandlerProvider.configure(config.appErrorPrefix);
         routerHelperProvider.configure({docTitle: config.appTitle + ': '});
-        $httpProvider.interceptors.push('AuthInterceptor');
         $sailsSocketProvider.interceptors.push('AuthInterceptor');
+        $httpProvider.interceptors.push('AuthInterceptor');
+
     }
 
 })();
