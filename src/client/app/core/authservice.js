@@ -82,7 +82,7 @@
 
         function login(credentials) {
             return $http
-                .post('https://paydocapi.herokuapp.com/auth/create', credentials, {withCredentials: true})
+                .post('http://localhost:1337/auth/create', credentials, {withCredentials: true})
                 .then(function(response) {
                     if (response.data.message) {
                         logger.error(response.data.message);

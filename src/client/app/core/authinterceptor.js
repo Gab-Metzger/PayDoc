@@ -15,6 +15,10 @@
                     token = angular.fromJson(LocalService.get('auth_token')).token;
                 }
                 if (token) {
+                    if(!config.data){
+                        config.data = {};
+                    }
+                    //config.data.token = token;
                     config.headers.Authorization = 'Bearer ' + token;
                 }
                 return config;

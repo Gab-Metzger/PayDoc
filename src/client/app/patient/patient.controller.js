@@ -5,10 +5,10 @@
         .module('app.patient')
         .controller('PatientController', PatientController);
 
-    PatientController.$inject = ['$q', 'dataservice', 'logger', '$modal', 'authservice'];
+    PatientController.$inject = ['$q', 'dataservice', 'logger', '$modal', 'authservice', '$sailsSocket'];
 
     /* @ngInject */
-    function PatientController($q, dataservice, logger, $modal, authservice)
+    function PatientController($q, dataservice, logger, $modal, authservice,$sailsSocket)
     {
         /* jshint validthis: true */
         var vm = this;
@@ -19,10 +19,14 @@
         vm.appointments = [];
 
         var idCurrent = authservice.currentUser().id;
-
         activate();
 
         ////////////////
+        //$sailsSocket.get('http://localhost:1337/patient').success(function(doctor){
+        //    console.log(doctor)
+        //}).error(function(error){
+        //    console.log(error)
+        //})
 
         function activate() {
             var promises = [getPatient(idCurrent), getAppointments(idCurrent)];
