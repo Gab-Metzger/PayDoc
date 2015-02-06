@@ -22,11 +22,12 @@
         activate();
 
         ////////////////
-        //$sailsSocket.get('http://localhost:1337/patient').success(function(doctor){
-        //    console.log(doctor)
-        //}).error(function(error){
-        //    console.log(error)
-        //})
+
+        $sailsSocket.get('http://localhost:1337/patient').success(function(doctor){
+            console.log(doctor)
+        }).error(function(error){
+            console.log(error)
+        })
 
         function activate() {
             var promises = [getPatient(idCurrent), getAppointments(idCurrent)];
