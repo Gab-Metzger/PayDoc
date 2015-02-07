@@ -22,11 +22,12 @@
         activate();
 
         ////////////////
-        //$sailsSocket.get('http://localhost:1337/patient').success(function(doctor){
-        //    console.log(doctor)
-        //}).error(function(error){
-        //    console.log(error)
-        //})
+
+        $sailsSocket.get('http://localhost:1337/patient').success(function(doctor){
+            console.log(doctor)
+        }).error(function(error){
+            console.log(error)
+        })
 
         function activate() {
             var promises = [getPatient(idCurrent), getAppointments(idCurrent)];
@@ -35,14 +36,14 @@
         }
 
         function getPatient(id) {
-            return dataservice.getPatientById(id).then(function (data) {
+            return dataservice.getPatientById(id).success(function (data) {
                 vm.patient = data;
                 return vm.patient;
             });
         }
 
         function getAppointments(id) {
-            return dataservice.getAppointmentsByPatient(id).then(function (data) {
+            return dataservice.getAppointmentsByPatient(id).success(function (data) {
                 vm.appointments = data;
                 return vm.appointments;
             });

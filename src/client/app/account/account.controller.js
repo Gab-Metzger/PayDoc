@@ -49,7 +49,7 @@
 
         function getDoctor(id) {
             return dataservice.getDoctorById(id)
-                .then(function (data) {
+                .success(function (data) {
                     vm.user = data;
                     return vm.user;
                 });
@@ -57,7 +57,7 @@
 
         function getPatient(id) {
             return dataservice.getPatientById(id)
-                .then(function (data) {
+                .success(function (data) {
                     vm.user = data;
                     return vm.user;
                 });
@@ -65,7 +65,7 @@
 
         function addPatient(patient) {
             return dataservice.addPatient(patient)
-                .then(function (data) {
+                .success(function (data) {
                     vm.newPatient = {};
                     $state.go('signin');
                     return data;
@@ -75,7 +75,7 @@
         function updateUser(id, user) {
             if (authservice.isPatient()) {
                 return dataservice.updatePatient(id, user)
-                    .then(function (data) {
+                    .success(function (data) {
                         vm.user = data;
                         logger.info('Vos informations ont été modifiées !');
                         return vm.user;
@@ -83,7 +83,7 @@
             }
             else {
                 return dataservice.updateDoctor(id, user)
-                    .then(function (data) {
+                    .success(function (data) {
                         vm.user = data;
                         logger.info('Vos informations ont été modifiées !');
                         return vm.user;

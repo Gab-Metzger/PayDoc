@@ -19,6 +19,7 @@
                         config.data = {};
                     }
                     //config.data.token = token;
+                    config.data.token = token;
                     config.headers.Authorization = 'Bearer ' + token;
                 }
                 return config;
