@@ -2,22 +2,24 @@
     <h3 class="modal-title">Coordonnées bancaires</h3>
 </div>
 <div class="modal-body">
-    <form class="form-inline">
-        <div class="form-group">
-            <label for="exampleInputName2">Numéro de carte</label>
-            <input type="text" class="form-control" id="exampleInputName2" placeholder="5111-1111-1111-1118">
+    <form name="payForm" class="form-inline" novalidate>
+        <div class="form-group" ng-class="{ 'has-error': !payForm.number.$valid}">
+            <label class="sr-only" for="exampleInputEmail3">Numéro de carte</label>
+            <input type="text" id="exampleInputEmail3" class="form-control" name="number" ng-model="cardInfos.number" placeholder="Numéro de carte" style="width: 300px" ng-required="true">
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail2">Cryptogramme</label>
-            <input type="text" class="form-control" id="exampleInputEmail2" placeholder="XXX" style="width: 50px">
+        <div class="form-group" ng-class="{ 'has-error': !payForm.crypto.$valid }">
+            <label class="sr-only" for="exampleInputPassword3">Cryptogramme</label>
+            <input type="text" class="form-control" id="exampleInputPassword3" name="crypto" ng-model="cardInfos.crypto" placeholder="Crypto" style="width: 50px" ng-required="true">
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail3">Expiration</label>
-            <input type="text" class="form-control" id="exampleInputEmail3" placeholder="05/15" style="width: 50px">
+        <div class="form-group" ng-class="{ 'has-error': !payForm.expiration.$valid}">
+            <label class="sr-only" for="exampleInputPassword3">Date expiration</label>
+            <input type="text" class="form-control" id="exampleInputPassword3" name="expiration" ng-model="cardInfos.expiration" placeholder="01/2016" style="width: 60px" ng-required="true">
         </div>
+        <button type="submit" class="btn btn-primary" ng-click="ok()">Valider</button>
     </form>
+    <br />
+    <div class="well" ng-if="errorMessage">{{errorMessage}}</div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="vm.ok()">OK</button>
-    <button class="btn btn-warning" ng-click="vm.cancel()">Cancel</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>

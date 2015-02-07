@@ -57,20 +57,26 @@
 
             var modalInstance = $modal.open({
                 templateUrl: 'app/widgets/modalContent.html',
-                controller: ['$modalInstance',
-                    function($modalInstance) {
-                        var vm = this;
+                controller: ['$modalInstance', '$scope',
+                    function($modalInstance, $scope) {
 
-                        vm.ok = function () {
-                            $modalInstance.close();
+                        $scope.cardInfos = {};
+
+                        $scope.ok = function () {
+                            if ($scope.payForm.$valid) {
+                                $modalInstance.close();
+                            }
+                            else {
+                                $scope.errorMessage = 'Veuillez entrer toutes les informations.';
+                            }
+
                         };
 
-                        vm.cancel = function () {
+                        $scope.cancel = function () {
                             $modalInstance.dismiss('cancel');
                         };
                     }
-                ],
-                controllerAs: 'vm'
+                ]
             });
 
             modalInstance.result.then(function () {
