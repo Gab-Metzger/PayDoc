@@ -67,7 +67,14 @@
             return dataservice.addPatient(patient)
                 .success(function (data) {
                     vm.newPatient = {};
-                    $state.go('signin');
+                    if (authservice.isDoctor()) {
+                        $state.go('admin');
+                        logger.info('Le compte patient a été crée !');
+                    }
+                    else {
+                        $state.go('signin');
+                        logger.success('Veuillez vérifier vos mails pour finaliser l\inscription !');
+                    }
                     return data;
                 });
         }

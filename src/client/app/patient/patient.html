@@ -6,6 +6,7 @@
             <span ng-switch="$index % 4">
               <div class="row" ng-switch-when="0">
                   <div class="col-sm-3" ng-if="vm.appointments[$index+0]">
+                      <a type="button" class="close-thumb" ng-click="cancel()">&times;</a>
                       <div class="thumbnail">
                           <div class="caption">
                               <h3>{{vm.appointments[$index+0].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
@@ -20,6 +21,7 @@
                       </div>
                   </div>
                   <div class="col-sm-3" ng-if="vm.appointments[$index+1]">
+                      <a type="button" class="close-thumb" ng-click="cancel()">&times;</a>
                       <div class="thumbnail">
                           <div class="caption">
                               <h3>{{vm.appointments[$index+1].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
@@ -34,6 +36,7 @@
                       </div>
                   </div>
                   <div class="col-sm-3" ng-if="vm.appointments[$index+2]">
+                      <a type="button" class="close-thumb" ng-click="cancel()">&times;</a>
                       <div class="thumbnail">
                           <div class="caption">
                               <h3>{{vm.appointments[$index+2].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
@@ -48,6 +51,7 @@
                       </div>
                   </div>
                   <div class="col-sm-3" ng-if="vm.appointments[$index+3]">
+                      <a type="button" class="close-thumb" ng-click="cancel()">&times;</a>
                       <div class="thumbnail">
                           <div class="caption">
                               <h3>{{vm.appointments[$index+3].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>

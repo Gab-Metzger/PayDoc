@@ -38,6 +38,7 @@
                 <span ng-switch="$index % 4">
                   <div class="row" ng-switch-when="0">
                       <div class="col-sm-3" ng-if="vm.appointments[$index+0]">
+                          <a type="button" class="close-thumb" ng-really-click="vm.cancelAppointment(vm.appointments[$index+0].id)">&times;</a>
                           <div class="thumbnail">
                               <div class="caption">
                                   <h3>{{vm.appointments[$index+0].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
@@ -48,11 +49,11 @@
                                   <p ng-if="vm.appointments[$index+0].validated" style="color: #008000">Validé</p>
                                   <p ng-if="!vm.appointments[$index+0].validated" style="color: red">Non Validé</p>
                                   <p ng-if="vm.appointments[$index+0].cancelled" style="color: red">Annulé !</p>
-                                  <p><button class="btn btn-danger" role="button" ng-if="!vm.appointments[$index+0].cancelled" ng-really-click="vm.cancelAppointment(vm.appointments[$index+0].id)">Annuler le rendez-vous ?</button></p>
                               </div>
                           </div>
                       </div>
                       <div class="col-sm-3" ng-if="vm.appointments[$index+1]">
+                          <a type="button" class="close-thumb" ng-really-click="vm.cancelAppointment(vm.appointments[$index+1].id)">&times;</a>
                           <div class="thumbnail">
                               <div class="caption">
                                   <h3>{{vm.appointments[$index+1].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
@@ -63,11 +64,11 @@
                                   <p ng-if="vm.appointments[$index+1].validated" style="color: #008000">Validé</p>
                                   <p ng-if="!vm.appointments[$index+1].validated" style="color: red">Non Validé</p>
                                   <p ng-if="vm.appointments[$index+1].cancelled" style="color: red">Annulé !</p>
-                                  <p><button class="btn btn-danger" role="button" ng-if="!vm.appointments[$index+1].cancelled" ng-really-click="vm.cancelAppointment(vm.appointments[$index+1].id)">Annuler le rendez-vous ?</button></p>
                               </div>
                           </div>
                       </div>
                       <div class="col-sm-3" ng-if="vm.appointments[$index+2]">
+                          <a type="button" class="close-thumb" ng-really-click="vm.cancelAppointment(vm.appointments[$index+2].id)">&times;</a>
                           <div class="thumbnail">
                               <div class="caption">
                                   <h3>{{vm.appointments[$index+2].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
@@ -78,11 +79,11 @@
                                   <p ng-if="vm.appointments[$index+2].validated" style="color: #008000">Validé</p>
                                   <p ng-if="!vm.appointments[$index+2].validated" style="color: red">Non Validé</p>
                                   <p ng-if="vm.appointments[$index+2].cancelled" style="color: red">Annulé !</p>
-                                  <p><button class="btn btn-danger" role="button" ng-if="!vm.appointments[$index+2].cancelled" ng-really-click="vm.cancelAppointment(vm.appointments[$index+2].id)">Annuler le rendez-vous ?</button></p>
                               </div>
                           </div>
                       </div>
                       <div class="col-sm-3" ng-if="vm.appointments[$index+3]">
+                          <a type="button" class="close-thumb" ng-really-click="vm.cancelAppointment(vm.appointments[$index+3].id)">&times;</a>
                           <div class="thumbnail">
                               <div class="caption">
                                   <h3>{{vm.appointments[$index+3].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
@@ -93,7 +94,6 @@
                                   <p ng-if="vm.appointments[$index+3].validated" style="color: #008000">Validé</p>
                                   <p ng-if="!vm.appointments[$index+3].validated" style="color: red">Non Validé</p>
                                   <p ng-if="vm.appointments[$index+3].cancelled" style="color: red">Annulé !</p>
-                                  <p><button class="btn btn-danger" role="button" ng-if="!vm.appointments[$index+3].cancelled" ng-really-click="vm.cancelAppointment(vm.appointments[$index+3].id)">Annuler le rendez-vous ?</button></p>
                               </div>
                           </div>
                       </div>
