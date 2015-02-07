@@ -73,7 +73,7 @@
                     }
                     else {
                         $state.go('signin');
-                        logger.success('Veuillez vérifier vos mails pour finaliser l\inscription !');
+                        logger.success('Veuillez vérifier vos mails pour finaliser l\'inscription !');
                     }
                     return data;
                 });
