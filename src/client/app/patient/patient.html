@@ -15,8 +15,11 @@
                                   {{vm.appointments[$index+0].doctor.address}}
                                   <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
                               </address>
-                              <p ng-if="!vm.appointments[$index+0].validated"><button class="btn btn-success" role="button" ng-click="vm.open(vm.appointments[$index+0].id)">Valider le rendez-vous ?</button></p>
-                              <p ng-if="vm.appointments[$index+0].validated" style="color: #008000">Rendez-vous validé !</p>
+                              <div ng-switch="vm.appointments[$index+0].state">
+                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+0].id)">CONFIRMER LE RENDEZ-VOUS ?</button>
+                                  <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
+                                  <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -30,8 +33,11 @@
                                   {{vm.appointments[$index+1].doctor.address}}
                                   <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
                               </address>
-                              <p ng-if="!vm.appointments[$index+1].validated"><button class="btn btn-success" role="button" ng-click="vm.open(vm.appointments[$index+1].id)">Valider le rendez-vous ?</button></p>
-                              <p ng-if="vm.appointments[$index+1].validated" style="color: #008000">Rendez-vous validé !</p>
+                              <div ng-switch="vm.appointments[$index+1].state">
+                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+0].id)">CONFIRMER LE RENDEZ-VOUS ?</button>
+                                  <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
+                                  <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -45,8 +51,11 @@
                                   {{vm.appointments[$index+2].doctor.address}}
                                   <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
                               </address>
-                              <p ng-if="!vm.appointments[$index+2].validated"><button class="btn btn-success" role="button" ng-click="vm.open(vm.appointments[$index+2].id)">Valider le rendez-vous ?</button></p>
-                              <p ng-if="vm.appointments[$index+2].validated" style="color: #008000">Rendez-vous validé !</p>
+                              <div ng-switch="vm.appointments[$index+2].state">
+                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+0].id)">CONFIRMER LE RENDEZ-VOUS ?</button>
+                                  <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
+                                  <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -60,8 +69,11 @@
                                   {{vm.appointments[$index+3].doctor.address}}
                                   <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
                               </address>
-                              <p ng-if="!vm.appointments[$index+3].validated"><button class="btn btn-success" role="button" ng-click="vm.open(vm.appointments[$index+3].id)">Valider le rendez-vous ?</button></p>
-                              <p ng-if="vm.appointments[$index+3].validated" style="color: #008000">Rendez-vous validé !</p>
+                              <div ng-switch="vm.appointments[$index+3].state">
+                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+0].id)">CONFIRMER LE RENDEZ-VOUS ?</button>
+                                  <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
+                                  <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
+                              </div>
                           </div>
                       </div>
                   </div>

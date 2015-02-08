@@ -71,7 +71,7 @@
 
         function getAppointmentsByPatient(id)
         {
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+', "cancelled": "false"}&populate=doctor')
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+'}&populate=doctor')
                 .success(function(data){
                     return data;
                 })
@@ -106,14 +106,14 @@
         function cancelAppointment(id) {
             //return $http.put(BackEndUrl+'appointment/'+id, {cancelled: true});
             return $sailsSocket.put(BackEndUrl+'appointment/'+id, {
-                cancelled: true
+                state: 'denied'
             })
         }
 
         function validateAppointment(id) {
             //return $http.put(BackEndUrl+'appointment/'+id, {validated: true});
             return $sailsSocket.put(BackEndUrl+ 'appointment/' + id, {
-                validated: true
+                state: 'approved'
             })
 
         }

@@ -37,8 +37,7 @@
                     if ( appointment.previous.doctor.id == authservice.currentUser().id ){
                         angular.forEach(vm.appointments, function(app,key){
                             if(app.id == appointment.id ){
-                                if(appointment.data.validated) app.validated = appointment.data.validated;
-                                if(appointment.data.cancelled) app.cancelled = appointment.data.cancelled;
+                                if(appointment.data.state) app.state = appointment.data.state;
                             }
                         })
                     }
@@ -86,8 +85,9 @@
 
         function addAppointment(idPatient) {
             dataservice.addAppointment(idPatient,idCurrent,vm.dt).success(function(data) {
+                console.log(data);
                 logger.info('Le rendez-vous à été ajouté !');
-                vm.appointments.push(data);
+                vm.appointments.push(data[0]);
             })
         }
 

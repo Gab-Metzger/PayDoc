@@ -46,9 +46,11 @@
                                       <strong>{{vm.appointments[$index+0].patient.name}}</strong><br>
                                       <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].patient.phone}}
                                   </address>
-                                  <p ng-if="vm.appointments[$index+0].validated" style="color: #008000">Validé</p>
-                                  <p ng-if="!vm.appointments[$index+0].validated" style="color: red">Non Validé</p>
-                                  <p ng-if="vm.appointments[$index+0].cancelled" style="color: red">Annulé !</p>
+                                  <div ng-switch="vm.appointments[$index+0].state">
+                                      <div class="alert alert-warning" ng-switch-when="pending">RENDEZ-VOUS NON CONFIRMÉ</div>
+                                      <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
+                                      <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
+                                  </div>
                               </div>
                           </div>
                       </div>
@@ -61,9 +63,11 @@
                                       <strong>{{vm.appointments[$index+1].patient.name}}</strong><br>
                                       <abbr title="Phone">P:</abbr> {{vm.appointments[$index+1].patient.phone}}
                                   </address>
-                                  <p ng-if="vm.appointments[$index+1].validated" style="color: #008000">Validé</p>
-                                  <p ng-if="!vm.appointments[$index+1].validated" style="color: red">Non Validé</p>
-                                  <p ng-if="vm.appointments[$index+1].cancelled" style="color: red">Annulé !</p>
+                                  <div ng-switch="vm.appointments[$index+1].state">
+                                      <div class="alert alert-warning" ng-switch-when="pending">RENDEZ-VOUS NON CONFIRMÉ</div>
+                                      <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
+                                      <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
+                                  </div>
                               </div>
                           </div>
                       </div>
@@ -76,9 +80,11 @@
                                       <strong>{{vm.appointments[$index+2].patient.name}}</strong><br>
                                       <abbr title="Phone">P:</abbr> {{vm.appointments[$index+2].patient.phone}}
                                   </address>
-                                  <p ng-if="vm.appointments[$index+2].validated" style="color: #008000">Validé</p>
-                                  <p ng-if="!vm.appointments[$index+2].validated" style="color: red">Non Validé</p>
-                                  <p ng-if="vm.appointments[$index+2].cancelled" style="color: red">Annulé !</p>
+                                  <div ng-switch="vm.appointments[$index+2].state">
+                                      <div class="alert alert-warning" ng-switch-when="pending">RENDEZ-VOUS NON CONFIRMÉ</div>
+                                      <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
+                                      <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
+                                  </div>
                               </div>
                           </div>
                       </div>
@@ -91,9 +97,11 @@
                                       <strong>{{vm.appointments[$index+3].patient.name}}</strong><br>
                                       <abbr title="Phone">P:</abbr> {{vm.appointments[$index+3].patient.phone}}
                                   </address>
-                                  <p ng-if="vm.appointments[$index+3].validated" style="color: #008000">Validé</p>
-                                  <p ng-if="!vm.appointments[$index+3].validated" style="color: red">Non Validé</p>
-                                  <p ng-if="vm.appointments[$index+3].cancelled" style="color: red">Annulé !</p>
+                                  <div ng-switch="vm.appointments[$index+3].state">
+                                      <div class="alert alert-warning" ng-switch-when="pending">RENDEZ-VOUS NON CONFIRMÉ</div>
+                                      <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
+                                      <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
+                                  </div>
                               </div>
                           </div>
                       </div>
