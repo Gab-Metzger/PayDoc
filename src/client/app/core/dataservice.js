@@ -112,14 +112,14 @@
 
         function validateAppointment(id) {
             //return $http.put(BackEndUrl+'appointment/'+id, {validated: true});
-            return $sailsSocket.put(BackEndUrl+ 'appointmen/' + id, {
+            return $sailsSocket.put(BackEndUrl+ 'appointment/' + id, {
                 validated: true
             })
 
         }
 
         function addAppointment(idPatient, idDoctor, startDate) {
-            return $sailsSocket.post(BackEndUrl+'appointment',{
+            return $sailsSocket.post(BackEndUrl+'appointment/',{
                 patient: idPatient,
                 doctor: idDoctor,
                 startDate: startDate

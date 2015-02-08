@@ -18,16 +18,21 @@
         vm.patient = {};
         vm.appointments = [];
 
+
+
         var idCurrent = authservice.currentUser().id;
+
+        $sailsSocket.subscribe('appointment',function(appointment){
+            if(appointment.data.patient == idCurrent){
+                if (appointment.verb == "created"){
+                    vm.appointments.push(appointment.data)
+                }
+            }
+        })
+
         activate();
 
         ////////////////
-
-        $sailsSocket.get('http://localhost:1337/patient').success(function(doctor){
-            console.log(doctor)
-        }).error(function(error){
-            console.log(error)
-        })
 
         function activate() {
             var promises = [getPatient(idCurrent), getAppointments(idCurrent)];

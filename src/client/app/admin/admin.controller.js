@@ -5,9 +5,9 @@
         .module('app.admin')
         .controller('AdminController', AdminController);
 
-    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice'];
+    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$rootScope'];
     /* @ngInject */
-    function AdminController(logger, dataservice, $q, authservice) {
+    function AdminController(logger, dataservice, $q, authservice, $sailsSocket, $rootScope) {
         var vm = this;
         vm.title = 'Admin';
         vm.patients = [];
@@ -30,6 +30,23 @@
         var idCurrent = authservice.currentUser().id;
 
         activate();
+
+        if (!$rootScope.hasSubscribed){
+            $sailsSocket.subscribe('appointment', function(appointment){
+                if(appointment.previous){
+                    if ( appointment.previous.doctor.id == authservice.currentUser().id ){
+                        angular.forEach(vm.appointments, function(app,key){
+                            if(app.id == appointment.id ){
+                                if(appointment.data.validated) app.validated = appointment.data.validated;
+                                if(appointment.data.cancelled) app.cancelled = appointment.data.cancelled;
+                            }
+                        })
+                    }
+                }
+            })
+            $rootScope.hasSubscribed = true;
+        }
+
 
         function activate() {
             var promises = [getPatients(), getAppointments(idCurrent)];

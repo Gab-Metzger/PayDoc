@@ -25,7 +25,6 @@
         activate();
 
         ////////////////
-        console.log("Bonjour!")
         //$sailsSocket.get('http://localhost:1337/patient').success(function(doctor){
         //    console.log(doctor)
         //}).error(function(error){
@@ -103,6 +102,18 @@
                 .then(function(data) {
                     logger.success(data.firstName + ', vous êtes connecté');
                     $rootScope.isAuthenticated = authservice.isAuthenticated();
+                    $rootScope.hasSubscribed = false;
+                    if(authservice.isDoctor()){
+                        $sailsSocket.subscribe('appointment', function(appointment){
+                            if(appointment.previous){
+                                if ( appointment.previous.doctor.id == authservice.currentUser().id ){
+                                    if (appointment.data.validated) {
+                                        logger.info("Notification : Le rendez-vous avec " + appointment.previous.patient.name + " a été validé !")
+                                    }
+                                }
+                            }
+                        })
+                    }
                     return data;
                 });
         }
