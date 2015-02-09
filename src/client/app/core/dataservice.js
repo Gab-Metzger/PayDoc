@@ -21,7 +21,8 @@
             addAppointment: addAppointment,
             addPatient: addPatient,
             updatePatient: updatePatient,
-            updateDoctor: updateDoctor
+            updateDoctor: updateDoctor,
+            broadcastAppointment: broadcastAppointment
         };
 
         return service;
@@ -71,12 +72,13 @@
 
         function getAppointmentsByPatient(id)
         {
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+'}&populate=doctor')
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+',"state":["pending","approved"]}&populate=doctor')
                 .success(function(data){
+                    console.log(data)
                     return data;
                 })
                 .error(function(err){
-                    console.log('Failed request for getAppointmenysByPatient. ' + err);
+                    console.log( err);
                 })
         }
 
@@ -143,17 +145,6 @@
         }
 
         function updatePatient(id, patient) {
-            //return $http.put(BackEndUrl+'patient/'+id, patient)
-            //    .then(updatePatientComplete)
-            //    .catch(updatePatientFailed);
-            //
-            //function updatePatientComplete(response) {
-            //    return response.data;
-            //}
-            //
-            //function updatePatientFailed(error) {
-            //    console.log('XHR Failed for updatePatient.' + error.data);
-            //}
             return $sailsSocket.put(BackEndUrl+'patient/'+id, patient)
                 .success(function(data){
                     return data;
@@ -181,6 +172,19 @@
                 })
                 .error(function(err){
                     console.log(err);
+                })
+        }
+
+        function broadcastAppointment(idDoctor, startDate){
+            return $sailsSocket.post(BackEndUrl+'appointment/broadcast',{
+                doctor: idDoctor,
+                startDate: startDate
+            })
+                .success(function(data){
+                    return data;
+                })
+                .error(function(err){
+                    console.log('Request Failed for addAppointement. ' + err)
                 })
         }
     }

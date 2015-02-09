@@ -9,7 +9,7 @@
                       <a type="button" class="close-thumb" ng-click="cancel()">&times;</a>
                       <div class="thumbnail">
                           <div class="caption">
-                              <h3>{{vm.appointments[$index+0].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                              <h3>{{vm.appointments[$index+0].startDate | date:"dd/MM/yyyy 'à' H'h'mm" }}</h3>
                               <address>
                                   <strong>{{vm.appointments[$index+0].doctor.name}}</strong><br>
                                   {{vm.appointments[$index+0].doctor.address}}
@@ -31,10 +31,10 @@
                               <address>
                                   <strong>{{vm.appointments[$index+1].doctor.name}}</strong><br>
                                   {{vm.appointments[$index+1].doctor.address}}
-                                  <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
+                                  <abbr title="Phone">P:</abbr> {{vm.appointments[$index+1].doctor.phone}}
                               </address>
                               <div ng-switch="vm.appointments[$index+1].state">
-                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+0].id)">CONFIRMER LE RENDEZ-VOUS ?</button>
+                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+1].id)">CONFIRMER LE RENDEZ-VOUS ?</button>
                                   <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
                                   <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
                               </div>
@@ -49,10 +49,10 @@
                               <address>
                                   <strong>{{vm.appointments[$index+2].doctor.name}}</strong><br>
                                   {{vm.appointments[$index+2].doctor.address}}
-                                  <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
+                                  <abbr title="Phone">P:</abbr> {{vm.appointments[$index+2].doctor.phone}}
                               </address>
                               <div ng-switch="vm.appointments[$index+2].state">
-                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+0].id)">CONFIRMER LE RENDEZ-VOUS ?</button>
+                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+2].id)">CONFIRMER LE RENDEZ-VOUS ?</button>
                                   <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
                                   <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
                               </div>
@@ -67,10 +67,10 @@
                               <address>
                                   <strong>{{vm.appointments[$index+3].doctor.name}}</strong><br>
                                   {{vm.appointments[$index+3].doctor.address}}
-                                  <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
+                                  <abbr title="Phone">P:</abbr> {{vm.appointments[$index+3].doctor.phone}}
                               </address>
                               <div ng-switch="vm.appointments[$index+3].state">
-                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+0].id)">CONFIRMER LE RENDEZ-VOUS ?</button>
+                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+3].id)">CONFIRMER LE RENDEZ-VOUS ?</button>
                                   <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
                                   <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
                               </div>

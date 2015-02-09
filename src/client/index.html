@@ -53,11 +53,11 @@
     <script src="/bower_components/toastr/toastr.js"></script>
     <script src="/bower_components/angular-animate/angular-animate.js"></script>
     <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
     <script src="/bower_components/sails.io.js/dist/sails.io.js"></script>
     <script src="/bower_components/lodash/dist/lodash.compat.js"></script>
     <script src="/bower_components/angularSails/dist/ngsails.io.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
     <script type="text/javascript">
         io.sails.useCORSRouteToGetCookie= false;
         io.sails.url = 'http://localhost:1337';
@@ -68,18 +68,20 @@
     <script src="/src/client/app/app.module.js"></script>
     <script src="/src/client/app/account/account.module.js"></script>
     <script src="/src/client/app/admin/admin.module.js"></script>
-    <script src="/src/client/app/core/core.module.js"></script>
     <script src="/src/client/app/dashboard/dashboard.module.js"></script>
+    <script src="/src/client/app/core/core.module.js"></script>
     <script src="/src/client/app/layout/layout.module.js"></script>
     <script src="/src/client/app/patient/patient.module.js"></script>
     <script src="/src/client/app/widgets/widgets.module.js"></script>
     <script src="/src/client/app/blocks/exception/exception.module.js"></script>
-    <script src="/src/client/app/blocks/router/router.module.js"></script>
     <script src="/src/client/app/blocks/logger/logger.module.js"></script>
+    <script src="/src/client/app/blocks/router/router.module.js"></script>
     <script src="/src/client/app/account/account.controller.js"></script>
     <script src="/src/client/app/account/account.route.js"></script>
     <script src="/src/client/app/admin/admin.controller.js"></script>
     <script src="/src/client/app/admin/admin.route.js"></script>
+    <script src="/src/client/app/dashboard/dashboard.controller.js"></script>
+    <script src="/src/client/app/dashboard/dashboard.route.js"></script>
     <script src="/src/client/app/core/authinterceptor.js"></script>
     <script src="/src/client/app/core/authservice.js"></script>
     <script src="/src/client/app/core/config.js"></script>
@@ -87,8 +89,6 @@
     <script src="/src/client/app/core/core.route.js"></script>
     <script src="/src/client/app/core/dataservice.js"></script>
     <script src="/src/client/app/core/storageservice.js"></script>
-    <script src="/src/client/app/dashboard/dashboard.controller.js"></script>
-    <script src="/src/client/app/dashboard/dashboard.route.js"></script>
     <script src="/src/client/app/layout/ht-sidebar.directive.js"></script>
     <script src="/src/client/app/layout/ht-top-nav.directive.js"></script>
     <script src="/src/client/app/layout/shell.controller.js"></script>
@@ -101,8 +101,8 @@
     <script src="/src/client/app/widgets/modal.directive.js"></script>
     <script src="/src/client/app/blocks/exception/exception-handler.provider.js"></script>
     <script src="/src/client/app/blocks/exception/exception.js"></script>
-    <script src="/src/client/app/blocks/router/router-helper.provider.js"></script>
     <script src="/src/client/app/blocks/logger/logger.js"></script>
+    <script src="/src/client/app/blocks/router/router-helper.provider.js"></script>
     <!-- endinject -->
 
     <!-- inject:templates:js -->
