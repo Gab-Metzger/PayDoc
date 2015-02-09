@@ -16,6 +16,7 @@
         vm.getPatientById = getPatientById;
         vm.cancelAppointment = cancelAppointment;
         vm.addAppointment = addAppointment;
+        vm.broadcastAppointment = broadcastAppointment;
 
         //DatePicker
         vm.dt = null;
@@ -25,6 +26,7 @@
             startingDay: 1
         };
         vm.clear = clear;
+        vm.date = null;
 
 
         var idCurrent = authservice.currentUser().id;
@@ -33,6 +35,7 @@
 
         if (!$rootScope.hasSubscribed){
             $sailsSocket.subscribe('appointment', function(appointment){
+                console.log(appointment)
                 if(appointment.previous){
                     if ( appointment.previous.doctor.id == authservice.currentUser().id ){
                         angular.forEach(vm.appointments, function(app,key){
@@ -88,6 +91,16 @@
                 console.log(data);
                 logger.info('Le rendez-vous à été ajouté !');
                 vm.appointments.push(data[0]);
+            })
+        }
+
+        function broadcastAppointment(){
+            console.log("BroadcastAppointment");
+            console.log(vm.date);
+            dataservice.broadcastAppointment(idCurrent,vm.date).success(function(data){
+                console.log(data)
+                logger.info("Le rendez-vous à été diffusé ! ");
+
             })
         }
 

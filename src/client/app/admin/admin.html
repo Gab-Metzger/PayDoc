@@ -25,8 +25,8 @@
                         <h3 class="panel-title">Diffuser un rendez-vous</h3>
                     </div>
                     <div class="panel-body">
-                        <datetimepicker show-weeks="true" hour-step="1" minute-step="15" ng-model="date" show-meridian="false" date-format="dd/MM/yyyy"></datetimepicker>
-                        <button type="button" class="btn btn-large btn-primary" ng-click="">Diffuser le rendez-vous</i></button>
+                        <datetimepicker show-weeks="true" hour-step="1" minute-step="15" ng-model="vm.date" show-meridian="false" date-format="dd/MM/yyyy"></datetimepicker>
+                        <button type="button" class="btn btn-large btn-primary" ng-click="vm.broadcastAppointment()">Diffuser le rendez-vous</i></button>
                     </div>
                 </div>
             </div>

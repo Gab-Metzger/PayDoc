@@ -22,10 +22,24 @@
 
         var idCurrent = authservice.currentUser().id;
 
+        console.log('je subscribe au RDV')
         $sailsSocket.subscribe('appointment',function(appointment){
+            console.log("Un nouveua rdv est crée ")
+            console.log(appointment)
             if(appointment.data.patient == idCurrent){
                 if (appointment.verb == "created"){
                     vm.appointments.push(appointment.data)
+                }
+            }
+            // Si modification d'un RDV
+            if (appointment.previous){
+                if (appointment.previous.patient.id == idCurrent){
+                    angular.forEach(vm.appointments, function(app,key) {
+                        if (app.id == appointment.id) {
+                            vm.appointments.splice(key,1);
+                            //if (appointment.data.state) app.state = appointment.data.state;
+                        }
+                    })
                 }
             }
         })
