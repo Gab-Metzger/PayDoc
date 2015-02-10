@@ -50,7 +50,7 @@
                     })
                 }
             }
-        })
+        });
 
         activate();
 
@@ -60,6 +60,7 @@
         function activate() {
             var promises = [getPatient(idCurrent), getAppointments(idCurrent), getBroadcasted(idCurrent)];
             return $q.all(promises).then(function() {
+                console.log("Tada : "+vm.broadcastedAppointments);
             });
         }
 

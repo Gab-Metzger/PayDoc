@@ -91,7 +91,6 @@
                     }
                     else {
                         storageservice.set('auth_token', JSON.stringify(response.data));
-                        console.log(response.data.role);
                         if (response.data.role === 'doctor') {
                             $state.go('admin');
                         }

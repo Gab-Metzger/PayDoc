@@ -217,10 +217,11 @@
                 patient: idPatient
             })
                 .success(function(data){
+                    console.log(data);
                     return data;
                 })
                 .error(function(err){
-                    console.log('Request Failed for addAppointement. ' + err)
+                    console.log('Request Failed for getBroadcasted. ' + err)
                 })
         }
     }

@@ -16,7 +16,7 @@
                                   <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
                               </address>
                               <div ng-switch="vm.appointments[$index+0].state">
-                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+0].id)">CONFIRMER LE RENDEZ-VOUS ?</button>
+                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+0].id)">CONFIRMER RENDEZ-VOUS ?</button>
                                   <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
                                   <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
                               </div>
@@ -86,12 +86,11 @@
         </div>
     </div>
         <div class="container">
-            <h1>Rendez-vous diffusés</h1>
+            <h1>Rendez-vous proposés</h1>
             <div ng-repeat="appointment in vm.broadcastedAppointments">
             <span ng-switch="$index % 4">
               <div class="row" ng-switch-when="0">
                   <div class="col-sm-3" ng-if="vm.broadcastedAppointments[$index+0]">
-                      <a type="button" class="close-thumb" ng-if="vm.broadcastedAppointments[$index+0].state === 'denied'" ng-really-click="vm.deleteAppointment(vm.broadcastedAppointments[$index+0].id)">&times;</a>
                       <div class="thumbnail">
                           <div class="caption">
                               <h3>{{vm.broadcastedAppointments[$index+0].startDate | date:"dd/MM/yyyy 'à' H'h'mm" }}</h3>
@@ -101,16 +100,13 @@
                                   <abbr title="Phone">P:</abbr> {{vm.broadcastedAppointments[$index+0].doctor.phone}}
                               </address>
                               <div ng-switch="vm.broadcastedAppointments[$index+0].state">
-                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+0].id)">CONFIRMER LE RENDEZ-VOUS ?</button>
-                                  <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
-                                  <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
+                                  <button class="alert alert-success" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+0].id)">ACCEPTER RENDEZ-VOUS ?</button>
+                                  <div class="alert alert-danger" ng-switch-when="approved">RENDEZ-VOUS OCCUPÉ</div>
                               </div>
-                              <button type="button" class="cancel-button btn btn-danger btn-lg btn-block" ng-if="vm.broadcastedAppointments[$index+0].state !== 'denied'" ng-really-click="vm.cancelAppointment(vm.broadcastedAppointments[$index+0].id)">ANNULER RENDEZ-VOUS ?</button>
                           </div>
                       </div>
                   </div>
                   <div class="col-sm-3" ng-if="vm.broadcastedAppointments[$index+1]">
-                      <a type="button" class="close-thumb" ng-if="vm.broadcastedAppointments[$index+1].state === 'denied'" ng-really-click="vm.deleteAppointment(vm.broadcastedAppointments[$index+1].id)">&times;</a>
                       <div class="thumbnail">
                           <div class="caption">
                               <h3>{{vm.broadcastedAppointments[$index+1].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
@@ -120,16 +116,13 @@
                                   <abbr title="Phone">P:</abbr> {{vm.broadcastedAppointments[$index+1].doctor.phone}}
                               </address>
                               <div ng-switch="vm.broadcastedAppointments[$index+1].state">
-                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+1].id)">CONFIRMER RENDEZ-VOUS ?</button>
-                                  <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
-                                  <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
+                                  <button class="alert alert-success" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+1].id)">ACCEPTER RENDEZ-VOUS ?</button>
+                                  <div class="alert alert-danger" ng-switch-when="approved">RENDEZ-VOUS OCCUPÉ</div>
                               </div>
-                              <button type="button" class="cancel-button btn btn-danger btn-lg btn-block" ng-if="vm.broadcastedAppointments[$index+1].state !== 'denied'" ng-really-click="vm.cancelAppointment(vm.broadcastedAppointments[$index+1].id)">ANNULER RENDEZ-VOUS ?</button>
                           </div>
                       </div>
                   </div>
                   <div class="col-sm-3" ng-if="vm.broadcastedAppointments[$index+2]">
-                      <a type="button" class="close-thumb" ng-if="vm.broadcastedAppointments[$index+2].state === 'denied'" ng-really-click="vm.deleteAppointment(vm.broadcastedAppointments[$index+2].id)">&times;</a>
                       <div class="thumbnail">
                           <div class="caption">
                               <h3>{{vm.broadcastedAppointments[$index+2].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
@@ -139,16 +132,13 @@
                                   <abbr title="Phone">P:</abbr> {{vm.broadcastedAppointments[$index+2].doctor.phone}}
                               </address>
                               <div ng-switch="vm.broadcastedAppointments[$index+2].state">
-                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+2].id)">CONFIRMER RENDEZ-VOUS ?</button>
-                                  <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
-                                  <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
+                                  <button class="alert alert-success" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+2].id)">ACCEPTER RENDEZ-VOUS ?</button>
+                                  <div class="alert alert-danger" ng-switch-when="approved">RENDEZ-VOUS OCCUPÉ</div>
                               </div>
-                              <button type="button" class="cancel-button btn btn-danger btn-lg btn-block" ng-if="vm.broadcastedAppointments[$index+2].state !== 'denied'" ng-really-click="vm.cancelAppointment(vm.broadcastedAppointments[$index+2].id)">ANNULER RENDEZ-VOUS ?</button>
                           </div>
                       </div>
                   </div>
                   <div class="col-sm-3" ng-if="vm.broadcastedAppointments[$index+3]">
-                      <a type="button" class="close-thumb" ng-if="vm.broadcastedAppointments[$index+3].state === 'denied'" ng-really-click="vm.deleteAppointment(vm.broadcastedAppointments[$index+3].id)">&times;</a>
                       <div class="thumbnail">
                           <div class="caption">
                               <h3>{{vm.broadcastedAppointments[$index+3].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
@@ -158,11 +148,9 @@
                                   <abbr title="Phone">P:</abbr> {{vm.broadcastedAppointments[$index+3].doctor.phone}}
                               </address>
                               <div ng-switch="vm.broadcastedAppointments[$index+3].state">
-                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+3].id)">CONFIRMER RENDEZ-VOUS ?</button>
-                                  <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
-                                  <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
+                                  <button class="alert alert-success" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+3].id)">ACCEPTER RENDEZ-VOUS ?</button>
+                                  <div class="alert alert-danger" ng-switch-when="approved">RENDEZ-VOUS OCCUPÉ</div>
                               </div>
-                              <button type="button" class="cancel-button btn btn-danger btn-lg btn-block" ng-if="vm.broadcastedAppointments[$index+3].state !== 'denied'" ng-really-click="vm.cancelAppointment(vm.broadcastedAppointments[$index+3].id)">ANNULER RENDEZ-VOUS ?</button>
                           </div>
                       </div>
                   </div>
