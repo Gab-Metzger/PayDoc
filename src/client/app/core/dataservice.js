@@ -24,7 +24,8 @@
             updatePatient: updatePatient,
             updateDoctor: updateDoctor,
             broadcastAppointment: broadcastAppointment,
-            getBroadcasted: getBroadcasted
+            getBroadcasted: getBroadcasted,
+            chooseAppointment: chooseAppointment
         };
 
         return service;
@@ -107,7 +108,6 @@
         }
 
         function cancelAppointment(id) {
-            //return $http.put(BackEndUrl+'appointment/'+id, {cancelled: true});
             return $sailsSocket.put(BackEndUrl+'appointment/'+id, {
                 state: 'denied'
             })
@@ -120,7 +120,6 @@
         }
 
         function deleteAppointment(id) {
-            //return $http.put(BackEndUrl+'appointment/'+id, {cancelled: true});
             return $sailsSocket.delete(BackEndUrl+'appointment/'+id)
                 .success(function(data){
                     return data;
@@ -131,7 +130,6 @@
         }
 
         function validateAppointment(id) {
-            //return $http.put(BackEndUrl+'appointment/'+id, {validated: true});
             return $sailsSocket.put(BackEndUrl+ 'appointment/' + id, {
                 state: 'approved'
             })
@@ -179,17 +177,6 @@
         }
 
         function updateDoctor(id, doctor) {
-            //return $http.put(BackEndUrl+'doctor/'+id, doctor)
-            //    .then(updateDoctorComplete)
-            //    .catch(updateDoctorFailed);
-            //
-            //function updateDoctorComplete(response) {
-            //    return response.data;
-            //}
-            //
-            //function updateDoctorFailed(error) {
-            //    console.log('XHR Failed for updateDoctor.' + error.data);
-            //}
             return $sailsSocket.put(BackEndUrl+'doctor/' +id, doctor)
                 .success(function(data){
                     return data;
@@ -222,6 +209,19 @@
                 })
                 .error(function(err){
                     console.log('Request Failed for getBroadcasted. ' + err)
+                })
+        }
+
+        function chooseAppointment(id, patientId) {
+            return $sailsSocket.put(BackEndUrl+ 'appointment/' + id, {
+                patient: patientId,
+                state: 'approved'
+            })
+                .success(function(data){
+                    return data;
+                })
+                .error(function(err){
+                    console.log('Request Failed for chooseAppointment. ' + err)
                 })
         }
     }

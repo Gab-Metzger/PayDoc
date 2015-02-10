@@ -16,7 +16,7 @@
                                   <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].doctor.phone}}
                               </address>
                               <div ng-switch="vm.appointments[$index+0].state">
-                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+0].id)">CONFIRMER RENDEZ-VOUS ?</button>
+                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+0].id,0)">CONFIRMER RENDEZ-VOUS ?</button>
                                   <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
                                   <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
                               </div>
@@ -35,7 +35,7 @@
                                   <abbr title="Phone">P:</abbr> {{vm.appointments[$index+1].doctor.phone}}
                               </address>
                               <div ng-switch="vm.appointments[$index+1].state">
-                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+1].id)">CONFIRMER RENDEZ-VOUS ?</button>
+                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+1].id,0)">CONFIRMER RENDEZ-VOUS ?</button>
                                   <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
                                   <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
                               </div>
@@ -54,7 +54,7 @@
                                   <abbr title="Phone">P:</abbr> {{vm.appointments[$index+2].doctor.phone}}
                               </address>
                               <div ng-switch="vm.appointments[$index+2].state">
-                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+2].id)">CONFIRMER RENDEZ-VOUS ?</button>
+                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+2].id,0)">CONFIRMER RENDEZ-VOUS ?</button>
                                   <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
                                   <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
                               </div>
@@ -73,7 +73,7 @@
                                   <abbr title="Phone">P:</abbr> {{vm.appointments[$index+3].doctor.phone}}
                               </address>
                               <div ng-switch="vm.appointments[$index+3].state">
-                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+3].id)">CONFIRMER RENDEZ-VOUS ?</button>
+                                  <button class="alert alert-warning" role="button" ng-switch-when="pending" ng-click="vm.open(vm.appointments[$index+3].id,0)">CONFIRMER RENDEZ-VOUS ?</button>
                                   <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
                                   <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
                               </div>
@@ -100,7 +100,7 @@
                                   <abbr title="Phone">P:</abbr> {{vm.broadcastedAppointments[$index+0].doctor.phone}}
                               </address>
                               <div ng-switch="vm.broadcastedAppointments[$index+0].state">
-                                  <button class="alert alert-success" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+0].id)">ACCEPTER RENDEZ-VOUS ?</button>
+                                  <button class="alert alert-success" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+0].id,1)">ACCEPTER RENDEZ-VOUS ?</button>
                                   <div class="alert alert-danger" ng-switch-when="approved">RENDEZ-VOUS OCCUPÉ</div>
                               </div>
                           </div>
@@ -116,7 +116,7 @@
                                   <abbr title="Phone">P:</abbr> {{vm.broadcastedAppointments[$index+1].doctor.phone}}
                               </address>
                               <div ng-switch="vm.broadcastedAppointments[$index+1].state">
-                                  <button class="alert alert-success" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+1].id)">ACCEPTER RENDEZ-VOUS ?</button>
+                                  <button class="alert alert-success" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+1].id,1)">ACCEPTER RENDEZ-VOUS ?</button>
                                   <div class="alert alert-danger" ng-switch-when="approved">RENDEZ-VOUS OCCUPÉ</div>
                               </div>
                           </div>
@@ -132,7 +132,7 @@
                                   <abbr title="Phone">P:</abbr> {{vm.broadcastedAppointments[$index+2].doctor.phone}}
                               </address>
                               <div ng-switch="vm.broadcastedAppointments[$index+2].state">
-                                  <button class="alert alert-success" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+2].id)">ACCEPTER RENDEZ-VOUS ?</button>
+                                  <button class="alert alert-success" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+2].id,1)">ACCEPTER RENDEZ-VOUS ?</button>
                                   <div class="alert alert-danger" ng-switch-when="approved">RENDEZ-VOUS OCCUPÉ</div>
                               </div>
                           </div>
@@ -148,7 +148,7 @@
                                   <abbr title="Phone">P:</abbr> {{vm.broadcastedAppointments[$index+3].doctor.phone}}
                               </address>
                               <div ng-switch="vm.broadcastedAppointments[$index+3].state">
-                                  <button class="alert alert-success" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+3].id)">ACCEPTER RENDEZ-VOUS ?</button>
+                                  <button class="alert alert-success" role="button" ng-switch-when="pending" ng-click="vm.open(vm.broadcastedAppointments[$index+3].id,1)">ACCEPTER RENDEZ-VOUS ?</button>
                                   <div class="alert alert-danger" ng-switch-when="approved">RENDEZ-VOUS OCCUPÉ</div>
                               </div>
                           </div>

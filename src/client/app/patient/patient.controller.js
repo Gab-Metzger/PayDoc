@@ -27,7 +27,7 @@
 
         console.log('je subscribe au RDV')
         $sailsSocket.subscribe('appointment',function(appointment){
-            console.log("Un nouveau rdv est crée ")
+            console.log("Un nouveau rdv est créé ");
             if (appointment.verb == "destroyed"){
                 angular.forEach(vm.appointments, function(app,key){
                     if(app.id == appointment.id ){
@@ -60,7 +60,6 @@
         function activate() {
             var promises = [getPatient(idCurrent), getAppointments(idCurrent), getBroadcasted(idCurrent)];
             return $q.all(promises).then(function() {
-                console.log("Tada : "+vm.broadcastedAppointments);
             });
         }
 
@@ -119,7 +118,20 @@
             logger.info('Le rendez-vous a été supprimé !')
         }
 
-        vm.open = function (id) {
+        function chooseAppointment(id) {
+            dataservice.chooseAppointment(id, idCurrent).success(function (data){
+                angular.forEach(vm.broadcastedAppointments, function(app,key) {
+                    if (app.id == data.id) {
+                        vm.broadcastedAppointments[key].state = 'approved';
+                        vm.appointments.push(vm.broadcastedAppointments[key]);
+                        vm.broadcastedAppointments.splice(key,1);
+                    }
+                })
+            });
+            logger.info('Le rendez-vous a été accepté !')
+        }
+
+        vm.open = function (id, functionId) {
 
             var modalInstance = $modal.open({
                 templateUrl: 'app/widgets/modalContent.html',
@@ -130,7 +142,7 @@
 
                         $scope.ok = function () {
                             if ($scope.payForm.$valid) {
-                                $modalInstance.close();
+                                $modalInstance.close(functionId);
                             }
                             else {
                                 $scope.errorMessage = 'Veuillez entrer toutes les informations.';
@@ -145,9 +157,14 @@
                 ]
             });
 
-            modalInstance.result.then(function () {
-                validateAppointment(id);
-                logger.info('Votre rendez-vous à bien été validé !');
+            modalInstance.result.then(function (functionId) {
+                if (functionId === 0) {
+                    validateAppointment(id);
+                }
+                else {
+                    chooseAppointment(id);
+                }
+
             }, function () {
                 logger.error('Veuillez entrer vos informations bancaires');
             });

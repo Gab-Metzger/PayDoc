@@ -120,6 +120,7 @@
                 vm.patient = null;
                 vm.selected = '';
             });
+            logger.info('Le rendez-vous a été ajouté !')
         }
 
         function broadcastAppointment(){
