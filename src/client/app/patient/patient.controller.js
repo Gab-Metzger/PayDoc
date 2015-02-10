@@ -27,7 +27,6 @@
         console.log('je subscribe au RDV')
         $sailsSocket.subscribe('appointment',function(appointment){
             console.log("Un nouveau rdv est crée ")
-            console.log(appointment);
             if (appointment.verb == "destroyed"){
                 angular.forEach(vm.appointments, function(app,key){
                     if(app.id == appointment.id ){
@@ -78,7 +77,6 @@
 
         function validateAppointment(id) {
             dataservice.validateAppointment(id).success(function (data){
-                console.log(data)
                 angular.forEach(vm.appointments, function(app,key) {
                     if (app.id == data.id) {
                         if (data.state) app.state = data.state;
@@ -90,7 +88,6 @@
 
         function cancelAppointment(id) {
             dataservice.cancelAppointment(id).success(function (data){
-                console.log(data)
                 angular.forEach(vm.appointments, function(app,key) {
                     if (app.id == data.id) {
                         if (data.state) app.state = data.state;
@@ -102,7 +99,6 @@
 
         function deleteAppointment(id) {
             dataservice.deleteAppointment(id).success(function (data){
-                console.log(data)
                 angular.forEach(vm.appointments, function(app,key) {
                     if (app.id == data.id) {
                         vm.appointments.splice(key,1);

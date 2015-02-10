@@ -4,7 +4,8 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <input type="text" ng-model="selected" typeahead="patient.name for patient in vm.patients | filter:$viewValue | limitTo:8" typeahead-on-select="vm.onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
+                        <input type="text" ng-model="vm.selected" typeahead="patient.name for patient in vm.patients | filter:$viewValue | limitTo:8" typeahead-on-select="vm.onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
+                        <a class="btn btn-primary btn-lg" href="/signup" role="button">Créer un compte patient</a>
                     </div>
                     <div class="panel-body">
                         <div ng-if="vm.patient">
@@ -12,7 +13,7 @@
                             <p>{{vm.patient.phone}}</p>
                             <p>{{vm.patient.address}}</p>
                             <p>{{vm.patient.email}}</p>
-                            <datetimepicker hour-step="1" minute-step="15" ng-model="vm.dt" show-meridian="false" date-format="dd/MM/yyyy" date-options="vm.dateOptions" min-date="vm.minDate" date-disabled="vm.disabled(date, mode)"></datetimepicker>
+                            <datetimepicker hour-step="1" minute-step="5" ng-model="vm.dt" show-meridian="false" date-format="dd/MM/yyyy" date-options="vm.dateOptions" min-date="vm.minDate" date-disabled="vm.disabled(date, mode)"></datetimepicker>
                             <br />
                             <button type="button" class="btn btn-large btn-primary" ng-click="vm.addAppointment(vm.patient.id)">Ajouter un rendez-vous</i></button>
                         </div>
@@ -22,11 +23,11 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Diffuser un rendez-vous</h3>
+                        <h3 class="panel-title">Proposer un rendez-vous</h3>
                     </div>
                     <div class="panel-body">
-                        <datetimepicker show-weeks="true" hour-step="1" minute-step="15" ng-model="vm.date" show-meridian="false" date-format="dd/MM/yyyy"></datetimepicker>
-                        <button type="button" class="btn btn-large btn-primary" ng-click="vm.broadcastAppointment()">Diffuser le rendez-vous</i></button>
+                        <datetimepicker show-weeks="true" hour-step="1" minute-step="5" ng-model="vm.date" show-meridian="false" date-format="dd/MM/yyyy"></datetimepicker>
+                        <button type="button" class="btn btn-large btn-primary" ng-click="vm.broadcastAppointment()">Envoyer</button>
                     </div>
                 </div>
             </div>
@@ -113,9 +114,5 @@
                 </span>
             </div>
         </div>
-        <div class="container">
-            <a class="btn btn-primary btn-lg" href="/signup" role="button">Ajouter un patient</a>
-        </div>
-        {{test}}
     </section>
 </section>

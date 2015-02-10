@@ -20,14 +20,18 @@
         vm.broadcastAppointment = broadcastAppointment;
 
         //DatePicker
-        vm.dt = null;
+        vm.dt = new Date();
+        vm.dt.setHours(8);
+        vm.dt.setMinutes(0);
         vm.minDate = new Date();
         vm.dateOptions = {
             formatYear: 'yy',
             startingDay: 1
         };
         vm.clear = clear;
-        vm.date = null;
+        vm.date = new Date();
+        vm.date.setHours(8);
+        vm.date.setMinutes(0);
 
 
         var idCurrent = authservice.currentUser().id;
@@ -36,7 +40,6 @@
 
         if (!$rootScope.hasSubscribed){
             $sailsSocket.subscribe('appointment', function(appointment){
-                console.log(appointment)
                 if (appointment.verb == "destroyed"){
                     angular.forEach(vm.appointments, function(app,key){
                         if(app.id == appointment.id ){
@@ -102,7 +105,6 @@
 
         function deleteAppointment(id) {
             dataservice.deleteAppointment(id).success(function (data){
-                console.log(data)
                 angular.forEach(vm.appointments, function(app,key) {
                     if (app.id == data.id) {
                         vm.appointments.splice(key,1);
@@ -114,10 +116,10 @@
 
         function addAppointment(idPatient) {
             dataservice.addAppointment(idPatient,idCurrent,vm.dt).success(function(data) {
-                console.log(data);
-                logger.info('Le rendez-vous à été ajouté !');
                 vm.appointments.push(data[0]);
-            })
+                vm.patient = null;
+                vm.selected = '';
+            });
         }
 
         function broadcastAppointment(){
@@ -125,7 +127,7 @@
             console.log(vm.date);
             dataservice.broadcastAppointment(idCurrent,vm.date).success(function(data){
                 console.log(data)
-                logger.info("Le rendez-vous à été diffusé ! ");
+                logger.info("Le rendez-vous à été proposé ! ");
 
             })
         }

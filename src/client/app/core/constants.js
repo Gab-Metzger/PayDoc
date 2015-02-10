@@ -11,5 +11,5 @@
             doctor: 'doctor',
             patient: 'patient'
         })
-        .constant('BackEndUrl', 'http://localhost:1337/');
+        .constant('BackEndUrl', 'https://localhost:1337/');
 })();

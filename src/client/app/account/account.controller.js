@@ -108,9 +108,18 @@
                         $sailsSocket.subscribe('appointment', function(appointment){
                             if(appointment.previous){
                                 if ( appointment.previous.doctor.id == authservice.currentUser().id ){
-                                    if (appointment.data.validated) {
-                                        logger.info("Notification : Le rendez-vous avec " + appointment.previous.patient.name + " a été validé !")
+                                    if (appointment.verb === 'destroyed') {
+                                        logger.info("Notification : Le rendez-vous avec " + appointment.previous.patient.name + " a été supprimé !");
                                     }
+                                    else {
+                                        if (appointment.data.state === 'approved') {
+                                            logger.info("Notification : Le rendez-vous avec " + appointment.previous.patient.name + " a été validé !")
+                                        }
+                                        else if (appointment.data.state === 'denied') {
+                                            logger.info("Notification : Le rendez-vous avec " + appointment.previous.patient.name + " a été annulé !")
+                                        }
+                                    }
+
                                 }
                             }
                         })
