@@ -116,6 +116,12 @@
             return $sailsSocket.put(BackEndUrl+ 'appointment/' + id, {
                 state: 'approved'
             })
+                .success(function(data){
+                    return data;
+                })
+                .error(function(err){
+                    console.log('Request Failed for validateAppointement. ' + err)
+                })
 
         }
 
