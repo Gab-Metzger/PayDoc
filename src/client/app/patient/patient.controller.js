@@ -69,7 +69,14 @@
         }
 
         function validateAppointment(id) {
-            dataservice.validateAppointment(id);
+            dataservice.validateAppointment(id).success(function (data){
+                console.log(data)
+                angular.forEach(vm.appointments, function(app,key) {
+                    if (app.id == data.id) {
+                        if (data.state) app.state = data.state;
+                    }
+                })
+            })
         }
 
         vm.open = function (id) {
