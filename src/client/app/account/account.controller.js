@@ -102,6 +102,7 @@
                 .then(function(data) {
                     logger.success(data.firstName + ', vous êtes connecté');
                     $rootScope.isAuthenticated = authservice.isAuthenticated();
+                    $rootScope.$broadcast('syncSideBar', []);
                     $rootScope.hasSubscribed = false;
                     if(authservice.isDoctor()){
                         $sailsSocket.subscribe('appointment', function(appointment){

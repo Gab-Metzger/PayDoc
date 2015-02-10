@@ -5,19 +5,25 @@
         .module('app.layout')
         .controller('SidebarController', SidebarController);
 
-    SidebarController.$inject = ['$state', 'routerHelper', 'authservice', 'logger'];
+    SidebarController.$inject = ['$state', 'routerHelper', 'authservice', 'logger', '$scope'];
     /* @ngInject */
-    function SidebarController($state, routerHelper, authservice, logger) {
+    function SidebarController($state, routerHelper, authservice, logger, $scope) {
         /* jshint validthis: true */
         var vm = this;
         var states = routerHelper.getStates();
         vm.isCurrent = isCurrent;
-        vm.isAuthenticated = authservice.isAuthenticated();
         vm.logout = logout;
 
         activate();
 
-        function activate() { getNavRoutes(); }
+        $scope.$on('syncSideBar', function() {
+            activate();
+        })
+
+        function activate() {
+            vm.isAuthenticated = authservice.isAuthenticated();
+            getNavRoutes();
+        }
 
         function getNavRoutes() {
             if (authservice.authorize('patient')) {
@@ -63,6 +69,7 @@
 
         function logout() {
             authservice.logout();
+            activate();
             logger.success('Vous êtes déconnecté !');
         }
     }

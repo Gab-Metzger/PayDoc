@@ -82,7 +82,7 @@
 
         function login(credentials) {
             return $http
-                .post('https://paydoc.scalingo.io/auth/create', credentials, {withCredentials: true})
+                .post('http://localhost:1337/auth/create', credentials, {withCredentials: true})
                 .then(function(response) {
                     if (response.data.message) {
                         logger.error(response.data.message);
@@ -96,7 +96,7 @@
                             $state.go('admin');
                         }
                         else {
-                            $state.go('dashboard');
+                            $state.go('patient');
                         }
 
                         return response.data;

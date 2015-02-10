@@ -11,5 +11,5 @@
             doctor: 'doctor',
             patient: 'patient'
         })
-        .constant('BackEndUrl', 'https://paydoc.scalingo.io/');
+        .constant('BackEndUrl', 'http://localhost:1337/');
 })();

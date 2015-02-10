@@ -74,7 +74,6 @@
         {
             return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+',"state":["pending","approved"]}&populate=doctor')
                 .success(function(data){
-                    console.log(data)
                     return data;
                 })
                 .error(function(err){
