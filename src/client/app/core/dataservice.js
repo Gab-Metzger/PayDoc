@@ -17,6 +17,7 @@
             getPatientsByDoctor: getPatientsByDoctor,
             getAppointmentsByDoctor: getAppointmentsByDoctor,
             cancelAppointment: cancelAppointment,
+            deleteAppointment: deleteAppointment,
             validateAppointment: validateAppointment,
             addAppointment: addAppointment,
             addPatient: addPatient,
@@ -72,7 +73,7 @@
 
         function getAppointmentsByPatient(id)
         {
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+',"state":["pending","approved"]}&populate=doctor')
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+'}&populate=doctor')
                 .success(function(data){
                     return data;
                 })
@@ -109,6 +110,23 @@
             return $sailsSocket.put(BackEndUrl+'appointment/'+id, {
                 state: 'denied'
             })
+                .success(function(data){
+                    return data;
+                })
+                .error(function(err){
+                    console.log('Request Failed for cancelAppointment. ' + err)
+                })
+        }
+
+        function deleteAppointment(id) {
+            //return $http.put(BackEndUrl+'appointment/'+id, {cancelled: true});
+            return $sailsSocket.delete(BackEndUrl+'appointment/'+id)
+                .success(function(data){
+                    return data;
+                })
+                .error(function(err){
+                    console.log('Request Failed for deleteAppointment. ' + err)
+                })
         }
 
         function validateAppointment(id) {

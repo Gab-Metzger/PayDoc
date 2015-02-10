@@ -17,6 +17,8 @@
         vm.title = 'Mes rendez-vous';
         vm.patient = {};
         vm.appointments = [];
+        vm.cancelAppointment = cancelAppointment;
+        vm.deleteAppointment = deleteAppointment;
 
 
 
@@ -25,9 +27,16 @@
         console.log('je subscribe au RDV')
         $sailsSocket.subscribe('appointment',function(appointment){
             console.log("Un nouveau rdv est crée ")
-            console.log(appointment)
-            if(appointment.data.patient == idCurrent){
-                if (appointment.verb == "created"){
+            console.log(appointment);
+            if (appointment.verb == "destroyed"){
+                angular.forEach(vm.appointments, function(app,key){
+                    if(app.id == appointment.id ){
+                        vm.appointments.splice(key, 1);
+                    }
+                })
+            }
+            if(appointment.verb == "created"){
+                if (appointment.data.patient == idCurrent) {
                     vm.appointments.push(appointment.data)
                 }
             }
@@ -36,7 +45,6 @@
                 if (appointment.previous.patient.id == idCurrent){
                     angular.forEach(vm.appointments, function(app,key) {
                         if (app.id == appointment.id) {
-                            vm.appointments.splice(key,1);
                             if (appointment.data.state) app.state = appointment.data.state;
                         }
                     })
@@ -76,7 +84,32 @@
                         if (data.state) app.state = data.state;
                     }
                 })
-            })
+            });
+            logger.info('Le rendez-vous a été validé !')
+        }
+
+        function cancelAppointment(id) {
+            dataservice.cancelAppointment(id).success(function (data){
+                console.log(data)
+                angular.forEach(vm.appointments, function(app,key) {
+                    if (app.id == data.id) {
+                        if (data.state) app.state = data.state;
+                    }
+                })
+            });
+            logger.info('Le rendez-vous a été annulé !')
+        }
+
+        function deleteAppointment(id) {
+            dataservice.deleteAppointment(id).success(function (data){
+                console.log(data)
+                angular.forEach(vm.appointments, function(app,key) {
+                    if (app.id == data.id) {
+                        vm.appointments.splice(key,1);
+                    }
+                })
+            });
+            logger.info('Le rendez-vous a été supprimé !')
         }
 
         vm.open = function (id) {

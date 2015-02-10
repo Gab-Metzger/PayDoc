@@ -92,7 +92,7 @@
                           </div>
                       </div>
                       <div class="col-sm-3" ng-if="vm.appointments[$index+3]">
-                          <a type="button" class="close-thumb" ng-if="vm.appointments[$index+3].state === 'denied'" ng-really-click="vm.deleteAppointment(vm.appointments[$index+3].id)">&times;</a>2<div class="thumbnail">
+                          <a type="button" class="close-thumb" ng-if="vm.appointments[$index+3].state === 'denied'" ng-really-click="vm.deleteAppointment(vm.appointments[$index+3].id)">&times;</a>
                           <div class="thumbnail">
                               <div class="caption">
                                   <h3>{{vm.appointments[$index+3].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>

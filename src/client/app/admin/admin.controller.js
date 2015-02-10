@@ -15,6 +15,7 @@
         vm.appointments = [];
         vm.getPatientById = getPatientById;
         vm.cancelAppointment = cancelAppointment;
+        vm.deleteAppointment = deleteAppointment;
         vm.addAppointment = addAppointment;
         vm.broadcastAppointment = broadcastAppointment;
 
@@ -36,6 +37,13 @@
         if (!$rootScope.hasSubscribed){
             $sailsSocket.subscribe('appointment', function(appointment){
                 console.log(appointment)
+                if (appointment.verb == "destroyed"){
+                    angular.forEach(vm.appointments, function(app,key){
+                        if(app.id == appointment.id ){
+                            vm.appointments.splice(key, 1);
+                        }
+                    })
+                }
                 if(appointment.previous){
                     if ( appointment.previous.doctor.id == authservice.currentUser().id ){
                         angular.forEach(vm.appointments, function(app,key){
@@ -82,8 +90,26 @@
         }
 
         function cancelAppointment(id) {
-            dataservice.cancelAppointment(id);
+            dataservice.cancelAppointment(id).success(function (data){
+                angular.forEach(vm.appointments, function(app,key) {
+                    if (app.id == data.id) {
+                        if (data.state) app.state = data.state;
+                    }
+                })
+            });
             logger.info('Le rendez-vous a été annulé !')
+        }
+
+        function deleteAppointment(id) {
+            dataservice.deleteAppointment(id).success(function (data){
+                console.log(data)
+                angular.forEach(vm.appointments, function(app,key) {
+                    if (app.id == data.id) {
+                        vm.appointments.splice(key,1);
+                    }
+                })
+            });
+            logger.info('Le rendez-vous a été supprimé !')
         }
 
         function addAppointment(idPatient) {
