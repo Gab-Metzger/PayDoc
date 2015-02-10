@@ -17,6 +17,7 @@
         vm.title = 'Mes rendez-vous';
         vm.patient = {};
         vm.appointments = [];
+        vm.broadcastedAppointments =[];
         vm.cancelAppointment = cancelAppointment;
         vm.deleteAppointment = deleteAppointment;
 
@@ -55,10 +56,19 @@
 
         ////////////////
 
+
         function activate() {
-            var promises = [getPatient(idCurrent), getAppointments(idCurrent)];
+            var promises = [getPatient(idCurrent), getAppointments(idCurrent), getBroadcasted(idCurrent)];
             return $q.all(promises).then(function() {
             });
+        }
+
+        function getBroadcasted(idCurrent){
+            return dataservice.getBroadcasted(idCurrent).success(function(data){
+                console.log(data);
+                vm.broadcastedAppointments = data;
+                return vm.broadcastedAppointments;
+            })
         }
 
         function getPatient(id) {

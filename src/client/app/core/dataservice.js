@@ -23,7 +23,8 @@
             addPatient: addPatient,
             updatePatient: updatePatient,
             updateDoctor: updateDoctor,
-            broadcastAppointment: broadcastAppointment
+            broadcastAppointment: broadcastAppointment,
+            getBroadcasted: getBroadcasted
         };
 
         return service;
@@ -202,6 +203,18 @@
             return $sailsSocket.post(BackEndUrl+'appointment/broadcast',{
                 doctor: idDoctor,
                 startDate: startDate
+            })
+                .success(function(data){
+                    return data;
+                })
+                .error(function(err){
+                    console.log('Request Failed for addAppointement. ' + err)
+                })
+        }
+
+        function getBroadcasted(idPatient){
+            return $sailsSocket.post(BackEndUrl+'appointment/getBroadcasted',{
+                patient: idPatient
             })
                 .success(function(data){
                     return data;
