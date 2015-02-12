@@ -19,7 +19,6 @@
         vm.appointments = [];
         vm.broadcastedAppointments =[];
         vm.cancelAppointment = cancelAppointment;
-        vm.deleteAppointment = deleteAppointment;
 
 
 
@@ -105,17 +104,6 @@
                 })
             });
             logger.info('Le rendez-vous a été annulé !')
-        }
-
-        function deleteAppointment(id) {
-            dataservice.deleteAppointment(id).success(function (data){
-                angular.forEach(vm.appointments, function(app,key) {
-                    if (app.id == data.id) {
-                        vm.appointments.splice(key,1);
-                    }
-                })
-            });
-            logger.info('Le rendez-vous a été supprimé !')
         }
 
         function chooseAppointment(id) {
