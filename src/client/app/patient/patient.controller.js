@@ -24,9 +24,7 @@
 
         var idCurrent = authservice.currentUser().id;
 
-        console.log('je subscribe au RDV')
         $sailsSocket.subscribe('appointment',function(appointment){
-            console.log("Un nouveau rdv est créé ");
             if (appointment.verb == "destroyed"){
                 angular.forEach(vm.appointments, function(app,key){
                     if(app.id == appointment.id ){
@@ -64,7 +62,6 @@
 
         function getBroadcasted(idCurrent){
             return dataservice.getBroadcasted(idCurrent).success(function(data){
-                console.log(data);
                 vm.broadcastedAppointments = data;
                 return vm.broadcastedAppointments;
             })
@@ -90,7 +87,8 @@
                     if (app.id == data.id) {
                         if (data.state) app.state = data.state;
                     }
-                })
+                });
+                dataservice.incrNbValidated(data.doctor);
             });
             logger.info('Le rendez-vous a été validé !')
         }

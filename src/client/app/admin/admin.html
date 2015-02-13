@@ -26,7 +26,7 @@
                         <h3 class="panel-title">Proposer un rendez-vous</h3>
                     </div>
                     <div class="panel-body">
-                        <datetimepicker show-weeks="true" hour-step="1" minute-step="5" ng-model="vm.date" show-meridian="false" date-format="dd/MM/yyyy"></datetimepicker>
+                        <datetimepicker show-weeks="true" hour-step="1" minute-step="5" ng-model="vm.date" show-meridian="false" date-format="dd/MM/yyyy" date-options="vm.dateOptions" min-date="vm.minDate" date-disabled="vm.disabled(date, mode)"></datetimepicker>
                         <button type="button" class="btn btn-large btn-primary" ng-click="vm.broadcastAppointment()">Envoyer</button>
                     </div>
                 </div>

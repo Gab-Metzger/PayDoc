@@ -21,10 +21,10 @@
                     controller: 'DashboardController',
                     controllerAs: 'vm',
                     title: 'dashboard',
-                    settings: {
+                    /*settings: {
                         nav: 1,
                         content: '<i class="fa fa-dashboard"></i> Médecins PayDoc'
-                    },
+                    },*/
                     authorizedRoles: ['patient']
                 }
             }

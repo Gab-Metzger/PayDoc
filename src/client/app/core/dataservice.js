@@ -10,22 +10,26 @@
     function dataservice($http, BackEndUrl, $sailsSocket) {
         var service = {
             getDoctorsList: getDoctorsList,
-            getPatientsList: getPatientsList,
             getDoctorById: getDoctorById,
+            updateDoctor: updateDoctor,
+            incrNbValidated: incrNbValidated,
+
+            getPatientsList: getPatientsList,
             getPatientById: getPatientById,
-            getAppointmentsByPatient: getAppointmentsByPatient,
-            getPatientsByDoctor: getPatientsByDoctor,
-            getAppointmentsByDoctor: getAppointmentsByDoctor,
-            cancelAppointment: cancelAppointment,
-            deleteAppointment: deleteAppointment,
-            validateAppointment: validateAppointment,
-            addAppointment: addAppointment,
             addPatient: addPatient,
             updatePatient: updatePatient,
-            updateDoctor: updateDoctor,
+            getPatientsByDoctor: getPatientsByDoctor,
+
+            getAppointmentsByPatient: getAppointmentsByPatient,
+            getAppointmentsByDoctor: getAppointmentsByDoctor,
+            addAppointment: addAppointment,
+            validateAppointment: validateAppointment,
+            cancelAppointment: cancelAppointment,
+            deleteAppointment: deleteAppointment,
+            chooseAppointment: chooseAppointment,
             broadcastAppointment: broadcastAppointment,
-            getBroadcasted: getBroadcasted,
-            chooseAppointment: chooseAppointment
+            getBroadcasted: getBroadcasted
+
         };
 
         return service;
@@ -75,7 +79,7 @@
 
         function getAppointmentsByPatient(id)
         {
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+'}&populate=doctor')
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+'}&limit=8&sort=startDate&populate=doctor')
                 .success(function(data){
                     return data;
                 })
@@ -98,7 +102,7 @@
         function getAppointmentsByDoctor(id)
         {
 
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+'}&populate=patient')
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+'}&limit=8&sort=startDate&populate=patient')
                 .success(function(data){
                     return data;
                 })
@@ -204,7 +208,6 @@
                 patient: idPatient
             })
                 .success(function(data){
-                    console.log(data);
                     return data;
                 })
                 .error(function(err){
@@ -222,6 +225,19 @@
                 })
                 .error(function(err){
                     console.log('Request Failed for chooseAppointment. ' + err)
+                })
+        }
+
+        function incrNbValidated(id) {
+            return $sailsSocket.get(BackEndUrl+ 'doctor/' + id)
+                .success(function(data){
+                    var nbValidated = data.nbValidated + 1;
+                    return $sailsSocket.put(BackEndUrl+'doctor/'+id, {
+                        nbValidated: nbValidated
+                    });
+                })
+                .error(function(err){
+                    console.log('Request Failed for incrNbValidated. ' + err)
                 })
         }
     }
