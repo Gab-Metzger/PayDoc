@@ -79,7 +79,7 @@
 
         function getAppointmentsByPatient(id)
         {
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+'}&limit=8&sort=startDate&populate=doctor')
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+', "startDate": {">": "'+new Date().toISOString()+'"}}&limit=8&sort=startDate&populate=doctor')
                 .success(function(data){
                     return data;
                 })
@@ -102,7 +102,7 @@
         function getAppointmentsByDoctor(id)
         {
 
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+'}&limit=8&sort=startDate&populate=patient')
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+', "startDate": {">": "'+new Date().toISOString()+'"}}&limit=8&sort=startDate&populate=patient')
                 .success(function(data){
                     return data;
                 })
