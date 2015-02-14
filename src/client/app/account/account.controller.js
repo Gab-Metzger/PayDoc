@@ -5,10 +5,10 @@
         .module('app.account')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['dataservice', 'logger', '$q', '$state', 'authservice', '$sailsSocket', '$rootScope'];
+    AccountController.$inject = ['dataservice', 'logger', '$q', '$state', 'authservice', '$sailsSocket', '$rootScope','subscribeservice'];
 
     /* @ngInject */
-    function AccountController(dataservice, logger, $q, $state, authservice, $sailsSocket, $rootScope)
+    function AccountController(dataservice, logger, $q, $state, authservice, $sailsSocket, $rootScope,subscribeservice)
     {
         /* jshint validthis: true */
         var vm = this;
@@ -35,6 +35,7 @@
                 var idCurrent = authservice.currentUser().id;
                 var data = [];
                 if (authservice.isDoctor()) {
+                    if (!$rootScope.hasSubNotifDoctor){subscribeservice.notificationDoctor(idCurrent);}
                     data.push(getDoctor(idCurrent));
                 }
                 else if (authservice.isPatient()) {
@@ -104,26 +105,6 @@
                     $rootScope.isAuthenticated = authservice.isAuthenticated();
                     $rootScope.$broadcast('syncSideBar', []);
                     $rootScope.hasSubscribed = false;
-                    if(authservice.isDoctor()){
-                        $sailsSocket.subscribe('appointment', function(appointment){
-                            if(appointment.previous){
-                                if ( appointment.previous.doctor.id == authservice.currentUser().id ){
-                                    if (appointment.verb === 'destroyed') {
-                                        logger.info("Notification : Le rendez-vous avec " + appointment.previous.patient.name + " a été supprimé !");
-                                    }
-                                    else {
-                                        if (appointment.data.state === 'approved') {
-                                            logger.info("Notification : Le rendez-vous avec " + appointment.previous.patient.name + " a été validé !")
-                                        }
-                                        else if (appointment.data.state === 'denied') {
-                                            logger.info("Notification : Le rendez-vous avec " + appointment.previous.patient.name + " a été annulé !")
-                                        }
-                                    }
-
-                                }
-                            }
-                        })
-                    }
                     return data;
                 });
         }

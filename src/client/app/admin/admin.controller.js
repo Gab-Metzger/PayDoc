@@ -5,9 +5,9 @@
         .module('app.admin')
         .controller('AdminController', AdminController);
 
-    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$rootScope'];
+    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$rootScope','subscribeservice','$scope'];
     /* @ngInject */
-    function AdminController(logger, dataservice, $q, authservice, $sailsSocket, $rootScope) {
+    function AdminController(logger, dataservice, $q, authservice, $sailsSocket, $rootScope, subscribeservice,$scope) {
         var vm = this;
         vm.title = 'Admin';
         vm.patients = [];
@@ -35,8 +35,12 @@
 
 
         var idCurrent = authservice.currentUser().id;
-
+        if (!$rootScope.hasSubNotifDoctor){subscribeservice.notificationDoctor(idCurrent);}
+        //$scope.$watch('subscribeservice.test',function(newValue){
+        //    console.log(newValue);
+        //})
         activate();
+
 
         if (!$rootScope.hasSubscribed){
             $sailsSocket.subscribe('appointment', function(appointment){
