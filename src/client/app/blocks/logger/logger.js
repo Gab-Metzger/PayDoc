@@ -12,10 +12,10 @@
         var showToasts = true;
 
         if (Notification.permission !== 'denied') {
+            showToasts = false;
             Notification.requestPermission(function (permission) {
                 if (!('permission' in Notification)) {
                     Notification.permission = permission;
-                    showToasts = false;
                 }
             });
         }

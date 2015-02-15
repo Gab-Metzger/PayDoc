@@ -60,7 +60,7 @@
                         })
                     }
                 }
-            })
+            });
             $rootScope.hasSubscribed = true;
         }
 
