@@ -28,7 +28,7 @@
             },
             link: function(scope, element, attrs) {
                 element.bind('click', function() {
-                    var message = attrs.ngReallyMessage || "Êtes-vous sûr ? ?";
+                    var message = attrs.ngReallyMessage || "Êtes-vous sûr ?";
 
                     /*
                      //This works

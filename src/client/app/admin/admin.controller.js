@@ -122,13 +122,23 @@
             logger.info('Le rendez-vous a été annulé !')
         }
 
-        function deleteAppointment(id) {
+        function deleteAppointment(id, isHistory) {
             dataservice.deleteAppointment(id).success(function (data){
-                angular.forEach(vm.appointments, function(app,key) {
-                    if (app.id == data.id) {
-                        vm.appointments.splice(key,1);
-                    }
-                })
+                if (isHistory) {
+                    angular.forEach(vm.historyAppointments, function(app,key) {
+                        if (app.id == data.id) {
+                            vm.historyAppointments.splice(key,1);
+                        }
+                    })
+                }
+                else {
+                    angular.forEach(vm.appointments, function(app,key) {
+                        if (app.id == data.id) {
+                            vm.appointments.splice(key,1);
+                        }
+                    })
+                }
+
             });
             logger.info('Le rendez-vous a été supprimé !')
         }
