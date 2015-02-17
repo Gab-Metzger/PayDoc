@@ -42,15 +42,28 @@
         //})
         activate();
 
+        dataservice.subscribeAppointment().success(function(data){});
 
         if (!$rootScope.hasSubscribed){
+            console.log("J'ai subscribe")
             $sailsSocket.subscribe('appointment', function(appointment){
+                console.log(appointment);
                 if (appointment.verb == "destroyed"){
                     angular.forEach(vm.appointments, function(app,key){
                         if(app.id == appointment.id ){
                             vm.appointments.splice(key, 1);
                         }
                     })
+                }
+                if(appointment.verb == "updated"){
+                        angular.forEach(vm.historyAppointments, function(app,key){
+                            if(app.id == appointment.id ){
+                                if(appointment.data.state) app.state = appointment.data.state;
+                                if(appointment.data.patient) app.patient = appointment.data.patient;
+                                vm.appointments.push(app);
+                                vm.historyAppointments.splice(key, 1);
+                            }
+                        })
                 }
                 if(appointment.previous){
                     if ( appointment.previous.doctor.id == authservice.currentUser().id ){
@@ -135,6 +148,7 @@
             console.log(vm.date);
             dataservice.broadcastAppointment(idCurrent,vm.date).success(function(data){
                 console.log(data)
+                vm.historyAppointments.push(data);
                 logger.info("Le rendez-vous à été proposé ! ");
 
             })

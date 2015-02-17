@@ -31,7 +31,8 @@
             chooseAppointment: chooseAppointment,
             broadcastAppointment: broadcastAppointment,
             getBroadcasted: getBroadcasted,
-            getBroadcastedHistory: getBroadcastedHistory
+            getBroadcastedHistory: getBroadcastedHistory,
+            subscribeAppointment: subscribeAppointment
 
         };
 
@@ -225,11 +226,13 @@
                 })
                 .error(function(err){
                     console.log('Request Failed for getBroadcastedHistory. ' + err)
+
                 })
         }
 
         function chooseAppointment(id, patientId) {
-            return $sailsSocket.put(BackEndUrl+ 'appointment/' + id, {
+            return $sailsSocket.post(BackEndUrl+ 'appointment/chooseAppointment/', {
+                id: id,
                 patient: patientId,
                 state: 'approved'
             })
@@ -238,6 +241,7 @@
                 })
                 .error(function(err){
                     console.log('Request Failed for chooseAppointment. ' + err)
+                    console.log(err)
                 })
         }
 
@@ -277,6 +281,17 @@
                 })
                 .error(function(err){
                     console.log('Request Failed for incrNbCancelled. ' + err)
+                })
+        }
+
+        function subscribeAppointment(){
+            return $sailsSocket.get(BackEndUrl+ 'appointment/subscribeAppointment/')
+                .success(function(data){
+                    console.log(data)
+                })
+                .error(function(err){
+                    console.log('Request Failed for subscribe. ' + err)
+                    console.log(err)
                 })
         }
     }
