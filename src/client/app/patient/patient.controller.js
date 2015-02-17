@@ -37,6 +37,7 @@
                     vm.appointments.push(appointment.data)
                 }
             }
+
             // Si modification d'un RDV
             if (appointment.previous){
                 if (appointment.previous.patient.id == idCurrent){
@@ -107,8 +108,9 @@
 
         function chooseAppointment(id) {
             dataservice.chooseAppointment(id, idCurrent).success(function (data){
+                console.log(data)
                 angular.forEach(vm.broadcastedAppointments, function(app,key) {
-                    if (app.id == data.id) {
+                    if (app.id == data[0].id) {
                         vm.broadcastedAppointments[key].state = 'approved';
                         vm.appointments.push(vm.broadcastedAppointments[key]);
                         vm.broadcastedAppointments.splice(key,1);
