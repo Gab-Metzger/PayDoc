@@ -99,7 +99,8 @@
                     if (app.id == data.id) {
                         if (data.state) app.state = data.state;
                     }
-                })
+                });
+                dataservice.incrNbCancelled(data.doctor);
             });
             logger.info('Le rendez-vous a été annulé !')
         }

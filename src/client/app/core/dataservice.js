@@ -13,6 +13,8 @@
             getDoctorById: getDoctorById,
             updateDoctor: updateDoctor,
             incrNbValidated: incrNbValidated,
+            incrNbGiven: incrNbGiven,
+            incrNbCancelled: incrNbCancelled,
 
             getPatientsList: getPatientsList,
             getPatientById: getPatientById,
@@ -28,7 +30,8 @@
             deleteAppointment: deleteAppointment,
             chooseAppointment: chooseAppointment,
             broadcastAppointment: broadcastAppointment,
-            getBroadcasted: getBroadcasted
+            getBroadcasted: getBroadcasted,
+            getBroadcastedHistory: getBroadcastedHistory
 
         };
 
@@ -102,7 +105,7 @@
         function getAppointmentsByDoctor(id)
         {
 
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+', "startDate": {">": "'+new Date().toISOString()+'"}}&limit=8&sort=startDate&populate=patient')
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+', "startDate": {">": "'+new Date().toISOString()+'"}, "patient": {"!": null}}&limit=8&sort=startDate&populate=patient')
                 .success(function(data){
                     return data;
                 })
@@ -215,6 +218,16 @@
                 })
         }
 
+        function getBroadcastedHistory(idDoctor){
+            return $sailsSocket.get(BackEndUrl+'appointment/getBroadcastedHistory/'+idDoctor)
+                .success(function(data){
+                    return data;
+                })
+                .error(function(err){
+                    console.log('Request Failed for getBroadcastedHistory. ' + err)
+                })
+        }
+
         function chooseAppointment(id, patientId) {
             return $sailsSocket.put(BackEndUrl+ 'appointment/' + id, {
                 patient: patientId,
@@ -238,6 +251,32 @@
                 })
                 .error(function(err){
                     console.log('Request Failed for incrNbValidated. ' + err)
+                })
+        }
+
+        function incrNbGiven(id) {
+            return $sailsSocket.get(BackEndUrl+ 'doctor/' + id)
+                .success(function(data){
+                    var nbGiven = data.nbGiven + 1;
+                    return $sailsSocket.put(BackEndUrl+'doctor/'+id, {
+                        nbGiven: nbGiven
+                    });
+                })
+                .error(function(err){
+                    console.log('Request Failed for incrNbGiven. ' + err)
+                })
+        }
+
+        function incrNbCancelled(id) {
+            return $sailsSocket.get(BackEndUrl+ 'doctor/' + id)
+                .success(function(data){
+                    var nbCancelled = data.nbCancelled + 1;
+                    return $sailsSocket.put(BackEndUrl+'doctor/'+id, {
+                        nbCancelled: nbCancelled
+                    });
+                })
+                .error(function(err){
+                    console.log('Request Failed for incrNbCancelled. ' + err)
                 })
         }
     }

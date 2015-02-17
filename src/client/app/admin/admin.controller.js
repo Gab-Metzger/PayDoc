@@ -13,6 +13,7 @@
         vm.patients = [];
         vm.onSelect = onSelect;
         vm.appointments = [];
+        vm.historyAppointments = [];
         vm.getPatientById = getPatientById;
         vm.cancelAppointment = cancelAppointment;
         vm.deleteAppointment = deleteAppointment;
@@ -66,7 +67,7 @@
 
 
         function activate() {
-            var promises = [getPatients(), getAppointments(idCurrent)];
+            var promises = [getPatients(), getAppointments(idCurrent), getBroadcastedHistory()];
             return $q.all(promises).then(function() {
             });
         }
@@ -102,7 +103,8 @@
                     if (app.id == data.id) {
                         if (data.state) app.state = data.state;
                     }
-                })
+                });
+                dataservice.incrNbCancelled(idCurrent);
             });
             logger.info('Le rendez-vous a été annulé !')
         }
@@ -123,6 +125,7 @@
                 vm.appointments.push(data[0]);
                 vm.patient = null;
                 vm.selected = '';
+                dataservice.incrNbGiven(idCurrent);
             });
             logger.info('Le rendez-vous a été ajouté !')
         }
@@ -134,6 +137,12 @@
                 console.log(data)
                 logger.info("Le rendez-vous à été proposé ! ");
 
+            })
+        }
+
+        function getBroadcastedHistory() {
+            dataservice.getBroadcastedHistory(idCurrent).success(function (data) {
+                vm.historyAppointments = data;
             })
         }
 
