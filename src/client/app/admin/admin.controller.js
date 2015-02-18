@@ -45,9 +45,7 @@
         dataservice.subscribeAppointment().success(function(data){});
 
         if (!$rootScope.hasSubscribed){
-            console.log("J'ai subscribe")
             $sailsSocket.subscribe('appointment', function(appointment){
-                console.log(appointment);
                 if (appointment.verb == "destroyed"){
                     angular.forEach(vm.appointments, function(app,key){
                         if(app.id == appointment.id ){
@@ -61,6 +59,7 @@
                                 if(appointment.data.state) app.state = appointment.data.state;
                                 if(appointment.data.patient) app.patient = appointment.data.patient;
                                 vm.appointments.push(app);
+                                logger.notifDesktop("Notification : " + app.patient.name + " à accepté un rendez-vous !");
                                 vm.historyAppointments.splice(key, 1);
                             }
                         })
@@ -157,7 +156,6 @@
             console.log("BroadcastAppointment");
             console.log(vm.date);
             dataservice.broadcastAppointment(idCurrent,vm.date).success(function(data){
-                console.log(data)
                 vm.historyAppointments.push(data);
                 logger.info("Le rendez-vous à été proposé ! ");
 

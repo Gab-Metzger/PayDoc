@@ -108,7 +108,6 @@
 
         function chooseAppointment(id) {
             dataservice.chooseAppointment(id, idCurrent).success(function (data){
-                console.log(data)
                 angular.forEach(vm.broadcastedAppointments, function(app,key) {
                     if (app.id == data[0].id) {
                         vm.broadcastedAppointments[key].state = 'approved';

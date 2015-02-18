@@ -18,20 +18,19 @@
         return service;
 
         function notificationDoctor(doctorId){
-            console.log("Notification Doctor ! ")
             $rootScope.hasSubNotifDoctor = true;
             $sailsSocket.subscribe('appointment', function(appointment){
                 if(appointment.previous){
                     if ( appointment.previous.doctor.id == doctorId ){
                         if (appointment.verb === 'destroyed') {
-                            logger.info("Notification : Le rendez-vous avec " + appointment.previous.patient.name + " a été supprimé !");
+                            logger.notifDesktop("Notification : Le rendez-vous avec " + appointment.previous.patient.name + " a été supprimé !");
                         }
                         else {
                             if (appointment.data.state === 'approved') {
-                                logger.info("Notification : Le rendez-vous avec " + appointment.previous.patient.name + " a été validé !")
+                                logger.notifDesktop("Notification : Le rendez-vous avec " + appointment.previous.patient.name + " a été validé !")
                             }
                             else if (appointment.data.state === 'denied') {
-                                logger.info("Notification : Le rendez-vous avec " + appointment.previous.patient.name + " a été annulé !")
+                                logger.notifDesktop("Notification : Le rendez-vous avec " + appointment.previous.patient.name + " a été annulé !")
                             }
                         }
 
