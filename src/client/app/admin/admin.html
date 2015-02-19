@@ -35,84 +35,85 @@
 
         <div class="container" style="margin-top: 100px">
             <h1>Mes rendez-vous</h1>
-            <div ng-repeat="appointment in vm.appointments">
+            <div ng-repeat="appointment in vm.filteredAppointments">
                 <span ng-switch="$index % 4">
                   <div class="row" ng-switch-when="0">
-                      <div class="col-sm-3" ng-if="vm.appointments[$index+0]">
-                          <a type="button" class="close-thumb" ng-if="vm.appointments[$index+0].state === 'denied'" ng-really-click="vm.deleteAppointment(vm.appointments[$index+0].id)">&times;</a>
+                      <div class="col-sm-3" ng-if="vm.filteredAppointments[$index+0]">
+                          <a type="button" class="close-thumb" ng-if="vm.filteredAppointments[$index+0].state === 'denied'" ng-really-click="vm.deleteAppointment(vm.filteredAppointments[$index+0].id)">&times;</a>
                           <div class="thumbnail">
                               <div class="caption">
-                                  <h3>{{vm.appointments[$index+0].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                                  <h3>{{vm.filteredAppointments[$index+0].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
                                   <address>
-                                      <strong>{{vm.appointments[$index+0].patient.name}}</strong><br>
-                                      <abbr title="Phone">P:</abbr> {{vm.appointments[$index+0].patient.phone}}
+                                      <strong>{{vm.filteredAppointments[$index+0].patient.name}}</strong><br>
+                                      <abbr title="Phone">P:</abbr> {{vm.filteredAppointments[$index+0].patient.phone}}
                                   </address>
-                                  <div ng-switch="vm.appointments[$index+0].state">
+                                  <div ng-switch="vm.filteredAppointments[$index+0].state">
                                       <div class="alert alert-warning" ng-switch-when="pending">RENDEZ-VOUS NON CONFIRMÉ</div>
                                       <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
                                       <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
                                   </div>
-                                  <button type="button" class="cancel-button btn btn-danger btn-lg btn-block" ng-if="vm.appointments[$index+0].state !== 'denied'" ng-really-click="vm.cancelAppointment(vm.appointments[$index+0].id)">ANNULER RENDEZ-VOUS ?</button>
+                                  <button type="button" class="cancel-button btn btn-danger btn-lg btn-block" ng-if="vm.filteredAppointments[$index+0].state !== 'denied'" ng-really-click="vm.cancelAppointment(vm.filteredAppointments[$index+0].id)">ANNULER RENDEZ-VOUS ?</button>
                               </div>
                           </div>
                       </div>
-                      <div class="col-sm-3" ng-if="vm.appointments[$index+1]">
-                          <a type="button" class="close-thumb" ng-if="vm.appointments[$index+1].state === 'denied'" ng-really-click="vm.deleteAppointment(vm.appointments[$index+1].id)">&times;</a>
+                      <div class="col-sm-3" ng-if="vm.filteredAppointments[$index+1]">
+                          <a type="button" class="close-thumb" ng-if="vm.filteredAppointments[$index+1].state === 'denied'" ng-really-click="vm.deleteAppointment(vm.filteredAppointments[$index+1].id)">&times;</a>
                           <div class="thumbnail">
                               <div class="caption">
-                                  <h3>{{vm.appointments[$index+1].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                                  <h3>{{vm.filteredAppointments[$index+1].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
                                   <address>
-                                      <strong>{{vm.appointments[$index+1].patient.name}}</strong><br>
-                                      <abbr title="Phone">P:</abbr> {{vm.appointments[$index+1].patient.phone}}
+                                      <strong>{{vm.filteredAppointments[$index+1].patient.name}}</strong><br>
+                                      <abbr title="Phone">P:</abbr> {{vm.filteredAppointments[$index+1].patient.phone}}
                                   </address>
-                                  <div ng-switch="vm.appointments[$index+1].state">
+                                  <div ng-switch="vm.filteredAppointments[$index+1].state">
                                       <div class="alert alert-warning" ng-switch-when="pending">RENDEZ-VOUS NON CONFIRMÉ</div>
                                       <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
                                       <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
                                   </div>
-                                  <button type="button" class="cancel-button btn btn-danger btn-lg btn-block" ng-if="vm.appointments[$index+1].state !== 'denied'" ng-really-click="vm.cancelAppointment(vm.appointments[$index+1].id)">ANNULER RENDEZ-VOUS ?</button>
+                                  <button type="button" class="cancel-button btn btn-danger btn-lg btn-block" ng-if="vm.filteredAppointments[$index+1].state !== 'denied'" ng-really-click="vm.cancelAppointment(vm.filteredAppointments[$index+1].id)">ANNULER RENDEZ-VOUS ?</button>
                               </div>
                           </div>
                       </div>
-                      <div class="col-sm-3" ng-if="vm.appointments[$index+2]">
-                          <a type="button" class="close-thumb" ng-if="vm.appointments[$index+2].state === 'denied'" ng-really-click="vm.deleteAppointment(vm.appointments[$index+2].id)">&times;</a>
+                      <div class="col-sm-3" ng-if="vm.filteredAppointments[$index+2]">
+                          <a type="button" class="close-thumb" ng-if="vm.filteredAppointments[$index+2].state === 'denied'" ng-really-click="vm.deleteAppointment(vm.filteredAppointments[$index+2].id)">&times;</a>
                           <div class="thumbnail">
                               <div class="caption">
-                                  <h3>{{vm.appointments[$index+2].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                                  <h3>{{vm.filteredAppointments[$index+2].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
                                   <address>
-                                      <strong>{{vm.appointments[$index+2].patient.name}}</strong><br>
-                                      <abbr title="Phone">P:</abbr> {{vm.appointments[$index+2].patient.phone}}
+                                      <strong>{{vm.filteredAppointments[$index+2].patient.name}}</strong><br>
+                                      <abbr title="Phone">P:</abbr> {{vm.filteredAppointments[$index+2].patient.phone}}
                                   </address>
-                                  <div ng-switch="vm.appointments[$index+2].state">
+                                  <div ng-switch="vm.filteredAppointments[$index+2].state">
                                       <div class="alert alert-warning" ng-switch-when="pending">RENDEZ-VOUS NON CONFIRMÉ</div>
                                       <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
                                       <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
                                   </div>
-                                  <button type="button" class="cancel-button btn btn-danger btn-lg btn-block" ng-if="vm.appointments[$index+2].state !== 'denied'" ng-really-click="vm.cancelAppointment(vm.appointments[$index+2].id)">ANNULER RENDEZ-VOUS ?</button>
+                                  <button type="button" class="cancel-button btn btn-danger btn-lg btn-block" ng-if="vm.filteredAppointments[$index+2].state !== 'denied'" ng-really-click="vm.cancelAppointment(vm.filteredAppointments[$index+2].id)">ANNULER RENDEZ-VOUS ?</button>
                               </div>
                           </div>
                       </div>
-                      <div class="col-sm-3" ng-if="vm.appointments[$index+3]">
-                          <a type="button" class="close-thumb" ng-if="vm.appointments[$index+3].state === 'denied'" ng-really-click="vm.deleteAppointment(vm.appointments[$index+3].id)">&times;</a>
+                      <div class="col-sm-3" ng-if="vm.filteredAppointments[$index+3]">
+                          <a type="button" class="close-thumb" ng-if="vm.filteredAppointments[$index+3].state === 'denied'" ng-really-click="vm.deleteAppointment(vm.filteredAppointments[$index+3].id)">&times;</a>
                           <div class="thumbnail">
                               <div class="caption">
-                                  <h3>{{vm.appointments[$index+3].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                                  <h3>{{vm.filteredAppointments[$index+3].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
                                   <address>
-                                      <strong>{{vm.appointments[$index+3].patient.name}}</strong><br>
-                                      <abbr title="Phone">P:</abbr> {{vm.appointments[$index+3].patient.phone}}
+                                      <strong>{{vm.filteredAppointments[$index+3].patient.name}}</strong><br>
+                                      <abbr title="Phone">P:</abbr> {{vm.filteredAppointments[$index+3].patient.phone}}
                                   </address>
-                                  <div ng-switch="vm.appointments[$index+3].state">
+                                  <div ng-switch="vm.filteredAppointments[$index+3].state">
                                       <div class="alert alert-warning" ng-switch-when="pending">RENDEZ-VOUS NON CONFIRMÉ</div>
                                       <div class="alert alert-success" ng-switch-when="approved">RENDEZ-VOUS CONFIRMÉ</div>
                                       <div class="alert alert-danger" ng-switch-when="denied">RENDEZ-VOUS ANNULÉ</div>
                                   </div>
-                                  <button type="button" class="cancel-button btn btn-danger btn-lg btn-block" ng-if="vm.appointments[$index+3].state !== 'denied'" ng-really-click="vm.cancelAppointment(vm.appointments[$index+3].id)">ANNULER RENDEZ-VOUS ?</button>
+                                  <button type="button" class="cancel-button btn btn-danger btn-lg btn-block" ng-if="vm.filteredAppointments[$index+3].state !== 'denied'" ng-really-click="vm.cancelAppointment(vm.filteredAppointments[$index+3].id)">ANNULER RENDEZ-VOUS ?</button>
                               </div>
                           </div>
                       </div>
                   </div>
                 </span>
             </div>
+            <pagination total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.currentPage"></pagination>
         </div>
 
         <div class="container" style="margin-top: 100px">

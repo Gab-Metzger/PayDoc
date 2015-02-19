@@ -36,6 +36,17 @@
                 }
             },
             {
+                state: 'forgot',
+                config: {
+                    url: '/forgot',
+                    templateUrl: 'app/account/forgot.html',
+                    controller: 'AccountController',
+                    controllerAs: 'vm',
+                    title: 'Forgot Password',
+                    authorizedRoles: '*'
+                }
+            },
+            {
                 state: 'profile',
                 config: {
                     url: '/profile',

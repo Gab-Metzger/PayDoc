@@ -9,7 +9,7 @@
     /* @ngInject */
     function toastrConfig(toastr) {
         toastr.options.timeOut = 3000;
-        toastr.options.positionClass = 'toast-bottom-right';
+        toastr.options.positionClass = 'toast-top-right';
         toastr.options.closeButton = true;
     }
 

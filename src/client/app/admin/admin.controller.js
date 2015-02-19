@@ -13,6 +13,7 @@
         vm.patients = [];
         vm.onSelect = onSelect;
         vm.appointments = [];
+        vm.filteredAppointments = [];
         vm.historyAppointments = [];
         vm.getPatientById = getPatientById;
         vm.cancelAppointment = cancelAppointment;
@@ -33,6 +34,7 @@
         vm.date = new Date();
         vm.date.setHours(8);
         vm.date.setMinutes(0);
+
 
 
         var idCurrent = authservice.currentUser().id;
@@ -81,6 +83,10 @@
         function activate() {
             var promises = [getPatients(), getAppointments(idCurrent), getBroadcastedHistory()];
             return $q.all(promises).then(function() {
+                //Pagination
+                vm.totalItems = vm.appointments.length;
+                vm.itemsPerPage = 8;
+                vm.currentPage = 1;
             });
         }
 
@@ -173,5 +179,13 @@
         function clear() {
             vm.dt = null;
         }
+
+        //Pagination
+        $scope.$watch('vm.currentPage + vm.itemsPerPage', function() {
+            var begin = ((vm.currentPage - 1) * vm.itemsPerPage),
+                end = begin + vm.itemsPerPage;
+
+            vm.filteredAppointments = vm.appointments.slice(begin, end);
+        });
     }
 })();

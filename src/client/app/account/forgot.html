@@ -8,24 +8,17 @@
                             <span class="fa fa-4x fa-sign-in"></span>
                         </div>
                         <div class="info">
-                            <h4 class="text-center">Sign In</h4>
+                            <h4 class="text-center">Réinitialiser mon mot de passe</h4>
                             <form class="form" name="form" >
 
                                 <div class="form-group">
-                                    <input type="text" name="email" ng-model="credentials.email" class="form-control" placeholder="Adresse email">
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="password" name="password" ng-model="credentials.password" class="form-control" placeholder="Mot de passe">
+                                    <input type="text" name="email" ng-model="forgotEmail" class="form-control" placeholder="Adresse email">
                                 </div>
 
                                 <div>
-                                    <button class="btn btn-log" type="submit" ng-click="vm.login(credentials)">
-                                        Sign In
+                                    <button class="btn btn-log" type="submit" ng-click="vm.sendResetPasswordLink(vm.forgotEmail)">
+                                        Envoyer
                                     </button>
-                                </div>
-                                <div class="form-group" style="margin-top: 20px">
-                                    <a href="/forgot">J'ai oublié mon mot de passe !</a>
                                 </div>
                             </form>
                         </div>
@@ -35,3 +28,4 @@
         </div>
     </section>
 </section>
+
