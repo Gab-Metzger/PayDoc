@@ -32,7 +32,8 @@
             broadcastAppointment: broadcastAppointment,
             getBroadcasted: getBroadcasted,
             getBroadcastedHistory: getBroadcastedHistory,
-            subscribeAppointment: subscribeAppointment
+            subscribeAppointment: subscribeAppointment,
+            mailCancelled: mailCancelled
 
         };
 
@@ -293,6 +294,19 @@
                     console.log('Request Failed for subscribe. ' + err)
                     console.log(err)
                 })
+        }
+
+        function mailCancelled(data) {
+            return $sailsSocket.post(BackEndUrl+ 'email/cancelGivenAppointment', data)
+                .success(function(res) {
+                    console.log('Request Succeded for mailCancelled.');
+                    console.log(res);
+                })
+                .error(function(err) {
+                    console.log('Request Failed for mailCancelled. ' + err)
+                    console.log(err)
+                })
+
         }
     }
 })();

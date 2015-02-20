@@ -18,11 +18,13 @@
 
         $scope.$on('syncSideBar', function() {
             activate();
+            vm.currentName = authservice.currentUser().name;
         })
 
         function activate() {
             vm.isAuthenticated = authservice.isAuthenticated();
             getNavRoutes();
+
         }
 
         function getNavRoutes() {

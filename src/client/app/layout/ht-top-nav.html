@@ -15,6 +15,7 @@
                         <a href="/signup" ng-if="!vm.isAuthenticated">
                             Créer mon compte
                         </a>
+                        <a ng-if="vm.isAuthenticated">{{vm.currentName}}</a>
                     </li>
                 </ul>
             </div>

@@ -123,6 +123,15 @@
                     }
                 });
                 dataservice.incrNbCancelled(idCurrent);
+                /*var info = {
+                    firstName: appoint.patient.firstName,
+                    doctorName: appoint.doctor.lastName,
+                    startDate: appoint.startDate.toString(),
+                    name: appoint.patient.name,
+                    email: appoint.patient.email
+                };
+                //Recup infos pour envoyer mail
+                dataservice.mailCancelled(info);*/
             });
             logger.info('Le rendez-vous a été annulé !')
         }
