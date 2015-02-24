@@ -200,7 +200,7 @@ gulp.task('build', ['optimize', 'images', 'fonts'], function() {
         subtitle: 'Deployed to the build folder',
         message: 'Running `gulp serve-build`'
     };
-    del(config.temp);
+    del(config.temp, {force: true});
     log(msg);
     notify(msg);
 });
@@ -387,7 +387,7 @@ function changeEvent(event) {
  */
 function clean(path, done) {
     log('Cleaning: ' + $.util.colors.blue(path));
-    del(path, done);
+    del(path, {force: true}, done);
 }
 
 /**
