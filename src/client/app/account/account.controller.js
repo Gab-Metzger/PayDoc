@@ -5,10 +5,10 @@
         .module('app.account')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['dataservice', 'logger', '$q', '$state', 'authservice', '$sailsSocket', '$rootScope','subscribeservice'];
+    AccountController.$inject = ['$stateParams', 'dataservice', 'logger', '$q', '$state', 'authservice', '$rootScope','subscribeservice'];
 
     /* @ngInject */
-    function AccountController(dataservice, logger, $q, $state, authservice, $sailsSocket, $rootScope,subscribeservice)
+    function AccountController($stateParams, dataservice, logger, $q, $state, authservice, $rootScope,subscribeservice)
     {
         /* jshint validthis: true */
         var vm = this;
@@ -20,16 +20,12 @@
         vm.credentials = {};
         vm.addPatient = addPatient;
         vm.updateUser = updateUser;
+        vm.sendResetPasswordLink = sendResetPasswordLink;
+        vm.resetPassword = resetPassword;
         vm.login = login;
 
         activate();
 
-        ////////////////
-        //$sailsSocket.get('http://localhost:1337/patient').success(function(doctor){
-        //    console.log(doctor)
-        //}).error(function(error){
-        //    console.log(error)
-        //})
         function activate() {
             if (authservice.isAuthenticated()) {
                 var idCurrent = authservice.currentUser().id;
@@ -105,6 +101,32 @@
                     $rootScope.isAuthenticated = authservice.isAuthenticated();
                     $rootScope.$broadcast('syncSideBar', []);
                     $rootScope.hasSubscribed = false;
+                    return data;
+                });
+        }
+
+        function sendResetPasswordLink() {
+            return dataservice.forgotPassword(vm.emailForPasswordReset)
+                .then(function(data) {
+                    logger.success('Vous allez recevoir un mail avec un lien pour changer de mot de passe.');
+                    $state.go('signin');
+                    return data;
+                });
+        }
+
+        function resetPassword() {
+            var dataToSend = {
+                token: $stateParams.token,
+                password: vm.newPassword,
+                confirmation: vm.newPasswordConfirmation
+            };
+
+            console.log(vm.newPassword + vm.newPasswordConfirmation);
+
+            return dataservice.resetPassword(dataToSend)
+                .then(function(data) {
+                    logger.success('Votre mot de passe a bien été changer, veuillez vous connecter.');
+                    $state.go('signin');
                     return data;
                 });
         }

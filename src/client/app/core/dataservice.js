@@ -21,6 +21,8 @@
             addPatient: addPatient,
             updatePatient: updatePatient,
             getPatientsByDoctor: getPatientsByDoctor,
+            forgotPassword: forgotPassword,
+            resetPassword: resetPassword,
 
             getAppointmentsByPatient: getAppointmentsByPatient,
             getAppointmentsByDoctor: getAppointmentsByDoctor,
@@ -296,8 +298,11 @@
                 })
         }
 
-        function mailCancelled(data) {
-            return $sailsSocket.post(BackEndUrl+ 'email/cancelGivenAppointment', data)
+        function mailCancelled(id) {
+            var dataToSend = {
+                id: id
+            };
+            return $sailsSocket.post(BackEndUrl+ 'appointment/cancel/', dataToSend)
                 .success(function(res) {
                     console.log('Request Succeded for mailCancelled.');
                     console.log(res);
@@ -307,6 +312,33 @@
                     console.log(err)
                 })
 
+        }
+
+        function forgotPassword(email) {
+            var dataToSend = {
+                email: email
+            };
+            return $sailsSocket.post(BackEndUrl+ 'patient/forgot', dataToSend)
+                .success(function(res) {
+                    console.log('Request Succeded for forgotPassword.');
+                    console.log(res);
+                })
+                .error(function(err) {
+                    console.log('Request Failed for forgotPassword. ' + err);
+                    console.log(err)
+                })
+        }
+
+        function resetPassword(data) {
+            return $sailsSocket.post(BackEndUrl+ 'patient/reset', data)
+                .success(function(res) {
+                    console.log('Request Succeded for resetPassword.');
+                    console.log(res);
+                })
+                .error(function(err) {
+                    console.log('Request Failed for resetPassword. ' + err);
+                    console.log(err)
+                })
         }
     }
 })();

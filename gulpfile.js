@@ -258,7 +258,7 @@ gulp.task('optimize', ['inject'], function() {
 gulp.task('clean', function(done) {
     var delconfig = [].concat(config.build, config.temp, config.report);
     log('Cleaning: ' + $.util.colors.blue(delconfig));
-    del(delconfig, done);
+    del(delconfig, {force: true}, done);
 });
 
 /**

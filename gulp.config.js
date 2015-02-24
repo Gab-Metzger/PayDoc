@@ -18,7 +18,7 @@ module.exports = function() {
             './src/**/*.js',
             './*.js'
         ],
-        build: './build/',
+        build: '../PayDocDist/public/',
         client: client,
         css: temp + '/styles.css',
         fonts: ['./bower_components/font-awesome/fonts/**/*.*', './bower_components/bootstrap/fonts/**/*.*'],

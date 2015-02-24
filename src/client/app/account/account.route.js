@@ -60,6 +60,17 @@
                     },
                     authorizedRoles: ['patient', 'doctor']
                 }
+            },
+            {
+                state: 'reset',
+                config: {
+                    url: '/reset/:token',
+                    templateUrl: 'app/account/reset.html',
+                    controller: 'AccountController',
+                    controllerAs: 'vm',
+                    title: 'reset',
+                    authorizedRoles: ['*']
+                }
             }
         ];
     }

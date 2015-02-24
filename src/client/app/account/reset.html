@@ -12,11 +12,14 @@
                             <form class="form" name="form" >
 
                                 <div class="form-group">
-                                    <input type="text" name="email" ng-model="vm.emailForPasswordReset" class="form-control" placeholder="Adresse email">
+                                    <input type="password" name="password" ng-model="vm.newPassword" class="form-control" placeholder="Nouveau mot de passe">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" name="confirmation" ng-model="vm.newPasswordConfirmation" class="form-control" placeholder="Confirmation">
                                 </div>
 
                                 <div>
-                                    <button class="btn btn-log" type="submit" ng-click="vm.sendResetPasswordLink(vm.forgotEmail)">
+                                    <button class="btn btn-log" type="submit" ng-click="vm.resetPassword()">
                                         Envoyer
                                     </button>
                                 </div>
