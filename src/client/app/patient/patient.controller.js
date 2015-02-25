@@ -123,6 +123,7 @@
 
             var modalInstance = $modal.open({
                 templateUrl: 'app/widgets/modalContent.html',
+                size: 'sm',
                 controller: ['$modalInstance', '$scope',
                     function($modalInstance, $scope) {
 
