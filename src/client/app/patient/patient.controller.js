@@ -123,11 +123,10 @@
 
             var modalInstance = $modal.open({
                 templateUrl: 'app/widgets/modalContent.html',
-                size: 'sm',
                 controller: ['$modalInstance', '$scope',
                     function($modalInstance, $scope) {
 
-                        $scope.cardInfos = {};
+                        $scope.acceptConditions = false;
 
                         $scope.ok = function () {
                             if ($scope.payForm.$valid) {
@@ -155,7 +154,7 @@
                 }
 
             }, function () {
-                logger.error('Veuillez entrer vos informations bancaires');
+                logger.error('Veuillez accepter les conditions d\'annulation');
             });
         };
     }
