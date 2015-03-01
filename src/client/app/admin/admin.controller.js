@@ -15,11 +15,13 @@
         vm.appointments = [];
         vm.filteredAppointments = [];
         vm.historyAppointments = [];
+        vm.eventSources = [];
         vm.getPatientById = getPatientById;
         vm.cancelAppointment = cancelAppointment;
         vm.deleteAppointment = deleteAppointment;
         vm.addAppointment = addAppointment;
         vm.broadcastAppointment = broadcastAppointment;
+        vm.alertEventOnClick = alertEventOnClick;
 
         //DatePicker
         vm.dt = new Date();
@@ -34,6 +36,21 @@
         vm.date = new Date();
         vm.date.setHours(8);
         vm.date.setMinutes(0);
+
+        vm.uiConfig = {
+            calendar:{
+                height: 450,
+                editable: true,
+                header:{
+                    left: 'agendaWeek agendaDay',
+                    center: 'title',
+                    right: 'today prev,next'
+                },
+                dayClick: vm.alertEventOnClick,
+                eventDrop: vm.alertOnDrop,
+                eventResize: vm.alertOnResize
+            }
+        };
 
 
 
@@ -87,6 +104,7 @@
                 vm.totalItems = vm.appointments.length;
                 vm.itemsPerPage = 8;
                 vm.currentPage = 1;
+                console.log(vm.eventSources);
             });
         }
 
@@ -100,6 +118,7 @@
         function getAppointments(id) {
             return dataservice.getAppointmentsByDoctor(id).success(function (data) {
                 vm.appointments = data;
+                vm.eventSources.push(data);
                 return vm.appointments;
             });
         }
@@ -173,6 +192,10 @@
             dataservice.getBroadcastedHistory(idCurrent).success(function (data) {
                 vm.historyAppointments = data;
             })
+        }
+
+        function alertEventOnClick() {
+            console.log('click');
         }
 
         //Datepicker

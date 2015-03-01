@@ -122,5 +122,9 @@
                 <li ng-repeat="history in vm.historyAppointments | orderBy: 'startDate'">{{history.startDate | date: "d/MM/yyyy à h'h'm"}} <button class="btn btn-default" ng-really-click="vm.deleteAppointment(history.id, true)"><i class="fa fa-trash-o"></i></button></li>
             </ul>
         </div>
+
+        <div class="container">
+            <div ui-calendar="vm.uiConfig.calendar" ng-model="vm.eventSources">
+        </div>
     </section>
 </section>

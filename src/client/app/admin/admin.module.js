@@ -4,7 +4,8 @@
     angular.module('app.admin', [
         'app.core',
         'app.widgets',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'ui.calendar'
       ]);
 
 })();
