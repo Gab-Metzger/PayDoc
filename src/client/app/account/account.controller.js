@@ -35,6 +35,7 @@
                     data.push(getDoctor(idCurrent));
                 }
                 else if (authservice.isPatient()) {
+                    vm.isPatient = true;
                     data.push(getPatient(idCurrent))
                 }
                 var promises = data;

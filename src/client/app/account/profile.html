@@ -40,6 +40,12 @@
                                     <input type="password" name="confirmation" ng-model="vm.user.confirmation" class="form-control" placeholder="Confirmez votre mot de passe">
                                 </div>
 
+                                <div class="checkbox" ng-if="vm.isPatient">
+                                    <label>
+                                        <input type="checkbox" ng-model="vm.user.receiveBroadcast"> Je souhaite être averti en cas de désistement.
+                                    </label>
+                                </div>
+
                                 <div>
                                     <button class="btn btn-log" ng-click="vm.updateUser(vm.user.id, vm.user)" type="submit">
                                         Modifier mes informations
