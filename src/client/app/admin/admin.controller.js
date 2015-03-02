@@ -5,9 +5,9 @@
         .module('app.admin')
         .controller('AdminController', AdminController);
 
-    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$rootScope','subscribeservice','$scope'];
+    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$rootScope','subscribeservice'];
     /* @ngInject */
-    function AdminController(logger, dataservice, $q, authservice, $sailsSocket, $rootScope, subscribeservice,$scope) {
+    function AdminController(logger, dataservice, $q, authservice, $sailsSocket, $rootScope, subscribeservice) {
         var vm = this;
         vm.title = 'Admin';
         vm.patients = [];
@@ -83,10 +83,6 @@
         function activate() {
             var promises = [getPatients(), getAppointments(idCurrent), getBroadcastedHistory()];
             return $q.all(promises).then(function() {
-                //Pagination
-                vm.totalItems = vm.appointments.length;
-                vm.itemsPerPage = 8;
-                vm.currentPage = 1;
             });
         }
 
@@ -180,13 +176,5 @@
         function clear() {
             vm.dt = null;
         }
-
-        //Pagination
-        $scope.$watch('vm.currentPage + vm.itemsPerPage', function() {
-            var begin = ((vm.currentPage - 1) * vm.itemsPerPage),
-                end = begin + vm.itemsPerPage;
-
-            vm.filteredAppointments = vm.appointments.slice(begin, end);
-        });
     }
 })();
