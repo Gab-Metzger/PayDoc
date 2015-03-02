@@ -5,10 +5,10 @@
         .module('app.account')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$stateParams', 'dataservice', 'logger', '$q', '$state', 'authservice', '$rootScope','subscribeservice'];
+    AccountController.$inject = ['$stateParams', 'dataservice', 'logger', '$q', '$state', 'authservice', '$rootScope','subscribeservice', 'storageservice'];
 
     /* @ngInject */
-    function AccountController($stateParams, dataservice, logger, $q, $state, authservice, $rootScope,subscribeservice)
+    function AccountController($stateParams, dataservice, logger, $q, $state, authservice, $rootScope,subscribeservice, storageservice)
     {
         /* jshint validthis: true */
         var vm = this;
@@ -77,9 +77,13 @@
         }
 
         function updateUser(id, user) {
+            delete user.appointments;
             if (authservice.isPatient()) {
                 return dataservice.updatePatient(id, user)
                     .success(function (data) {
+                        data.token = user.token;
+                        data.role = 'patient';
+                        storageservice.set('auth_token', JSON.stringify(data));
                         vm.user = data;
                         logger.info('Vos informations ont été modifiées !');
                         return vm.user;
@@ -89,6 +93,9 @@
                 return dataservice.updateDoctor(id, user)
                     .success(function (data) {
                         vm.user = data;
+                        data.token = user.token;
+                        data.role = 'doctor';
+                        storageservice.set('auth_token', JSON.stringify(data));
                         logger.info('Vos informations ont été modifiées !');
                         return vm.user;
                     });
