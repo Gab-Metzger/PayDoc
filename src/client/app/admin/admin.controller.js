@@ -5,9 +5,9 @@
         .module('app.admin')
         .controller('AdminController', AdminController);
 
-    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$rootScope','subscribeservice','$scope'];
+    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$rootScope','subscribeservice','$scope', '$compile'];
     /* @ngInject */
-    function AdminController(logger, dataservice, $q, authservice, $sailsSocket, $rootScope, subscribeservice,$scope) {
+    function AdminController(logger, dataservice, $q, authservice, $sailsSocket, $rootScope, subscribeservice,$scope, $compile) {
         var vm = this;
         vm.title = 'Admin';
         vm.patients = [];
@@ -39,16 +39,54 @@
 
         vm.uiConfig = {
             calendar:{
-                height: 450,
+                //height: 650,
+                defaultView: 'agendaWeek',
+                scrollTime: '8:00',
+                firstDay: 1,
                 editable: true,
-                header:{
-                    left: 'agendaWeek agendaDay',
-                    center: 'title',
-                    right: 'today prev,next'
+                axisFormat: 'HH:mm',
+                slotMinutes: 15,
+                allDaySlot: false,
+                minTime: '08:00:00',
+                maxTime: '20:00:00',
+                timeFormat: {
+                    '': 'HH:mm',
+                    agenda: 'HH:mm'
                 },
+                columnFormat: {
+                    month: 'ddd',
+                    week: 'ddd dd/MM',
+                    day: 'dddd'
+                },
+                //aspectRatio: 2,
+                monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                monthNamesShort: ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
+                dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                titleFormat: {
+                    month: 'MMMM yyyy',
+                    week: 'dd MMMM yyyy',
+                    day: 'dddd dd MMMM yyyy'
+                },
+                allDayText: "Journée",
+                buttonText: {
+                    today: 'Aujourd\'hui',
+                    day: 'Jour',
+                    week: 'Semaine',
+                    month: 'Mois'
+                },
+                header:{
+                    left: 'prev',
+                    center: 'title',
+                    right: 'next'
+                },
+                //ignoreTimeZone: true,
+                timezone: "local",
                 dayClick: vm.alertEventOnClick,
-                eventDrop: vm.alertOnDrop,
-                eventResize: vm.alertOnResize
+                eventMouseover: vm.alertOnMouseOver,
+                eventDrop: vm.alertOnEventDrop,
+                eventResize: vm.alertOnEventResize,
+                eventRender: eventRender
             }
         };
 
@@ -196,6 +234,13 @@
 
         function alertEventOnClick() {
             console.log('click');
+        }
+
+        function eventRender( event, element, view ) {
+            var info = event.title + "<br />" + event.patient.phone + "<br />" + event.patient.address;
+            element.attr({'tooltip': info,
+                'tooltip-append-to-body': true});
+            $compile(element)($scope);
         }
 
         //Datepicker
