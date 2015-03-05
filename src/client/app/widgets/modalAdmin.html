@@ -1,0 +1,102 @@
+<style>.modal-dialog{width:50%;}</style>
+<!-- Modal -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h3 class="modal-title">Ajouter un rendez-vous</h3>
+
+</div>
+<div class="modal-body">
+    <form name="form_signup"
+          class="form-horizontal form-validation"
+        >
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label>Nom</label>
+            </div>
+            <div class="col-sm-9">
+                <input type="text" ng-model="vm.selected" typeahead="patient.name for patient in patients | filter:$viewValue | limitTo:8" typeahead-on-select="$scope.onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
+                <input  type="text"
+                        class="form-control"
+                        data-ng-model="event.title"
+                        required
+                        data-ng-maxlength="200"
+                        >
+            </div>
+        </div>
+
+        <div class="form-group" data-ng-if="!isPersonnal">
+            <div class="col-sm-3">
+                <label>Classe</label>
+            </div>
+            <div class="col-sm-9">
+                <input  type="text"
+                        class="form-control"
+                        data-ng-model="team"
+                        disabled>
+            </div>
+        </div>
+        <div class="form-group" data-ng-if="!isPersonnal" >
+            <div class="col-sm-3">
+                <label>Professeur</label>
+            </div>
+            <div class="col-sm-9">
+                <input  type="text"
+                        class="form-control"
+                        data-ng-model="teacher"
+                        disabled
+                    >
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label>Date de début</label>
+            </div>
+            <div class="col-sm-4">
+                <div class="input-group ui-datepicker">
+                    <input type="text"
+                           class="form-control"
+                           datepicker-popup="{{format}}"
+                           ng-model="event.start"
+                           is-open="opened"
+                           min-date="minDate"
+                           max-date="'2015-06-22'"
+                           datepicker-options="dateOptions"
+                           date-disabled="disabled(date, mode)"
+                           ng-required="true"
+                           close-text="Close"
+                           ng-click="open($event)"/>
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <label>Fin</label>
+            </div>
+            <div class="col-sm-4">
+                <div class="input-group ui-datepicker">
+                    <input type="text"
+                           class="form-control"
+                           datepicker-popup="{{format}}"
+                           ng-model="event.end"
+                           is-open="opened1"
+                           min-date="minDate"
+                           max-date="'2015-06-22'"
+                           datepicker-options="dateOptions"
+                           date-disabled="disabled(date, mode)"
+                           ng-required="true"
+                           close-text="Close"
+                           ng-click="open1($event)"/>
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" data-ng-click="deleteEvent(event.id)" data-ng-if="isPersonnal">Supprimer</button>
+    <button class="btn btn-warning" data-ng-click="saveEvent(event)" data-ng-if="isPersonnal">Modifier</button>
+</div>

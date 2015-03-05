@@ -5,9 +5,9 @@
         .module('app.admin')
         .controller('AdminController', AdminController);
 
-    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$rootScope','subscribeservice','$scope', '$compile'];
+    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$rootScope','subscribeservice','$scope', '$compile', '$modal'];
     /* @ngInject */
-    function AdminController(logger, dataservice, $q, authservice, $sailsSocket, $rootScope, subscribeservice,$scope, $compile) {
+    function AdminController(logger, dataservice, $q, authservice, $sailsSocket, $rootScope, subscribeservice,$scope, $compile, $modal) {
         var vm = this;
         vm.title = 'Admin';
         vm.patients = [];
@@ -157,6 +157,7 @@
 
         function getAppointments(id) {
             return dataservice.getAppointmentsByDoctor(id).success(function (data) {
+                console.log(data);
                 vm.appointments = data;
                 vm.eventSources.push(data);
                 return vm.appointments;
@@ -246,10 +247,38 @@
         }
 
         function select(start, end, jsEvent, view) {
-            var newEventTitle;
-            prompt(newEventTitle);
-            vm.appointments.push({start: start, end: end, title: newEventTitle});
-            console.log(start + ' ' + end);
+            //var newEventTitle;
+            //prompt(newEventTitle);
+            //vm.appointments.push({start: start, end: end, title: newEventTitle});
+            //console.log(start + ' ' + end);
+            var modalInstance = $modal.open({
+                templateUrl: 'app/widgets/modalAdmin.html',
+                size: 'lg',
+                resolve:{
+                    patients: function(){
+                        console.log(vm.patients);
+                        return vm.patients;
+                    }
+                },
+                controller: ['$modalInstance', '$scope','patients',
+                    function($modalInstance, $scope, patients) {
+
+                        console.log(start);
+                        $scope.patients = patients;
+                        $scope.onSelect = function(patient){
+                            vm.patient = patient;
+                        }
+
+                        $scope.ok = function () {
+
+                        };
+
+                        $scope.cancel = function () {
+                            $modalInstance.dismiss('cancel');
+                        };
+                    }
+                ]
+            })
         }
 
         //Datepicker
