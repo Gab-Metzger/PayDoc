@@ -21,7 +21,6 @@
         vm.deleteAppointment = deleteAppointment;
         vm.addAppointment = addAppointment;
         vm.broadcastAppointment = broadcastAppointment;
-        vm.alertEventOnClick = alertEventOnClick;
 
         //DatePicker
         vm.dt = new Date();
@@ -44,6 +43,8 @@
                 scrollTime: '8:00',
                 firstDay: 1,
                 editable: true,
+                selectable: true,
+                selectHelper: true,
                 axisFormat: 'HH:mm',
                 slotMinutes: 15,
                 allDaySlot: false,
@@ -82,11 +83,12 @@
                 },
                 //ignoreTimeZone: true,
                 timezone: "local",
-                dayClick: vm.alertEventOnClick,
-                eventMouseover: vm.alertOnMouseOver,
-                eventDrop: vm.alertOnEventDrop,
-                eventResize: vm.alertOnEventResize,
-                eventRender: eventRender
+                //dayClick: dayClick,
+                select: select,
+                //eventMouseover: eventMouseover,
+                //eventDrop: eventDrop,
+                //eventResize: eventResize,
+                //eventRender: eventRender
             }
         };
 
@@ -232,8 +234,8 @@
             })
         }
 
-        function alertEventOnClick() {
-            console.log('click');
+        function dayClick(date, allDay, jsEvent, view) {
+            console.log('click' + date + ' ' + allDay);
         }
 
         function eventRender( event, element, view ) {
@@ -243,18 +245,17 @@
             $compile(element)($scope);
         }
 
+        function select(start, end, jsEvent, view) {
+            var newEventTitle;
+            prompt(newEventTitle);
+            vm.appointments.push({start: start, end: end, title: newEventTitle});
+            console.log(start + ' ' + end);
+        }
+
         //Datepicker
 
         function clear() {
             vm.dt = null;
         }
-
-        //Pagination
-        $scope.$watch('vm.currentPage + vm.itemsPerPage', function() {
-            var begin = ((vm.currentPage - 1) * vm.itemsPerPage),
-                end = begin + vm.itemsPerPage;
-
-            vm.filteredAppointments = vm.appointments.slice(begin, end);
-        });
     }
 })();
