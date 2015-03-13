@@ -6,97 +6,43 @@
 
 </div>
 <div class="modal-body">
-    <form name="form_signup"
-          class="form-horizontal form-validation"
-        >
-        <div class="form-group">
-            <div class="col-sm-3">
-                <label>Nom</label>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <input type="text" ng-if="searchInput" ng-model="selected" typeahead="patient.name for patient in patients | filter:$viewValue | limitTo:8" typeahead-on-select="onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
             </div>
-            <div class="col-sm-9">
-                <input type="text" ng-model="vm.selected" typeahead="patient.name for patient in patients | filter:$viewValue | limitTo:8" typeahead-on-select="$scope.onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
-                <input  type="text"
-                        class="form-control"
-                        data-ng-model="event.title"
-                        required
-                        data-ng-maxlength="200"
-                        >
+            <div class="col-md-3">
+                <button class="btn btn-lg btn-primary" ng-click="addPatientButtonClick()"><span class="glyphicon glyphicon-user"></span> Ajouter un patient</button>
             </div>
         </div>
-
-        <div class="form-group" data-ng-if="!isPersonnal">
-            <div class="col-sm-3">
-                <label>Classe</label>
-            </div>
-            <div class="col-sm-9">
-                <input  type="text"
-                        class="form-control"
-                        data-ng-model="team"
-                        disabled>
-            </div>
-        </div>
-        <div class="form-group" data-ng-if="!isPersonnal" >
-            <div class="col-sm-3">
-                <label>Professeur</label>
-            </div>
-            <div class="col-sm-9">
-                <input  type="text"
-                        class="form-control"
-                        data-ng-model="teacher"
-                        disabled
-                    >
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-3">
-                <label>Date de début</label>
-            </div>
-            <div class="col-sm-4">
-                <div class="input-group ui-datepicker">
-                    <input type="text"
-                           class="form-control"
-                           datepicker-popup="{{format}}"
-                           ng-model="event.start"
-                           is-open="opened"
-                           min-date="minDate"
-                           max-date="'2015-06-22'"
-                           datepicker-options="dateOptions"
-                           date-disabled="disabled(date, mode)"
-                           ng-required="true"
-                           close-text="Close"
-                           ng-click="open($event)"/>
-                                <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-calendar"></i>
-                                </span>
+        <div class="row">
+            <form ng-if="addPatientButton">
+                <div class="form-group">
+                    <input type="text" name="firstName" ng-model="newPatient.firstName" class="form-control" placeholder="Prénom">
                 </div>
-            </div>
-            <div class="col-sm-1">
-                <label>Fin</label>
-            </div>
-            <div class="col-sm-4">
-                <div class="input-group ui-datepicker">
-                    <input type="text"
-                           class="form-control"
-                           datepicker-popup="{{format}}"
-                           ng-model="event.end"
-                           is-open="opened1"
-                           min-date="minDate"
-                           max-date="'2015-06-22'"
-                           datepicker-options="dateOptions"
-                           date-disabled="disabled(date, mode)"
-                           ng-required="true"
-                           close-text="Close"
-                           ng-click="open1($event)"/>
-                                <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-calendar"></i>
-                                </span>
+
+                <div class="form-group">
+                    <input type="text" name="lastName" ng-model="newPatient.lastName" class="form-control" placeholder="Nom de famille">
                 </div>
+
+                <div class="form-group">
+                    <input type="text" name="phone" ng-model="newPatient.phone" class="form-control" placeholder="Numéro de téléphone">
+                </div>
+
+                <div class="form-group">
+                    <input type="email" name="email" ng-model="newPatient.email" class="form-control" placeholder="Email">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            <div ng-if="patient">
+                <h3>{{patient.name}}</h3>
+                <p>{{patient.phone}}</p>
+                <p>{{patient.address}}</p>
+                <p>{{patient.email}}</p>
             </div>
         </div>
-    </form>
-
+    </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-danger" data-ng-click="deleteEvent(event.id)" data-ng-if="isPersonnal">Supprimer</button>
-    <button class="btn btn-warning" data-ng-click="saveEvent(event)" data-ng-if="isPersonnal">Modifier</button>
+    <button class="btn btn-success">Ajouter le rendez-vous</button>
 </div>

@@ -256,21 +256,32 @@
                 size: 'lg',
                 resolve:{
                     patients: function(){
-                        console.log(vm.patients);
                         return vm.patients;
                     }
                 },
                 controller: ['$modalInstance', '$scope','patients',
                     function($modalInstance, $scope, patients) {
 
-                        console.log(start);
-                        $scope.patients = patients;
-                        $scope.onSelect = function(patient){
-                            vm.patient = patient;
+                        activate();
+
+                        function activate() {
+                            $scope.patients = patients;
+                            $scope.addPatientButton = false;
+                            $scope.searchInput = true;
+                            $scope.newPatient = {};
                         }
 
-                        $scope.ok = function () {
+                        $scope.onSelect = function(patient){
+                            $scope.patient = patient;
+                            console.log(patient);
+                        };
 
+                        $scope.addPatientButtonClick = function() {
+                            $scope.addPatientButton = true;
+                            $scope.searchInput = false;
+                        };
+
+                        $scope.ok = function () {
                         };
 
                         $scope.cancel = function () {
