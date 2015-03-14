@@ -11,87 +11,13 @@
         var vm = this;
         vm.title = 'Admin';
         vm.patients = [];
-        vm.onSelect = onSelect;
         vm.appointments = [];
-        vm.filteredAppointments = [];
-        vm.historyAppointments = [];
         vm.eventSources = [];
         vm.getPatientById = getPatientById;
         vm.cancelAppointment = cancelAppointment;
         vm.deleteAppointment = deleteAppointment;
         vm.addAppointment = addAppointment;
         vm.broadcastAppointment = broadcastAppointment;
-
-        //DatePicker
-        vm.dt = new Date();
-        vm.dt.setHours(8);
-        vm.dt.setMinutes(0);
-        vm.minDate = new Date();
-        vm.dateOptions = {
-            formatYear: 'yy',
-            startingDay: 1
-        };
-        vm.clear = clear;
-        vm.date = new Date();
-        vm.date.setHours(8);
-        vm.date.setMinutes(0);
-
-        vm.uiConfig = {
-            calendar:{
-                //height: 650,
-                defaultView: 'agendaWeek',
-                scrollTime: '8:00',
-                firstDay: 1,
-                editable: true,
-                selectable: true,
-                selectHelper: true,
-                axisFormat: 'HH:mm',
-                slotMinutes: 15,
-                allDaySlot: false,
-                minTime: '08:00:00',
-                maxTime: '20:00:00',
-                timeFormat: {
-                    '': 'HH:mm',
-                    agenda: 'HH:mm'
-                },
-                columnFormat: {
-                    month: 'ddd',
-                    week: 'ddd dd/MM',
-                    day: 'dddd'
-                },
-                //aspectRatio: 2,
-                monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-                monthNamesShort: ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
-                dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-                dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-                titleFormat: {
-                    month: 'MMMM yyyy',
-                    week: 'dd MMMM yyyy',
-                    day: 'dddd dd MMMM yyyy'
-                },
-                allDayText: "Journée",
-                buttonText: {
-                    today: 'Aujourd\'hui',
-                    day: 'Jour',
-                    week: 'Semaine',
-                    month: 'Mois'
-                },
-                header:{
-                    left: 'prev',
-                    center: 'title',
-                    right: 'next'
-                },
-                //ignoreTimeZone: true,
-                timezone: "local",
-                //dayClick: dayClick,
-                select: select,
-                //eventMouseover: eventMouseover,
-                //eventDrop: eventDrop,
-                //eventResize: eventResize,
-                //eventRender: eventRender
-            }
-        };
-
 
 
         var idCurrent = authservice.currentUser().id;
@@ -140,10 +66,69 @@
         function activate() {
             var promises = [getPatients(), getAppointments(idCurrent), getBroadcastedHistory()];
             return $q.all(promises).then(function() {
-                //Pagination
-                vm.totalItems = vm.appointments.length;
-                vm.itemsPerPage = 8;
-                vm.currentPage = 1;
+                var doctorConsultTime = authservice.currentUser().consultTime;
+                // Calendar config
+                vm.uiConfig = {
+                    calendar:{
+                        //height: 650,
+                        defaultView: 'agendaWeek',
+                        scrollTime: '8:00',
+                        firstDay: 1,
+                        editable: true,
+                        selectable: true,
+                        selectHelper: true,
+                        axisFormat: 'HH:mm',
+                        slotMinutes: doctorConsultTime,
+                        allDaySlot: false,
+                        allDay: false,
+                        minTime: '08:00:00',
+                        maxTime: '20:00:00',
+                        timeFormat: {
+                            '': 'HH:mm',
+                            agenda: 'HH:mm'
+                        },
+                        columnFormat: {
+                            month: 'ddd',
+                            week: 'ddd dd/MM',
+                            day: 'dddd'
+                        },
+                        //aspectRatio: 2,
+                        monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                        monthNamesShort: ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
+                        dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                        dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                        titleFormat: {
+                            month: 'MMMM yyyy',
+                            week: 'dd MMMM yyyy',
+                            day: 'dddd dd MMMM yyyy'
+                        },
+                        allDayText: "Journée",
+                        buttonText: {
+                            today: 'Aujourd\'hui',
+                            day: 'Jour',
+                            week: 'Semaine',
+                            month: 'Mois'
+                        },
+                        header:{
+                            left: 'agendaDay agendaWeek month',
+                            center: 'title',
+                            right: 'today prev,next'
+                        },
+                        //ignoreTimeZone: true,
+                        timezone: "local",
+                        //dayClick: dayClick,
+                        select: select,
+                        eventRender: function(event, element, view)
+                        {
+                            element.on('mousedown',{element:element,event:event,view:view} , rightClick);
+                        }
+                        //eventMouseover: eventMouseover,
+                        //eventDrop: eventDrop,
+                        //eventResize: eventResize,
+                        //eventRender: eventRender
+                    }
+                };
+                console.log(vm.appointments);
                 console.log(vm.eventSources);
             });
         }
@@ -169,10 +154,6 @@
                 .success(function (data) {
                     return data.name;
                 });
-        }
-
-        function onSelect(patient) {
-            vm.patient = patient;
         }
 
         function cancelAppointment(id) {
@@ -239,12 +220,11 @@
             console.log('click' + date + ' ' + allDay);
         }
 
-        function eventRender( event, element, view ) {
-            var info = event.title + "<br />" + event.patient.phone + "<br />" + event.patient.address;
-            element.attr({'tooltip': info,
-                'tooltip-append-to-body': true});
-            $compile(element)($scope);
+        //event.which = 3 is right click
+        function rightClick(event){
+            if(event.which == 3) console.log("event right click .....")
         }
+
 
         function select(start, end, jsEvent, view) {
             //var newEventTitle;
@@ -282,20 +262,50 @@
                         };
 
                         $scope.ok = function () {
+                            addAppointment();
                         };
 
                         $scope.cancel = function () {
                             $modalInstance.dismiss('cancel');
                         };
+
+                        $scope.broadcast = function() {
+                            broadcastAppointment();
+                        }
+
+                        function addAppointment() {
+                            var dataToSend = {
+                                start: start,
+                                end: end,
+                                state: 'pending',
+                                allDay: false,
+                                title: $scope.patient.name,
+                                patient: $scope.patient.id,
+                                doctor: idCurrent
+                            };
+                            console.log(dataToSend);
+                            vm.eventSources.push([dataToSend]);
+                            console.log(vm.eventSources);
+                            $modalInstance.close();
+                        }
+
+                        function broadcastAppointment() {
+                            var dataToSend = {
+                                start: start,
+                                end: end,
+                                state: 'pending',
+                                allDay: false,
+                                title: 'RdV Proposé',
+                                doctor: idCurrent,
+                                color: 'violet'
+                            }
+                            console.log(dataToSend);
+                            vm.eventSources.push([dataToSend]);
+                            $modalInstance.close();
+                        }
                     }
                 ]
             })
-        }
-
-        //Datepicker
-
-        function clear() {
-            vm.dt = null;
         }
     }
 })();
