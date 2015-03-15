@@ -86,7 +86,7 @@
 
         function getAppointmentsByPatient(id)
         {
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+', "startDate": {">": "'+new Date().toISOString()+'"}}&limit=8&sort=startDate&populate=doctor')
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+', "start": {">": "'+new Date().toISOString()+'"}}&limit=8&sort=start&populate=doctor')
                 .success(function(data){
                     return data;
                 })
@@ -111,6 +111,10 @@
 
             return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+', "start": {">": "'+new Date().toISOString()+'"}, "patient": {"!": null}}&limit=8&sort=start&populate=patient')
                 .success(function(data){
+                    for (var i = 0; i < data.length; i++) {
+                        data[i].start = new Date(data[i].start);
+                        data[i].end = new Date(data[i].end);
+                    }
                     return data;
                 })
                 .error(function(err){
@@ -153,12 +157,8 @@
 
         }
 
-        function addAppointment(idPatient, idDoctor, startDate) {
-            return $sailsSocket.post(BackEndUrl+'appointment/',{
-                patient: idPatient,
-                doctor: idDoctor,
-                startDate: startDate
-            })
+        function addAppointment(dataToSend) {
+            return $sailsSocket.post(BackEndUrl+'appointment/',dataToSend)
                 .success(function(data){
                     return data;
                 })
@@ -197,10 +197,11 @@
                 })
         }
 
-        function broadcastAppointment(idDoctor, startDate){
+        function broadcastAppointment(idDoctor, start){
             return $sailsSocket.post(BackEndUrl+'appointment/broadcast',{
                 doctor: idDoctor,
-                startDate: startDate
+                start: start,
+                end: end
             })
                 .success(function(data){
                     return data;

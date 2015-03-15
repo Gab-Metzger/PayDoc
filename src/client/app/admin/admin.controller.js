@@ -142,7 +142,6 @@
 
         function getAppointments(id) {
             return dataservice.getAppointmentsByDoctor(id).success(function (data) {
-                console.log(data);
                 vm.appointments = data;
                 vm.eventSources.push(data);
                 return vm.appointments;
@@ -253,7 +252,6 @@
 
                         $scope.onSelect = function(patient){
                             $scope.patient = patient;
-                            console.log(patient);
                         };
 
                         $scope.addPatientButtonClick = function() {
@@ -277,16 +275,16 @@
                             var dataToSend = {
                                 start: start,
                                 end: end,
-                                state: 'pending',
-                                allDay: false,
-                                title: $scope.patient.name,
                                 patient: $scope.patient.id,
                                 doctor: idCurrent
                             };
-                            console.log(dataToSend);
-                            vm.eventSources.push([dataToSend]);
-                            console.log(vm.eventSources);
-                            $modalInstance.close();
+                            dataservice.addAppointment(dataToSend).success(function(data) {
+                                data[0].start = new Date(data[0].start);
+                                data[0].end = new Date(data[0].end);
+                                vm.appointments.push(data[0]);
+                                dataservice.incrNbGiven(idCurrent);
+                                $modalInstance.close();
+                            });
                         }
 
                         function broadcastAppointment() {
@@ -299,7 +297,6 @@
                                 doctor: idCurrent,
                                 color: 'violet'
                             }
-                            console.log(dataToSend);
                             vm.eventSources.push([dataToSend]);
                             $modalInstance.close();
                         }

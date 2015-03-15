@@ -2,13 +2,13 @@
     <section class="matter">
         <div class="container">
         <h1>Mes rendez-vous</h1>
-        <div ng-repeat="appointment in vm.appointments | orderBy: 'startDate'">
+        <div ng-repeat="appointment in vm.appointments | orderBy: 'start'">
             <span ng-switch="$index % 4">
               <div class="row" ng-switch-when="0">
                   <div class="col-sm-3" ng-if="vm.appointments[$index+0]">
                       <div class="thumbnail">
                           <div class="caption">
-                              <h3>{{vm.appointments[$index+0].startDate | date:"dd/MM/yyyy 'à' H'h'mm" }}</h3>
+                              <h3>{{vm.appointments[$index+0].start | date:"dd/MM/yyyy 'à' H'h'mm" }}</h3>
                               <address>
                                   <strong>{{vm.appointments[$index+0].doctor.lastName}}</strong><br>
                                   {{vm.appointments[$index+0].doctor.address}}<br />
@@ -26,7 +26,7 @@
                   <div class="col-sm-3" ng-if="vm.appointments[$index+1]">
                       <div class="thumbnail">
                           <div class="caption">
-                              <h3>{{vm.appointments[$index+1].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                              <h3>{{vm.appointments[$index+1].start | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
                               <address>
                                   <strong>{{vm.appointments[$index+1].doctor.lastName}}</strong><br>
                                   {{vm.appointments[$index+1].doctor.address}}<br />
@@ -44,7 +44,7 @@
                   <div class="col-sm-3" ng-if="vm.appointments[$index+2]">
                       <div class="thumbnail">
                           <div class="caption">
-                              <h3>{{vm.appointments[$index+2].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                              <h3>{{vm.appointments[$index+2].start | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
                               <address>
                                   <strong>{{vm.appointments[$index+2].doctor.lastName}}</strong><br>
                                   {{vm.appointments[$index+2].doctor.address}}<br />
@@ -62,7 +62,7 @@
                   <div class="col-sm-3" ng-if="vm.appointments[$index+3]">
                       <div class="thumbnail">
                           <div class="caption">
-                              <h3>{{vm.appointments[$index+3].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                              <h3>{{vm.appointments[$index+3].start | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
                               <address>
                                   <strong>{{vm.appointments[$index+3].doctor.lastName}}</strong><br>
                                   {{vm.appointments[$index+3].doctor.address}}<br />
@@ -89,7 +89,7 @@
                   <div class="col-sm-3" ng-if="vm.broadcastedAppointments[$index+0]">
                       <div class="thumbnail">
                           <div class="caption">
-                              <h3>{{vm.broadcastedAppointments[$index+0].startDate | date:"dd/MM/yyyy 'à' H'h'mm" }}</h3>
+                              <h3>{{vm.broadcastedAppointments[$index+0].start | date:"dd/MM/yyyy 'à' H'h'mm" }}</h3>
                               <address>
                                   <strong>{{vm.broadcastedAppointments[$index+0].doctor.lastName}}</strong><br>
                                   {{vm.broadcastedAppointments[$index+0].doctor.address}}<br />
@@ -105,7 +105,7 @@
                   <div class="col-sm-3" ng-if="vm.broadcastedAppointments[$index+1]">
                       <div class="thumbnail">
                           <div class="caption">
-                              <h3>{{vm.broadcastedAppointments[$index+1].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                              <h3>{{vm.broadcastedAppointments[$index+1].start | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
                               <address>
                                   <strong>{{vm.broadcastedAppointments[$index+1].doctor.lastName}}</strong><br>
                                   {{vm.broadcastedAppointments[$index+1].doctor.address}}<br />
@@ -121,7 +121,7 @@
                   <div class="col-sm-3" ng-if="vm.broadcastedAppointments[$index+2]">
                       <div class="thumbnail">
                           <div class="caption">
-                              <h3>{{vm.broadcastedAppointments[$index+2].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                              <h3>{{vm.broadcastedAppointments[$index+2].start | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
                               <address>
                                   <strong>{{vm.broadcastedAppointments[$index+2].doctor.lastName}}</strong><br>
                                   {{vm.appointments[$index+2].doctor.address}}<br />
@@ -137,7 +137,7 @@
                   <div class="col-sm-3" ng-if="vm.broadcastedAppointments[$index+3]">
                       <div class="thumbnail">
                           <div class="caption">
-                              <h3>{{vm.broadcastedAppointments[$index+3].startDate | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
+                              <h3>{{vm.broadcastedAppointments[$index+3].start | date:"dd/MM/yyyy 'à' H'h'mm"}}</h3>
                               <address>
                                   <strong>{{vm.broadcastedAppointments[$index+3].doctor.lastName}}</strong><br>
                                   {{vm.broadcastedAppointments[$index+3].doctor.address}}<br />
