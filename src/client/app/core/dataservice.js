@@ -78,7 +78,7 @@
                 .success(function(data){
                     return data;
                 })
-                .error(function(data){
+                .error(function(err){
                     console.log('Request Failed for getPatientByid. ' + err);
                 })
 
