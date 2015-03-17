@@ -5,10 +5,10 @@
         .module('app.account')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$stateParams', 'dataservice', 'logger', '$q', '$state', 'authservice', '$rootScope','subscribeservice'];
+    AccountController.$inject = ['$stateParams', 'dataservice', 'logger', '$q', '$state', 'authservice', '$rootScope','subscribeservice', 'storageservice'];
 
     /* @ngInject */
-    function AccountController($stateParams, dataservice, logger, $q, $state, authservice, $rootScope,subscribeservice)
+    function AccountController($stateParams, dataservice, logger, $q, $state, authservice, $rootScope, subscribeservice, storageservice)
     {
         /* jshint validthis: true */
         var vm = this;
@@ -31,10 +31,12 @@
                 var idCurrent = authservice.currentUser().id;
                 var data = [];
                 if (authservice.isDoctor()) {
+                    vm.isDoctor = true;
                     if (!$rootScope.hasSubNotifDoctor){subscribeservice.notificationDoctor(idCurrent);}
                     data.push(getDoctor(idCurrent));
                 }
                 else if (authservice.isPatient()) {
+                    vm.isPatient = true;
                     data.push(getPatient(idCurrent))
                 }
                 var promises = data;
@@ -63,6 +65,7 @@
             return dataservice.addPatient(patient)
                 .success(function (data) {
                     vm.newPatient = {};
+                    console.log(data);
                     if (authservice.isDoctor()) {
                         $state.go('admin');
                         logger.info('Le compte patient a été crée !');
@@ -76,9 +79,13 @@
         }
 
         function updateUser(id, user) {
+            delete user.appointments;
             if (authservice.isPatient()) {
                 return dataservice.updatePatient(id, user)
                     .success(function (data) {
+                        data.token = user.token;
+                        data.role = 'patient';
+                        storageservice.set('auth_token', JSON.stringify(data));
                         vm.user = data;
                         logger.info('Vos informations ont été modifiées !');
                         return vm.user;
@@ -88,6 +95,9 @@
                 return dataservice.updateDoctor(id, user)
                     .success(function (data) {
                         vm.user = data;
+                        data.token = user.token;
+                        data.role = 'doctor';
+                        storageservice.set('auth_token', JSON.stringify(data));
                         logger.info('Vos informations ont été modifiées !');
                         return vm.user;
                     });
@@ -120,8 +130,6 @@
                 password: vm.newPassword,
                 confirmation: vm.newPasswordConfirmation
             };
-
-            console.log(vm.newPassword + vm.newPasswordConfirmation);
 
             return dataservice.resetPassword(dataToSend)
                 .then(function(data) {

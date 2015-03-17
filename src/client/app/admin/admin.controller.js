@@ -128,8 +128,6 @@
                         //eventRender: eventRender
                     }
                 };
-                console.log(vm.appointments);
-                console.log(vm.eventSources);
             });
         }
 
@@ -221,7 +219,15 @@
 
         //event.which = 3 is right click
         function rightClick(event){
-            if(event.which == 3) console.log("event right click .....")
+            event.preventDefault();
+            if(event.which == 3) {
+                if(confirm('Voulez-vous annuler ce rendez-vous ?')) {
+                    console.log('annulé');
+                }
+                else {
+                    console.log('non annulé');
+                }
+            }
         }
 
 
@@ -272,33 +278,62 @@
                         }
 
                         function addAppointment() {
-                            var dataToSend = {
-                                start: start,
-                                end: end,
-                                patient: $scope.patient.id,
-                                doctor: idCurrent
-                            };
-                            dataservice.addAppointment(dataToSend).success(function(data) {
-                                data[0].start = new Date(data[0].start);
-                                data[0].end = new Date(data[0].end);
-                                vm.appointments.push(data[0]);
-                                dataservice.incrNbGiven(idCurrent);
-                                $modalInstance.close();
-                            });
+                            if ($scope.addPatientButton) {
+                                addPatientThenAppointment()
+                            }
+                            else {
+                                var dataToSend = {
+                                    start: start,
+                                    end: end,
+                                    patient: $scope.patient.id,
+                                    doctor: idCurrent
+                                };
+                                dataservice.addAppointment(dataToSend).success(function(data) {
+                                    data.start = new Date(data.start);
+                                    data.end = new Date(data.end);
+                                    vm.appointments.push(data);
+                                    dataservice.incrNbGiven(idCurrent);
+                                    $modalInstance.close();
+                                });
+                            }
+                        }
+
+                        function addPatientThenAppointment() {
+                            if ($scope.newPatient.email == undefined) {
+                                var email = $scope.newPatient.lastName.toLowerCase() + '.' + $scope.newPatient.firstName.toLowerCase() + (Math.floor(Math.random() * (100 - 1)) + 1).toString() + '@paydoc.fr';
+                                $scope.newPatient.email = email;
+                            }
+                            dataservice.addPatient($scope.newPatient).success(function (data) {
+                                var dataToSend = {
+                                    start: start,
+                                    end: end,
+                                    patient: data.id,
+                                    doctor: idCurrent
+                                };
+                                dataservice.addAppointment(dataToSend).success(function(res) {
+                                    res.start = new Date(res.start);
+                                    res.end = new Date(res.end);
+                                    vm.appointments.push(res);
+                                    dataservice.incrNbGiven(idCurrent);
+                                    logger.info('Le rendez-vous a été ajouté !');
+                                    $modalInstance.close();
+                                });
+                            })
                         }
 
                         function broadcastAppointment() {
                             var dataToSend = {
                                 start: start,
                                 end: end,
-                                state: 'pending',
-                                allDay: false,
-                                title: 'RdV Proposé',
-                                doctor: idCurrent,
-                                color: 'violet'
-                            }
-                            vm.eventSources.push([dataToSend]);
-                            $modalInstance.close();
+                                doctor: idCurrent
+                            };
+                            dataservice.broadcastAppointment(dataToSend).success(function(res) {
+                                res.start = new Date(res.start);
+                                res.end = new Date(res.end);
+                                vm.appointments.push(res);
+                                logger.info("Le rendez-vous à été proposé ! ");
+                                $modalInstance.close();
+                            });
                         }
                     }
                 ]

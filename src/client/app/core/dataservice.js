@@ -86,7 +86,7 @@
 
         function getAppointmentsByPatient(id)
         {
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+', "start": {">": "'+new Date().toISOString()+'"}}&limit=8&sort=start&populate=doctor')
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+', "start": {">": "'+new Date().toISOString()+'"}}&sort=start&populate=doctor')
                 .success(function(data){
                     return data;
                 })
@@ -109,7 +109,7 @@
         function getAppointmentsByDoctor(id)
         {
 
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+', "start": {">": "'+new Date().toISOString()+'"}, "patient": {"!": null}}&limit=8&sort=start&populate=patient')
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+', "start": {">": "'+new Date().toISOString()+'"}&sort=start&populate=patient')
                 .success(function(data){
                     for (var i = 0; i < data.length; i++) {
                         data[i].start = new Date(data[i].start);
@@ -197,12 +197,8 @@
                 })
         }
 
-        function broadcastAppointment(idDoctor, start){
-            return $sailsSocket.post(BackEndUrl+'appointment/broadcast',{
-                doctor: idDoctor,
-                start: start,
-                end: end
-            })
+        function broadcastAppointment(dataToSend){
+            return $sailsSocket.post(BackEndUrl+'appointment/broadcast', dataToSend)
                 .success(function(data){
                     return data;
                 })

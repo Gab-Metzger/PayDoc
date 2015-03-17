@@ -24,13 +24,17 @@
                                     <input type="email" name="email" ng-model="vm.newPatient.email" class="form-control" placeholder="Email">
                                 </div>
 
-                                <!--<div class="form-group">
-                                    <input type="password" name="password" ng-model="vm.newPatient.password" class="form-control" placeholder="Mot de passe">
+                                <div class="form-group">
+                                    <input type="text" name="mobilePhone" ng-model="vm.newPatient.mobilePhone" class="form-control" placeholder="Numéro de téléphone mobile">
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="password" name="confirmation" ng-model="vm.newPatient.confirmation" class="form-control" placeholder="Confirmez votre mot de passe">
-                                </div>-->
+                                    <input type="text" name="phone" ng-model="vm.newPatient.phone" class="form-control" placeholder="Numéro de téléphone fixe">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" name="address" ng-model="vm.newPatient.address" class="form-control" placeholder="Adresse">
+                                </div>
 
                                 <div>
                                     <button class="btn btn-log" ng-click="vm.addPatient(vm.newPatient)" type="submit">

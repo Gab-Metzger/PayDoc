@@ -25,11 +25,23 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <input type="tel" name="phone" ng-model="vm.user.mobilePhone" class="form-control" placeholder="Numéro de téléphone mobile">
+                                </div>
+
+                                <div class="form-group">
                                     <input type="tel" name="phone" ng-model="vm.user.phone" class="form-control" placeholder="Numéro de téléphone">
                                 </div>
 
                                 <div class="form-group">
                                     <input type="text" name="address" ng-model="vm.user.address" class="form-control" placeholder="Adresse">
+                                </div>
+
+                                <div class="form-group" ng-if="vm.isDoctor">
+                                    <select class="form-control" ng-model="vm.user.consultTime">
+                                        <option value="15">15 mn / consultation</option>
+                                        <option value="20">20 mn / consultation</option>
+                                        <option value="30">30 mn / consultation</option>
+                                    </select>
                                 </div>
 
                                 <div class="form-group">
@@ -38,6 +50,12 @@
 
                                 <div class="form-group">
                                     <input type="password" name="confirmation" ng-model="vm.user.confirmation" class="form-control" placeholder="Confirmez votre mot de passe">
+                                </div>
+
+                                <div class="checkbox" ng-if="vm.isPatient">
+                                    <label>
+                                        <input type="checkbox" ng-model="vm.user.receiveBroadcast"> Je souhaite être averti en cas de désistement.
+                                    </label>
                                 </div>
 
                                 <div>
