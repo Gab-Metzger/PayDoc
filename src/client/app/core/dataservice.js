@@ -29,6 +29,7 @@
             addAppointment: addAppointment,
             validateAppointment: validateAppointment,
             cancelAppointment: cancelAppointment,
+            cancelMailAppointment: cancelMailAppointment,
             deleteAppointment: deleteAppointment,
             chooseAppointment: chooseAppointment,
             broadcastAppointment: broadcastAppointment,
@@ -108,8 +109,7 @@
 
         function getAppointmentsByDoctor(id)
         {
-
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+', "start": {">": "'+new Date().toISOString()+'"}&sort=start&populate=patient')
+            return $sailsSocket.get(BackEndUrl+'appointment/getAppointmentsByDoctor/'+id)
                 .success(function(data){
                     for (var i = 0; i < data.length; i++) {
                         data[i].start = new Date(data[i].start);
@@ -125,6 +125,18 @@
         function cancelAppointment(id) {
             return $sailsSocket.put(BackEndUrl+'appointment/'+id, {
                 state: 'denied'
+            })
+                .success(function(data){
+                    return data;
+                })
+                .error(function(err){
+                    console.log('Request Failed for cancelAppointment. ' + err)
+                })
+        }
+
+        function cancelMailAppointment(id) {
+            return $sailsSocket.post(BackEndUrl+'appointment/cancel', {
+                id: id
             })
                 .success(function(data){
                     return data;

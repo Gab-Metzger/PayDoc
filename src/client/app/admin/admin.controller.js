@@ -17,6 +17,7 @@
 
 
         var idCurrent = authservice.currentUser().id;
+        console.log(idCurrent);
         if (!$rootScope.hasSubNotifDoctor){subscribeservice.notificationDoctor(idCurrent);}
         //$scope.$watch('subscribeservice.test',function(newValue){
         //    console.log(newValue);
@@ -121,17 +122,28 @@
                             element.bind('mousedown', function (e) {
                                 if (e.which == 3) {
                                     if(confirm('Voulez-vous annuler ce rendez-vous ?')) {
-                                        dataservice.deleteAppointment(event.id).success(function(data) {
-                                            angular.forEach(vm.appointments, function(app,key){
-                                                if(app.id == data.id ){
-                                                    vm.appointments.splice(key, 1);
-                                                    if (event.patient !== undefined)
-                                                        logger.info('Le rendez-vous avec '+ event.patient.name + ' a été annulé !');
-                                                    else
-                                                        logger.info('Le rendez-vous proposé a été annulé !');
-                                                }
+                                        if (event.patient !== undefined) {
+                                            dataservice.cancelMailAppointment(event.id).success(function(res) {
+                                                dataservice.deleteAppointment(event.id).success(function(data) {
+                                                    angular.forEach(vm.appointments, function(app,key){
+                                                        if(app.id == data.id ){
+                                                            vm.appointments.splice(key, 1);
+                                                            logger.info('Le rendez-vous avec '+ event.patient.name + ' a été annulé !');
+                                                        }
+                                                    })
+                                                })
                                             })
-                                        })
+                                        }
+                                        else {
+                                            dataservice.deleteAppointment(event.id).success(function(data) {
+                                                angular.forEach(vm.appointments, function(app,key){
+                                                    if(app.id == data.id ){
+                                                        vm.appointments.splice(key, 1);
+                                                        logger.info('Le rendez-vous proposé a été annulé !');
+                                                    }
+                                                })
+                                            })
+                                        }
                                     }
                                 }
                             });
@@ -165,19 +177,6 @@
                 .success(function (data) {
                     return data.name;
                 });
-        }
-
-        //event.which = 3 is right click
-        function rightClick(event, element, view){
-            event.preventDefault();
-            if(event.which == 3) {
-                if(confirm('Voulez-vous annuler ce rendez-vous ?')) {
-                    console.log(event);
-                }
-                else {
-                    console.log('non annulé');
-                }
-            }
         }
 
         function eventClick(event, jsEvent, view) {
