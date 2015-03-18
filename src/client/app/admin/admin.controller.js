@@ -14,10 +14,6 @@
         vm.appointments = [];
         vm.eventSources = [];
         vm.getPatientById = getPatientById;
-        vm.cancelAppointment = cancelAppointment;
-        vm.deleteAppointment = deleteAppointment;
-        vm.addAppointment = addAppointment;
-        vm.broadcastAppointment = broadcastAppointment;
 
 
         var idCurrent = authservice.currentUser().id;
@@ -64,7 +60,7 @@
 
 
         function activate() {
-            var promises = [getPatients(), getAppointments(idCurrent), getBroadcastedHistory()];
+            var promises = [getPatients(), getAppointments(idCurrent)];
             return $q.all(promises).then(function() {
                 var doctorConsultTime = authservice.currentUser().consultTime;
                 // Calendar config
@@ -116,13 +112,31 @@
                         },
                         //ignoreTimeZone: true,
                         timezone: "local",
-                        //dayClick: dayClick,
                         select: select,
-                        eventRender: function(event, element, view)
-                        {
-                            element.on('mousedown',{element:element,event:event,view:view} , rightClick);
-                        }
-                        //eventMouseover: eventMouseover,
+                        eventRender: function (event, element) {
+                            element.bind("contextmenu", function(e) {
+                                e.preventDefault();
+                            });
+
+                            element.bind('mousedown', function (e) {
+                                if (e.which == 3) {
+                                    if(confirm('Voulez-vous annuler ce rendez-vous ?')) {
+                                        dataservice.deleteAppointment(event.id).success(function(data) {
+                                            angular.forEach(vm.appointments, function(app,key){
+                                                if(app.id == data.id ){
+                                                    vm.appointments.splice(key, 1);
+                                                    if (event.patient !== undefined)
+                                                        logger.info('Le rendez-vous avec '+ event.patient.name + ' a été annulé !');
+                                                    else
+                                                        logger.info('Le rendez-vous proposé a été annulé !');
+                                                }
+                                            })
+                                        })
+                                    }
+                                }
+                            });
+                        },
+                        eventClick: eventClick
                         //eventDrop: eventDrop,
                         //eventResize: eventResize,
                         //eventRender: eventRender
@@ -153,76 +167,12 @@
                 });
         }
 
-        function cancelAppointment(id) {
-            dataservice.cancelAppointment(id).success(function (data){
-                angular.forEach(vm.appointments, function(app,key) {
-                    if (app.id == data.id) {
-                        if (data.state) app.state = data.state;
-                    }
-                });
-                dataservice.incrNbCancelled(idCurrent);
-                dataservice.mailCancelled(id);
-            });
-            logger.info('Le rendez-vous a été annulé !')
-        }
-
-        function deleteAppointment(id, isHistory) {
-            dataservice.deleteAppointment(id).success(function (data){
-                if (isHistory) {
-                    angular.forEach(vm.historyAppointments, function(app,key) {
-                        if (app.id == data.id) {
-                            vm.historyAppointments.splice(key,1);
-                        }
-                    })
-                }
-                else {
-                    angular.forEach(vm.appointments, function(app,key) {
-                        if (app.id == data.id) {
-                            vm.appointments.splice(key,1);
-                        }
-                    })
-                }
-
-            });
-            logger.info('Le rendez-vous a été supprimé !')
-        }
-
-        function addAppointment(idPatient) {
-            dataservice.addAppointment(idPatient,idCurrent,vm.dt).success(function(data) {
-                vm.appointments.push(data[0]);
-                vm.patient = null;
-                vm.selected = '';
-                dataservice.incrNbGiven(idCurrent);
-            });
-            logger.info('Le rendez-vous a été ajouté !')
-        }
-
-        function broadcastAppointment(){
-            console.log("BroadcastAppointment");
-            console.log(vm.date);
-            dataservice.broadcastAppointment(idCurrent,vm.date).success(function(data){
-                vm.historyAppointments.push(data);
-                logger.info("Le rendez-vous à été proposé ! ");
-
-            })
-        }
-
-        function getBroadcastedHistory() {
-            dataservice.getBroadcastedHistory(idCurrent).success(function (data) {
-                vm.historyAppointments = data;
-            })
-        }
-
-        function dayClick(date, allDay, jsEvent, view) {
-            console.log('click' + date + ' ' + allDay);
-        }
-
         //event.which = 3 is right click
-        function rightClick(event){
+        function rightClick(event, element, view){
             event.preventDefault();
             if(event.which == 3) {
                 if(confirm('Voulez-vous annuler ce rendez-vous ?')) {
-                    console.log('annulé');
+                    console.log(event);
                 }
                 else {
                     console.log('non annulé');
@@ -230,12 +180,28 @@
             }
         }
 
+        function eventClick(event, jsEvent, view) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/widgets/modalAdminEdit.html',
+                size: 'lg',
+                controller: ['$modalInstance', '$scope',
+                    function($modalInstance, $scope) {
+
+                        activate();
+
+                        function activate() {
+                            $scope.event = event;
+                        }
+
+                        $scope.cancel = function () {
+                            $modalInstance.dismiss('cancel');
+                        };
+                    }
+                ]
+            })
+        }
 
         function select(start, end, jsEvent, view) {
-            //var newEventTitle;
-            //prompt(newEventTitle);
-            //vm.appointments.push({start: start, end: end, title: newEventTitle});
-            //console.log(start + ' ' + end);
             var modalInstance = $modal.open({
                 templateUrl: 'app/widgets/modalAdmin.html',
                 size: 'lg',
@@ -254,6 +220,9 @@
                             $scope.addPatientButton = false;
                             $scope.searchInput = true;
                             $scope.newPatient = {};
+                            $scope.notes = {};
+                            $scope.start = start;
+                            $scope.end = end;
                         }
 
                         $scope.onSelect = function(patient){
@@ -286,7 +255,8 @@
                                     start: start,
                                     end: end,
                                     patient: $scope.patient.id,
-                                    doctor: idCurrent
+                                    doctor: idCurrent,
+                                    notes: $scope.notes.message
                                 };
                                 dataservice.addAppointment(dataToSend).success(function(data) {
                                     data.start = new Date(data.start);
@@ -308,7 +278,8 @@
                                     start: start,
                                     end: end,
                                     patient: data.id,
-                                    doctor: idCurrent
+                                    doctor: idCurrent,
+                                    notes: $scope.notes.message
                                 };
                                 dataservice.addAppointment(dataToSend).success(function(res) {
                                     res.start = new Date(res.start);

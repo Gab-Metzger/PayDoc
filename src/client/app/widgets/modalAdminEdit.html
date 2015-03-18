@@ -1,0 +1,45 @@
+<style>.modal-dialog{width:50%;}</style>
+<!-- Modal -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h3 class="modal-title">Rendez-vous du {{event.start | date: 'dd/MM/yyyy H:mm'}} - {{event.end | date: 'H:mm'}}</h3>
+
+</div>
+<div class="modal-body">
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-9 col-lg-9 ">
+                <table class="table table-user-information">
+                    <tbody>
+                    <tr>
+                        <td>Nom - Prénom</td>
+                        <td>{{event.patient.name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Adresse</td>
+                        <td>{{event.patient.address || 'Non-défini'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><a href="mailto:{{event.patient.email}}">{{event.patient.email}}</a></td>
+                    </tr>
+                    <tr>
+                    <td>Numéro de téléphone</td>
+                    <td>{{event.patient.phone || 'Non-défini'}} (Fixe)<br><br>{{event.patient.mobilePhone || 'Non-défini'}} (Mobile)</td>
+                    </tr>
+
+                    <tr>
+                        <td>Notes</td>
+                        <td><p>{{event.notes}}</p></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="cancel()">Fermer</button>
+</div>

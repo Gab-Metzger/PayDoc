@@ -62,10 +62,15 @@
         }
 
         function getBroadcasted(idCurrent){
-            return dataservice.getBroadcasted(idCurrent).success(function(data){
-                vm.broadcastedAppointments = data;
-                return vm.broadcastedAppointments;
-            })
+            if (authservice.currentUser().receiveBroadcast) {
+                return dataservice.getBroadcasted(idCurrent).success(function(data){
+                    vm.broadcastedAppointments = data;
+                    return vm.broadcastedAppointments;
+                })
+            }
+            else {
+                return;
+            }
         }
 
         function getPatient(id) {

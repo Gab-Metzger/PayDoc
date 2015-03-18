@@ -23,7 +23,7 @@
                     title: 'Admin',
                     settings: {
                         nav: 4,
-                        content: '<i class="fa fa-user-md"></i> Espace Médecin'
+                        content: '<i class="fa fa-calendar"></i> Mon agenda'
                     },
                     authorizedRoles: 'doctor'
                 }
