@@ -122,7 +122,8 @@
                             element.bind('mousedown', function (e) {
                                 if (e.which == 3) {
                                     if(confirm('Voulez-vous annuler ce rendez-vous ?')) {
-                                        if (event.patient !== undefined) {
+                                        console.log(event.patient);
+                                        if (event.patient != null) {
                                             dataservice.cancelMailAppointment(event.id).success(function(res) {
                                                 dataservice.deleteAppointment(event.id).success(function(data) {
                                                     angular.forEach(vm.appointments, function(app,key){

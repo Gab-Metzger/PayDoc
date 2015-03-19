@@ -19,13 +19,13 @@
             </div>
         </div>
         <div class="row">
-            <form ng-if="addPatientButton">
+            <form name="newPatientForm" ng-if="addPatientButton" novalidate>
                 <div class="form-group">
-                    <input type="text" name="firstName" ng-model="newPatient.firstName" class="form-control" placeholder="Prénom">
+                    <input type="text" name="firstName" ng-model="newPatient.firstName" class="form-control" placeholder="Prénom *" required>
                 </div>
 
                 <div class="form-group">
-                    <input type="text" name="lastName" ng-model="newPatient.lastName" class="form-control" placeholder="Nom de famille">
+                    <input type="text" name="lastName" ng-model="newPatient.lastName" class="form-control" placeholder="Nom de famille *" required>
                 </div>
 
                 <div class="form-group">
@@ -47,6 +47,7 @@
                 <div class="form-group">
                     <textarea class="form-control" name="notes" ng-model="notes.message" rows="4" placeholder="Notes"></textarea>
                 </div>
+                <p ng-show="newPatientForm.accept.$invalid && !newPatientForm.accept.$pristine" class="help-block">Les champs nom et prénom sont obligatoires.</p>
             </form>
             <div class="col-md-12" ng-if="patient">
                 <h3>{{patient.name}}</h3>
@@ -59,5 +60,5 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-success" ng-click="ok()">Ajouter le rendez-vous</button>
+    <button class="btn btn-success" ng-disabled="newPatientForm.$invalid" ng-click="ok()">Ajouter le rendez-vous</button>
 </div>
