@@ -276,11 +276,27 @@
 
                         $scope.broadcast = function() {
                             broadcastAppointment();
-                        }
+                        };
 
                         $scope.switchEditable = function() {
                           $scope.editable = !$scope.editable;
-                        }
+                        };
+
+                        $scope.addBlockedAppointment = function() {
+                          var dataToSend = {
+                              start: start,
+                              end: end,
+                              state: 'blocked',
+                              patient: null,
+                              doctor: idCurrent
+                          };
+                          dataservice.addAppointment(dataToSend).success(function(data) {
+                              data.start = new Date(data.start);
+                              data.end = new Date(data.end);
+                              vm.appointments.push(data);
+                              $modalInstance.close();
+                          });
+                        };
 
                         function addAppointment() {
                             if ($scope.addPatientButton) {

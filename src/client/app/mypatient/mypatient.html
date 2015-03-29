@@ -52,9 +52,10 @@
                 </div>
               </div>
               <div class="col-md-6" ng-if="patient">
+                  <h3 ng-if="patient.name">Liste des rendez-vous</h3>
                   <ul>
                     <li ng-repeat="appoint in appointments">
-                      <h3>{{appoint.start | date: 'dd/MM/yyyy H:mm'}} - {{appoint.end | date: 'H:mm'}}</h3>
+                      <h4>{{appoint.start | date: 'dd/MM/yyyy H:mm'}} - {{appoint.end | date: 'H:mm'}}</h3>
                       <p>{{appoint.notes}}</p>
                     </li>
                   </ul>
