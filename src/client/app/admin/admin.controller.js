@@ -307,6 +307,7 @@
                                 var dataToSend = {
                                     start: start,
                                     end: end,
+                                    state: 'pending',
                                     patient: $scope.patient.id,
                                     doctor: idCurrent,
                                     notes: $scope.notes.message
@@ -330,6 +331,7 @@
                                 var dataToSend = {
                                     start: start,
                                     end: end,
+                                    state: 'pending',
                                     patient: data.id,
                                     doctor: idCurrent,
                                     notes: $scope.notes.message
