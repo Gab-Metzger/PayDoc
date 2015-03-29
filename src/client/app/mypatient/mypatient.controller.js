@@ -35,6 +35,7 @@
         $scope.updatePatient = function(id, patient) {
           return dataservice.updatePatient(id, patient)
             .success(function (data) {
+                data.dateOfBirth = new Date(data.dateOfBirth);
                 $scope.patient = data;
                 logger.info('La fiche à été modifiée !');
                 $scope.editable = false;
@@ -43,7 +44,8 @@
         }
 
         $scope.onSelect = function(patient){
-            dataservice.getAppointmentsByPatient(patient.id).success(function(data) {
+            patient.dateOfBirth = new Date(patient.dateOfBirth);
+            dataservice.getAppointmentsByPatientAndDoctor(patient.id, idCurrent).success(function(data) {
               $scope.appointments = data;
             });
             $scope.patient = patient;
@@ -52,13 +54,5 @@
         $scope.switchEditable = function(){
           $scope.editable = !$scope.editable;
         };
-
-        function getPatientByName(val) {
-          dataservice.getPatientByName(val).success(function(err, data) {
-            if (err) console.log(err)
-            else
-              console.log(data);
-          })
-        }
     }
 })();

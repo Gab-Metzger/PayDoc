@@ -3,7 +3,7 @@
         <div class="container">
           <div class="inner-addon right-addon" ng-hide="editable">
             <i class="glyphicon glyphicon-search"></i>
-            <input type="text" ng-model="selected" typeahead="patient.name for patient in patients | filter:$viewValue | limitTo:8" typeahead-on-select="onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
+            <input type="text" ng-model="selected" typeahead="patient.namebirth for patient in patients | filter:$viewValue | limitTo:8" typeahead-on-select="onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
           </div>
           <br />
           <br />
@@ -12,32 +12,37 @@
                 <div ng-hide="editable">
                   <h3>{{patient.name}}<button class=" btn btn-lg label label-default" ng-click="switchEditable()">Editer</button></h3>
                   <p>{{patient.mobilePhone}} - {{patient.phone}}</p>
+                  <p>{{patient.dateOfBirth | date: 'dd/MM/yyyy'}}</p>
                   <p>{{patient.address}}</p>
                   <p>{{patient.email}}</p>
                 </div>
                 <div ng-show="editable">
                   <div class="form-group">
-                      <input type="text" name="firstName" ng-model="patient.firstName" class="form-control">
+                      <input type="text" name="firstName" ng-model="patient.firstName" class="form-control" placeholder="Prénom *">
                   </div>
 
                   <div class="form-group">
-                      <input type="text" name="lastName" ng-model="patient.lastName" class="form-control">
+                      <input type="text" name="lastName" ng-model="patient.lastName" class="form-control" placeholder="Nom de famille *">
                   </div>
 
                   <div class="form-group">
-                      <input type="email" name="email" ng-model="patient.email" class="form-control">
+                      <input type="email" name="email" ng-model="patient.email" class="form-control" placeholder="Email *">
                   </div>
 
                   <div class="form-group">
-                      <input type="text" name="mobilePhone" ng-model="patient.mobilePhone" class="form-control">
+                      <input type="text" name="mobilePhone" ng-model="patient.mobilePhone" class="form-control" placeholder="Numéro de téléphone mobile *">
                   </div>
 
                   <div class="form-group">
-                      <input type="text" name="phone" ng-model="patient.phone" class="form-control">
+                      <input type="text" name="phone" ng-model="patient.phone" class="form-control" placeholder="Numéro de téléphone fixe">
                   </div>
 
                   <div class="form-group">
-                      <input type="text" name="address" ng-model="patient.address" class="form-control">
+                      <input type="date" name="dateOfBirth" ng-model="patient.dateOfBirth" class="form-control" placeholder="Date de naissance *">
+                  </div>
+
+                  <div class="form-group">
+                      <input type="text" name="address" ng-model="patient.address" class="form-control" placeholder="Adresse">
                   </div>
 
                   <div class="btn-group btn-group-lg" role="group" aria-label="Large button group">

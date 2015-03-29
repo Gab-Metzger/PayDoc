@@ -244,6 +244,7 @@
                         }
 
                         $scope.onSelect = function(patient){
+                            patient.dateOfBirth = new Date(patient.dateOfBirth);
                             $scope.patient = patient;
                         };
 

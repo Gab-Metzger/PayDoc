@@ -27,6 +27,7 @@
 
             getAppointmentsByPatient: getAppointmentsByPatient,
             getAppointmentsByDoctor: getAppointmentsByDoctor,
+            getAppointmentsByPatientAndDoctor: getAppointmentsByPatientAndDoctor,
             addAppointment: addAppointment,
             validateAppointment: validateAppointment,
             cancelAppointment: cancelAppointment,
@@ -101,6 +102,17 @@
         function getAppointmentsByPatient(id)
         {
             return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+', "start": {">": "'+new Date().toISOString()+'"}}&sort=start&populate=doctor')
+                .success(function(data){
+                    return data;
+                })
+                .error(function(err){
+                    console.log( err);
+                })
+        }
+
+        function getAppointmentsByPatientAndDoctor(idPatient, idDoctor)
+        {
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+idPatient+', "doctor":'+idDoctor+', "start": {">": "'+new Date().toISOString()+'"}}&sort=start')
                 .success(function(data){
                     return data;
                 })
