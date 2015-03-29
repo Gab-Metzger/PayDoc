@@ -47,9 +47,6 @@
                     <input type="text" name="address" ng-model="newPatient.address" class="form-control" placeholder="Adresse">
                 </div>
 
-                <div class="form-group">
-                    <textarea class="form-control" name="notes" ng-model="notes.message" rows="4" placeholder="Notes"></textarea>
-                </div>
                 <p ng-show="newPatientForm.accept.$invalid && !newPatientForm.accept.$pristine" class="help-block">Les champs nom et prénom sont obligatoires.</p>
             </form>
             <div class="col-md-12" ng-if="patient">
@@ -94,6 +91,9 @@
                 </div>
               </div>
             </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <textarea class="form-control" name="notes" ng-model="notes.message" rows="4" placeholder="Notes"></textarea>
         </div>
     </div>
 </div>

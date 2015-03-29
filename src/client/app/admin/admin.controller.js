@@ -288,7 +288,8 @@
                               end: end,
                               state: 'blocked',
                               patient: null,
-                              doctor: idCurrent
+                              doctor: idCurrent,
+                              notes: $scope.notes.message
                           };
                           dataservice.addAppointment(dataToSend).success(function(data) {
                               data.start = new Date(data.start);
