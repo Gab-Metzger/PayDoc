@@ -35,17 +35,15 @@
                         }
                     })
                 }
-                if(appointment.verb == "updated"){
-                        angular.forEach(vm.historyAppointments, function(app,key){
+                /*if(appointment.verb == "updated"){
+                        angular.forEach(vm.appointments, function(app,key){
                             if(app.id == appointment.id ){
                                 if(appointment.data.state) app.state = appointment.data.state;
                                 if(appointment.data.patient) app.patient = appointment.data.patient;
-                                vm.appointments.push(app);
                                 logger.notifDesktop("Notification : " + app.patient.name + " à accepté un rendez-vous !");
-                                vm.historyAppointments.splice(key, 1);
                             }
                         })
-                }
+                }*/
                 if(appointment.previous){
                     if ( appointment.previous.doctor.id == authservice.currentUser().id ){
                         angular.forEach(vm.appointments, function(app,key){
@@ -148,11 +146,11 @@
                                     }
                                 }
                             });
+
+                            element.attr({'tooltip': event.notes, 'tooltip-append-to-body': true});
+                            $compile(element)($scope);
                         },
                         eventClick: eventClick
-                        //eventDrop: eventDrop,
-                        //eventResize: eventResize,
-                        //eventRender: eventRender
                     }
                 };
             });
@@ -180,6 +178,7 @@
                 });
         }
 
+
         function eventClick(event, jsEvent, view) {
             var modalInstance = $modal.open({
                 templateUrl: 'app/widgets/modalAdminEdit.html',
@@ -190,12 +189,30 @@
                         activate();
 
                         function activate() {
+                            event.patient.dateOfBirth = new Date(event.patient.dateOfBirth);
                             $scope.event = event;
+                            $scope.patient = event.patient;
+                            $scope.editable = false;
                         }
 
                         $scope.cancel = function () {
                             $modalInstance.dismiss('cancel');
                         };
+
+                        $scope.updatePatient = function(id, patient) {
+                          return dataservice.updatePatient(id, patient)
+                            .success(function (data) {
+                                data.dateOfBirth = new Date(data.dateOfBirth);
+                                $scope.patient = data;
+                                logger.info('La fiche à été modifiée !');
+                                $scope.editable = false;
+                                return data;
+                            });
+                        };
+
+                        $scope.switchEditable = function() {
+                          $scope.editable = !$scope.editable;
+                        }
                     }
                 ]
             })
@@ -223,6 +240,7 @@
                             $scope.notes = {};
                             $scope.start = start;
                             $scope.end = end;
+                            $scope.editable = false;
                         }
 
                         $scope.onSelect = function(patient){
@@ -232,6 +250,19 @@
                         $scope.addPatientButtonClick = function() {
                             $scope.addPatientButton = true;
                             $scope.searchInput = false;
+                            $scope.editable = false;
+                            $scope.patient = null;
+                        };
+
+                        $scope.updatePatient = function(id, patient) {
+                          return dataservice.updatePatient(id, patient)
+                            .success(function (data) {
+                                data.dateOfBirth = new Date(data.dateOfBirth);
+                                $scope.patient = data;
+                                logger.info('La fiche à été modifiée !');
+                                $scope.editable = false;
+                                return data;
+                            });
                         };
 
                         $scope.ok = function () {
@@ -244,6 +275,10 @@
 
                         $scope.broadcast = function() {
                             broadcastAppointment();
+                        }
+
+                        $scope.switchEditable = function() {
+                          $scope.editable = !$scope.editable;
                         }
 
                         function addAppointment() {

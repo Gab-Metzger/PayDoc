@@ -9,37 +9,74 @@
     <div class="container">
         <div class="row">
             <div class=" col-md-9 col-lg-9 ">
-                <table class="table table-user-information">
+                <table class="table table-user-information" ng-hide="editable">
                     <tbody>
-                    <tr>
+                      <tr>
                         <td>Nom - Prénom</td>
                         <td>{{event.patient.name}}</td>
-                    </tr>
-                    <tr>
+                      </tr>
+                      <tr>
                         <td>Adresse</td>
                         <td>{{event.patient.address || 'Non-défini'}}</td>
-                    </tr>
-                    <tr>
+                      </tr>
+                      <tr>
                         <td>Email</td>
-                        <td><a href="mailto:{{event.patient.email}}">{{event.patient.email}}</a></td>
-                    </tr>
-                    <tr>
-                    <td>Numéro de téléphone</td>
-                    <td>{{event.patient.phone || 'Non-défini'}} (Fixe)<br><br>{{event.patient.mobilePhone || 'Non-défini'}} (Mobile)</td>
-                    </tr>
-
-                    <tr>
+                        <td><a href="mailto:{{event.patient.email}}">{{event.patient.email}}</a></td  >
+                      </tr>
+                      <tr>
+                        <td>Numéro de téléphone</td>
+                        <td>{{event.patient.phone || 'Non-défini'}} (Fixe)<br><br>{{event.patient.mobilePhone || 'Non-défini'}} (Mobile)  </td>
+                      </tr>
+                      <tr ng-show="event.patient.dateOfBirth">
+                        <td>Date   de naissance</td>
+                        <td>{{event.patient.dateOfBirth | date: "dd/MM/yyyy"}}</td>
+                      </tr>
+                      <tr>
                         <td>Notes</td>
                         <td><p>{{event.notes}}</p></td>
-                    </tr>
-
+                      </tr>
                     </tbody>
                 </table>
+                <div ng-show="editable">
+                  <div class="form-group">
+                      <input type="text" name="firstName" ng-model="patient.firstName" class="form-control">
+                  </div>
+
+                  <div class="form-group">
+                      <input type="text" name="lastName" ng-model="patient.lastName" class="form-control">
+                  </div>
+
+                  <div class="form-group">
+                      <input type="email" name="email" ng-model="patient.email" class="form-control">
+                  </div>
+
+                  <div class="form-group">
+                      <input type="text" name="mobilePhone" ng-model="patient.mobilePhone" class="form-control">
+                  </div>
+
+                  <div class="form-group">
+                      <input type="text" name="phone" ng-model="patient.phone" class="form-control">
+                  </div>
+
+                  <div class="form-group">
+                      <input type="date" name="dateOfBirth" ng-model="patient.dateOfBirth" class="form-control">
+                  </div>
+
+                  <div class="form-group">
+                      <input type="text" name="address" ng-model="patient.address" class="form-control">
+                  </div>
+
+                  <div class="btn-group btn-group-lg" role="group" aria-label="Large button group">
+                    <button type="button" class="btn btn-default" ng-click="updatePatient(patient.id, patient)">Mettre à jour</button>
+                    <button type="button" class="btn btn-default" ng-click="switchEditable()">Annuler</button>
+                  </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="switchEditable()">Editer la fiche</button>
     <button class="btn btn-primary" ng-click="cancel()">Fermer</button>
 </div>

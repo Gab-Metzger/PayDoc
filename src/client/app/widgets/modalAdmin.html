@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-5">
-                <input type="text" ng-if="searchInput" ng-model="selected" typeahead="patient.name for patient in patients | filter:$viewValue | limitTo:8" typeahead-on-select="onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
+                <input type="text" ng-if="searchInput" ng-model="selected" typeahead="patient.namebirth for patient in patients | filter:$viewValue | limitTo:8" typeahead-on-select="onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
             </div>
             <div class="col-md-3">
                 <button class="btn btn-lg btn-primary" ng-click="addPatientButtonClick()"><span class="glyphicon glyphicon-user"></span> Ajouter un patient</button>
@@ -41,6 +41,10 @@
                 </div>
 
                 <div class="form-group">
+                    <input type="date" name="dateOfBirth" ng-model="newPatient.dateOfBirth" class="form-control" placeholder="Date de naissance">
+                </div>
+
+                <div class="form-group">
                     <input type="text" name="address" ng-model="newPatient.address" class="form-control" placeholder="Adresse">
                 </div>
 
@@ -50,11 +54,46 @@
                 <p ng-show="newPatientForm.accept.$invalid && !newPatientForm.accept.$pristine" class="help-block">Les champs nom et prénom sont obligatoires.</p>
             </form>
             <div class="col-md-12" ng-if="patient">
-                <h3>{{patient.name}}</h3>
-                <p>{{patient.phone}}</p>
+              <div ng-hide="editable">
+                <h3>{{patient.name}}<button class=" btn btn-lg label label-default" ng-click="switchEditable()">Editer</button></h3>
+                <p>{{patient.mobilePhone}} - {{patient.phone}}</p>
                 <p>{{patient.address}}</p>
                 <p>{{patient.email}}</p>
-                <textarea class="form-control" ng-model="notes.message" rows="4" placeholder="Notes"></textarea>
+              </div>
+              <div ng-show="editable">
+                <div class="form-group">
+                    <input type="text" name="firstName" ng-model="patient.firstName" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="lastName" ng-model="patient.lastName" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <input type="email" name="email" ng-model="patient.email" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="mobilePhone" ng-model="patient.mobilePhone" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="phone" ng-model="patient.phone" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <input type="date" name="dateOfBirth" ng-model="patient.dateOfBirth" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="address" ng-model="patient.address" class="form-control">
+                </div>
+
+                <div class="btn-group btn-group-lg" role="group" aria-label="Large button group">
+                  <button type="button" class="btn btn-default" ng-click="updatePatient(patient.id, patient)">Mettre à jour</button>
+                  <button type="button" class="btn btn-default" ng-click="switchEditable()">Annuler</button>
+                </div>
+              </div>
             </div>
         </div>
     </div>

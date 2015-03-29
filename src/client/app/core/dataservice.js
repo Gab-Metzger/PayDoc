@@ -18,6 +18,7 @@
 
             getPatientsList: getPatientsList,
             getPatientById: getPatientById,
+            getPatientByName: getPatientByName,
             addPatient: addPatient,
             updatePatient: updatePatient,
             getPatientsByDoctor: getPatientsByDoctor,
@@ -63,6 +64,7 @@
                 })
         }
 
+
         function getDoctorById(id) {
             return $sailsSocket.get(BackEndUrl+'doctor/'+id+'?populate=appointments')
                 .success(function(data){
@@ -73,10 +75,21 @@
                 })
         }
 
+        function getPatientByName(val) {
+          return $sailsSocket.get(BackEndUrl+'patient?where={lastName:{"contains":'+ val +'}}')
+            .success(function(data) {
+              return data[0].name;
+            })
+            .error(function(err) {
+              console.log('Request Failed for getPatientByName. ' + err);
+            })
+        }
+
         function getPatientById(id) {
 
             return $sailsSocket.get(BackEndUrl+'patient/'+id+'?populate=appointments')
                 .success(function(data){
+                    data.dateOfBirth = new Date(data.dateOfBirth);
                     return data;
                 })
                 .error(function(data){

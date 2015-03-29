@@ -32,12 +32,18 @@
                                     <input type="tel" name="phone" ng-model="vm.user.phone" class="form-control" placeholder="Numéro de téléphone">
                                 </div>
 
+                                <div class="form-group" ng-if="vm.isPatient">
+                                    <input type="date" name="dateOfBirth" ng-model="vm.user.dateOfBirth" class="form-control" placeholder="Date de naissance">
+                                </div>
+
                                 <div class="form-group">
                                     <input type="text" name="address" ng-model="vm.user.address" class="form-control" placeholder="Adresse">
                                 </div>
 
                                 <div class="form-group" ng-if="vm.isDoctor">
                                     <select class="form-control" ng-model="vm.user.consultTime">
+                                        <option value="5">5 mn / consultation</option>
+                                        <option value="10">10 mn / consultation</option>
                                         <option value="15">15 mn / consultation</option>
                                         <option value="20">20 mn / consultation</option>
                                         <option value="30">30 mn / consultation</option>

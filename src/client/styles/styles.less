@@ -2086,3 +2086,29 @@ input.form-control, select.form-control, textarea.form-control {
 .table-user-information > tbody > tr > td {
     border-top: 0;
 }
+
+/* Icon on input */
+
+/* enable absolute positioning */
+.inner-addon {
+    position: absolute;
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+.inner-addon input {
+  width: 500px;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }

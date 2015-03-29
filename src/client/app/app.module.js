@@ -9,6 +9,7 @@
         'app.dashboard',
         'app.patient',
         'app.account',
+        'app.mypatient',
         'app.layout'
 
     ])

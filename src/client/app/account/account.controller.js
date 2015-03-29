@@ -83,6 +83,7 @@
             if (authservice.isPatient()) {
                 return dataservice.updatePatient(id, user)
                     .success(function (data) {
+                        data.dateOfBirth = new Date(data.dateOfBirth);
                         data.token = user.token;
                         data.role = 'patient';
                         storageservice.set('auth_token', JSON.stringify(data));
