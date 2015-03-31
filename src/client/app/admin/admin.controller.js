@@ -17,11 +17,9 @@
 
 
         var idCurrent = authservice.currentUser().id;
-        console.log(idCurrent);
+
         if (!$rootScope.hasSubNotifDoctor){subscribeservice.notificationDoctor(idCurrent);}
-        //$scope.$watch('subscribeservice.test',function(newValue){
-        //    console.log(newValue);
-        //})
+
         activate();
 
         dataservice.subscribeAppointment().success(function(data){});
@@ -170,6 +168,7 @@
                 return vm.appointments;
             });
         }
+
 
         function getPatientById(id) {
             return dataservice.getPatientById(id)
