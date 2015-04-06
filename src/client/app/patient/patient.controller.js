@@ -87,8 +87,8 @@
             });
         }
 
-        function validateAppointment(id) {
-            dataservice.validateAppointment(id).success(function (data){
+        function validateAppointment(appoint) {
+            dataservice.validateAppointment(appoint.id).success(function (data){
                 angular.forEach(vm.appointments, function(app,key) {
                     if (app.id == data.id) {
                         if (data.state) app.state = data.state;
@@ -111,20 +111,28 @@
             logger.info('Le rendez-vous a été annulé !')
         }
 
-        function chooseAppointment(id) {
-            dataservice.chooseAppointment(id, idCurrent).success(function (data){
-                angular.forEach(vm.broadcastedAppointments, function(app,key) {
-                    if (app.id == data[0].id) {
-                        vm.broadcastedAppointments[key].state = 'approved';
-                        vm.appointments.push(vm.broadcastedAppointments[key]);
-                        vm.broadcastedAppointments.splice(key,1);
+        function chooseAppointment(appoint) {
+            dataservice.cancelFirstAppointment(idCurrent, appoint.doctor.id)
+              .success(function(res) {
+                angular.forEach(vm.appointments, function(app,key) {
+                    if (app.id == res[0].id) {
+                        vm.appointments.splice(key,1);
                     }
                 })
-            });
+                dataservice.chooseAppointment(appoint.id, idCurrent).success(function (data){
+                    angular.forEach(vm.broadcastedAppointments, function(app,key) {
+                        if (app.id == data[0].id) {
+                            vm.broadcastedAppointments[key].state = 'approved';
+                            vm.appointments.push(vm.broadcastedAppointments[key]);
+                            vm.broadcastedAppointments.splice(key,1);
+                        }
+                    })
+                });
+              })
             logger.info('Le rendez-vous a été accepté !')
         }
 
-        vm.open = function (id, functionId) {
+        vm.open = function (appoint, functionId) {
 
             var modalInstance = $modal.open({
                 templateUrl: 'app/widgets/modalContent.html',
@@ -152,10 +160,10 @@
 
             modalInstance.result.then(function (functionId) {
                 if (functionId === 0) {
-                    validateAppointment(id);
+                    validateAppointment(appoint);
                 }
                 else {
-                    chooseAppointment(id);
+                    chooseAppointment(appoint);
                 }
 
             }, function () {

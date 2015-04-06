@@ -34,6 +34,7 @@
             cancelMailAppointment: cancelMailAppointment,
             deleteAppointment: deleteAppointment,
             chooseAppointment: chooseAppointment,
+            cancelFirstAppointment: cancelFirstAppointment,
             broadcastAppointment: broadcastAppointment,
             getBroadcasted: getBroadcasted,
             getBroadcastedHistory: getBroadcastedHistory,
@@ -280,6 +281,26 @@
                     console.log('Request Failed for chooseAppointment. ' + err)
                     console.log(err)
                 })
+        }
+
+        function cancelFirstAppointment(patient, doctor) {
+          console.log(patient + ' ' + doctor);
+          return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+patient+', "doctor":'+doctor+', "start": {">": "'+new Date().toISOString()+'"}}&sort=start')
+            .success(function(data) {
+              console.log(data);
+              return $sailsSocket.delete(BackEndUrl+'appointment/'+data[0].id)
+                  .success(function(data){
+                      console.log(data);
+                      return data;
+                  })
+                  .error(function(err){
+                      console.log('Request Failed for deleteAppointment [Delete]. ' + err)
+                  })
+            })
+            .error(function(err) {
+              console.log('Request Failed for cancelFirstAppointment [Search]. ' + err)
+              console.log(err)
+            })
         }
 
         function incrNbValidated(id) {
