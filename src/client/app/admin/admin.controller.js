@@ -110,6 +110,22 @@
                         //ignoreTimeZone: true,
                         timezone: "local",
                         select: select,
+                        viewRender: function(view,element){
+                            //console.log("View Changed : " + view.start + " " + view.end);
+                            //console.log(vm.eventSources);
+                            vm.appointments.splice(0,vm.appointments.length);
+                            vm.eventSources.splice(0,vm.eventSources.length);
+
+                            //console.log(vm.eventSources);
+                            //console.log(vm.appointments);
+                            dataservice.getAppointmentByDoctorAndDate(idCurrent,view.start,view.end).success(function (data) {
+                                vm.appointments = data;
+                                vm.eventSources.push(vm.appointments);
+                                console.log(data);
+                            }).error(function(err){
+                                console.log(err);
+                            })
+                        },
                         eventRender: function (event, element) {
                             element.bind("contextmenu", function(e) {
                                 e.preventDefault();
@@ -136,6 +152,7 @@
                                                 angular.forEach(vm.appointments, function(app,key){
                                                     if(app.id == data.id ){
                                                         vm.appointments.splice(key, 1);
+                                                        //vm.eventSources.splice(key,1);
                                                         logger.info('Le rendez-vous proposé a été annulé !');
                                                     }
                                                 })
@@ -164,7 +181,7 @@
         function getAppointments(id) {
             return dataservice.getAppointmentsByDoctor(id).success(function (data) {
                 vm.appointments = data;
-                vm.eventSources.push(data);
+                //vm.eventSources.push(data);
                 return vm.appointments;
             });
         }

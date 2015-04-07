@@ -39,7 +39,8 @@
             getBroadcasted: getBroadcasted,
             getBroadcastedHistory: getBroadcastedHistory,
             subscribeAppointment: subscribeAppointment,
-            mailCancelled: mailCancelled
+            mailCancelled: mailCancelled,
+            getAppointmentByDoctorAndDate : getAppointmentsByDoctorAndDate
 
         };
 
@@ -395,5 +396,22 @@
                     console.log(err)
                 })
         }
+
+        function getAppointmentsByDoctorAndDate(id,dateStart,dateEnd)
+        {
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+', "start": {">": "'+dateStart.toISOString()+'"},"end": {"<": "'+dateEnd.toISOString()+'"} }&populate=patient')
+                .success(function(data){
+                    for (var i = 0; i < data.length; i++) {
+                        data[i].start = new Date(data[i].start);
+                        data[i].end = new Date(data[i].end);
+                    }
+                    return data;
+                })
+                .error(function(err){
+                    console.log('Request Failed for getAppointmentsByDoctor. ' + err );
+                    return err;
+                })
+        }
+
     }
 })();
