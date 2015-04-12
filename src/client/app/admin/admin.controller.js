@@ -57,7 +57,7 @@
 
 
         function activate() {
-            var promises = [getPatients(), getAppointments(idCurrent)];
+            var promises = [getPatients()];
             return $q.all(promises).then(function() {
                 var doctorConsultTime = authservice.currentUser().consultTime;
                 // Calendar config
@@ -111,17 +111,12 @@
                         timezone: "local",
                         select: select,
                         viewRender: function(view,element){
-                            //console.log("View Changed : " + view.start + " " + view.end);
-                            //console.log(vm.eventSources);
                             vm.appointments.splice(0,vm.appointments.length);
                             vm.eventSources.splice(0,vm.eventSources.length);
 
-                            //console.log(vm.eventSources);
-                            //console.log(vm.appointments);
                             dataservice.getAppointmentByDoctorAndDate(idCurrent,view.start,view.end).success(function (data) {
                                 vm.appointments = data;
                                 vm.eventSources.push(vm.appointments);
-                                console.log(data);
                             }).error(function(err){
                                 console.log(err);
                             })
