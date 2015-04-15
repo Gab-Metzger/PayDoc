@@ -202,6 +202,7 @@
                         function activate() {
                             event.patient.dateOfBirth = new Date(event.patient.dateOfBirth);
                             $scope.event = event;
+                            $scope.state = event.state;
                             $scope.patient = event.patient;
                             $scope.editable = false;
                         }
@@ -220,6 +221,19 @@
                                 return data;
                             });
                         };
+
+                        $scope.confirm = function() {
+                          dataservice.validateAppointment(event.id).success(function (data){
+                              angular.forEach(vm.appointments, function(app,key) {
+                                  if (app.id == data.id) {
+                                      if (data.state) app.state = data.state;
+                                  }
+                              });
+                              dataservice.incrNbValidated(idCurrent);
+                              $modalInstance.dismiss('cancel');
+                          });
+                          logger.info('Le rendez-vous de '+ $scope.patient.name +' a été confirmé !')
+                        }
 
                         $scope.switchEditable = function() {
                           $scope.editable = !$scope.editable;
