@@ -97,6 +97,9 @@
                       <input type="text" name="address" ng-model="patient.address" class="form-control" placeholder="Adresse">
                       <p ng-show="patientForm.address.$invalid && !patientForm.address.$pristine" class="help-block">Ceci ne correspond pas à une adresse valide.</p>
                   </div>
+                  <label>
+                      <input type="checkbox" ng-model="patient.receiveBroadcast"> Possibilité d'avancer ce rendez-vous.
+                  </label>
                 </form>
 
                 <div class="btn-group btn-group-lg" role="group" style="margin-left: 0px;" aria-label="Large button group">

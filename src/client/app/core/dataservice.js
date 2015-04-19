@@ -286,7 +286,7 @@
 
         function cancelFirstAppointment(patient, doctor) {
           console.log(patient + ' ' + doctor);
-          return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+patient+', "doctor":'+doctor+', "start": {">": "'+new Date().toISOString()+'"}}&sort=start')
+          return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+patient+', "doctor":'+doctor+', "state":{"!": "denied"}, "start": {">": "'+new Date().toISOString()+'"}}&sort=start')
             .success(function(data) {
               console.log(data);
               return $sailsSocket.delete(BackEndUrl+'appointment/'+data[0].id)
