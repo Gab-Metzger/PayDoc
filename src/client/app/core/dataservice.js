@@ -40,7 +40,10 @@
             getBroadcastedHistory: getBroadcastedHistory,
             subscribeAppointment: subscribeAppointment,
             mailCancelled: mailCancelled,
-            getAppointmentByDoctorAndDate : getAppointmentsByDoctorAndDate
+            getAppointmentByDoctorAndDate : getAppointmentsByDoctorAndDate,
+            appointmentHappened: appointmentHappened,
+            moveAppointment: moveAppointment,
+            extendAppointment: extendAppointment
 
         };
 
@@ -411,6 +414,43 @@
                     console.log('Request Failed for getAppointmentsByDoctor. ' + err );
                     return err;
                 })
+        }
+
+        function appointmentHappened(id, value) {
+          return $sailsSocket.put(BackEndUrl+ 'appointment/' + id, {
+              happened: value
+          })
+              .success(function(data){
+                  return data;
+              })
+              .error(function(err){
+                  console.log('Request Failed for appointmentHappened. ' + err)
+              })
+        }
+
+        function moveAppointment(id, start, end) {
+          return $sailsSocket.put(BackEndUrl+ 'appointment/' + id, {
+              start: start,
+              end: end
+          })
+              .success(function(data){
+                  return data;
+              })
+              .error(function(err){
+                  console.log('Request Failed for moveAppointment. ' + err)
+              })
+        }
+
+        function extendAppointment(id, end) {
+          return $sailsSocket.put(BackEndUrl+ 'appointment/' + id, {
+              end: end
+          })
+              .success(function(data){
+                  return data;
+              })
+              .error(function(err){
+                  console.log('Request Failed for extendAppointment. ' + err)
+              })
         }
 
     }

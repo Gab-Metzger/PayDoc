@@ -28,8 +28,12 @@
                         <td>{{event.patient.phone || 'Non-défini'}} (Fixe)<br><br>{{event.patient.mobilePhone || 'Non-défini'}} (Mobile)  </td>
                       </tr>
                       <tr ng-show="event.patient.dateOfBirth">
-                        <td>Date   de naissance</td>
+                        <td>Date de naissance</td>
                         <td>{{event.patient.dateOfBirth | date: "dd/MM/yyyy"}}</td>
+                      </tr>
+                      <tr>
+                        <td>Le patient est arrivé ?</td>
+                        <td><input type="checkbox" ng-model="event.happened" ng-change="isHappened(event.id, event.happened)"></td>
                       </tr>
                       <tr>
                         <td>Notes</td>

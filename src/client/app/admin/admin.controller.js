@@ -13,7 +13,6 @@
         vm.patients = [];
         vm.appointments = [];
         vm.eventSources = [];
-        vm.getPatientById = getPatientById;
 
 
         var idCurrent = authservice.currentUser().id;
@@ -67,12 +66,13 @@
                         defaultView: 'agendaWeek',
                         scrollTime: '8:00',
                         firstDay: 1,
-                        editable: true,
                         selectable: true,
+                        editable: true,
                         selectHelper: true,
                         axisFormat: 'HH:mm',
                         slotMinutes: doctorConsultTime,
                         allDaySlot: false,
+                        allDayDefault: false,
                         allDay: false,
                         minTime: '08:00:00',
                         maxTime: '20:00:00',
@@ -109,7 +109,6 @@
                         },
                         //ignoreTimeZone: true,
                         timezone: "local",
-                        select: select,
                         viewRender: function(view,element){
                             vm.appointments.splice(0,vm.appointments.length);
                             vm.eventSources.splice(0,vm.eventSources.length);
@@ -129,7 +128,6 @@
                             element.bind('mousedown', function (e) {
                                 if (e.which == 3) {
                                     if(confirm('Voulez-vous annuler ce rendez-vous ?')) {
-                                        console.log(event.patient);
                                         if (event.patient != null) {
                                             dataservice.cancelMailAppointment(event.id).success(function(res) {
                                                 dataservice.deleteAppointment(event.id).success(function(data) {
@@ -160,7 +158,10 @@
                             element.attr({'tooltip': event.notes, 'tooltip-append-to-body': true});
                             $compile(element)($scope);
                         },
-                        eventClick: eventClick
+                        eventClick: eventClick,
+                        eventResize: actionOnResize,
+                        eventDrop: actionOnDrop,
+                        select: select
                     }
                 };
             });
@@ -173,20 +174,18 @@
             });
         }
 
-        function getAppointments(id) {
-            return dataservice.getAppointmentsByDoctor(id).success(function (data) {
-                vm.appointments = data;
-                //vm.eventSources.push(data);
-                return vm.appointments;
-            });
+        function actionOnResize(event, delta, revertFunc, jsEvent, ui, view) {
+          return dataservice.extendAppointment(event.id, event.end)
+            .success(function(data) {
+              return data;
+            })
         }
 
-
-        function getPatientById(id) {
-            return dataservice.getPatientById(id)
-                .success(function (data) {
-                    return data.name;
-                });
+        function actionOnDrop(event, delta, revertFunc, jsEvent, ui, view) {
+          return dataservice.moveAppointment(event.id, event.start, event.end)
+            .success(function(data) {
+              return data;
+            })
         }
 
 
@@ -221,6 +220,15 @@
                                 return data;
                             });
                         };
+
+                        $scope.isHappened = function(id, value) {
+                          return dataservice.appointmentHappened(id, value)
+                            .success(function(data) {
+                              console.log(data);
+                              event.happened = data.happened;
+                              return data;
+                            })
+                        }
 
                         $scope.confirm = function() {
                           dataservice.validateAppointment(event.id).success(function (data){
@@ -299,8 +307,9 @@
                             $modalInstance.dismiss('cancel');
                         };
 
-                        $scope.broadcast = function() {
+                        $scope.broadcast = function($notify) {
                             broadcastAppointment();
+                            $notify && $notify();
                         };
 
                         $scope.switchEditable = function() {
