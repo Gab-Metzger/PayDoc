@@ -5,9 +5,9 @@
         .module('app.admin')
         .controller('AdminController', AdminController);
 
-    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$rootScope','subscribeservice','$scope', '$compile', '$modal'];
+    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$rootScope','subscribeservice','$scope', '$compile', '$modal','uiCalendarConfig'];
     /* @ngInject */
-    function AdminController(logger, dataservice, $q, authservice, $sailsSocket, $rootScope, subscribeservice,$scope, $compile, $modal) {
+    function AdminController(logger, dataservice, $q, authservice, $sailsSocket, $rootScope, subscribeservice,$scope, $compile, $modal,uiCalendarConfig) {
         var vm = this;
         vm.title = 'Admin';
         vm.patients = [];
@@ -25,10 +25,17 @@
 
         if (!$rootScope.hasSubscribed){
             $sailsSocket.subscribe('appointment', function(appointment){
+                console.log(appointment);
                 if (appointment.verb == "destroyed"){
                     angular.forEach(vm.appointments, function(app,key){
                         if(app.id == appointment.id ){
                             vm.appointments.splice(key, 1);
+                        }
+                    })
+                    angular.forEach(vm.eventSources[0], function(app,key){
+                        if(app.id == appointment.id ){
+                            vm.eventSources[0].splice(key, 1);
+                            $scope.myCalendar.fullCalendar('refetchEvents');
                         }
                     })
                 }
@@ -42,13 +49,40 @@
                         })
                 }*/
                 if(appointment.previous){
+                    console.log("Changement d'un RDV");
+                    console.log(vm.appointments);
+                    console.log(vm.eventSources);
                     if ( appointment.previous.doctor.id == authservice.currentUser().id ){
+
                         angular.forEach(vm.appointments, function(app,key){
                             if(app.id == appointment.id ){
-                                if(appointment.data.state) app.state = appointment.data.state;
+                                if(appointment.data.state) {
+                                    //app.title = appointment.data.title;
+                                    app.state = appointment.data.state;
+                                    $scope.myCalendar.fullCalendar('refetchEvents');
+                                }
+                            }
+                        });
+                        angular.forEach(vm.eventSources[0], function(app,key){
+                            if(app.id == appointment.id ){
+                                if(appointment.data.state) {
+                                    console.log(appointment);
+                                    app.state = appointment.data.state;
+                                    switch(appointment.data.state) {
+                                        case 'pending'   :  app.color = '#FFFF00';  break;
+                                        case 'approved':  app.color = '#2EFE64 ';  break;
+                                        case 'denied'  :  app.color = 'red';  break;
+                                    }
+                                    $scope.myCalendar.fullCalendar('refetchEvents');
+                                }
+                                if (appointment.data.happened == true) {
+                                    app.title += "- arrivé";
+                                    console.log("Le client est arrivé")
+                                }
                             }
                         })
                     }
+                    console.log(vm.eventSources);
                 }
             });
             $rootScope.hasSubscribed = true;
