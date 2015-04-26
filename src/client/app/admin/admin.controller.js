@@ -25,7 +25,6 @@
 
         if (!$rootScope.hasSubscribed){
             $sailsSocket.subscribe('appointment', function(appointment){
-                console.log(appointment);
                 if (appointment.verb == "destroyed"){
                     angular.forEach(vm.appointments, function(app,key){
                         if(app.id == appointment.id ){
@@ -49,40 +48,34 @@
                         })
                 }*/
                 if(appointment.previous){
-                    console.log("Changement d'un RDV");
-                    console.log(vm.appointments);
-                    console.log(vm.eventSources);
                     if ( appointment.previous.doctor.id == authservice.currentUser().id ){
-
-                        angular.forEach(vm.appointments, function(app,key){
-                            if(app.id == appointment.id ){
-                                if(appointment.data.state) {
-                                    //app.title = appointment.data.title;
-                                    app.state = appointment.data.state;
-                                    $scope.myCalendar.fullCalendar('refetchEvents');
-                                }
-                            }
-                        });
-                        angular.forEach(vm.eventSources[0], function(app,key){
-                            if(app.id == appointment.id ){
-                                if(appointment.data.state) {
-                                    console.log(appointment);
-                                    app.state = appointment.data.state;
-                                    switch(appointment.data.state) {
-                                        case 'pending'   :  app.color = '#FFFF00';  break;
-                                        case 'approved':  app.color = '#2EFE64 ';  break;
-                                        case 'denied'  :  app.color = 'red';  break;
-                                    }
-                                    $scope.myCalendar.fullCalendar('refetchEvents');
-                                }
-                                if (appointment.data.happened == true) {
-                                    app.title += "- arrivé";
-                                    console.log("Le client est arrivé")
-                                }
-                            }
-                        })
+                      angular.forEach(vm.appointments, function(app,key){
+                          if(app.id == appointment.id ){
+                              if(appointment.data.state) {
+                                  //app.title = appointment.data.title;
+                                  app.state = appointment.data.state;
+                                  $scope.myCalendar.fullCalendar('refetchEvents');
+                              }
+                          }
+                      });
+                      angular.forEach(vm.eventSources[0], function(app,key){
+                          if(app.id == appointment.id ){
+                              if(appointment.data.state) {
+                                  app.state = appointment.data.state;
+                                  switch(appointment.data.state) {
+                                      case 'pending'   :  app.color = '#FFFF00';  break;
+                                      case 'approved':  app.color = '#2EFE64 ';  break;
+                                      case 'denied'  :  app.color = 'red';  break;
+                                  }
+                                  $scope.myCalendar.fullCalendar('refetchEvents');
+                              }
+                              if (appointment.data.happened == true) {
+                                  app.title += "- arrivé";
+                                  console.log("Le client est arrivé")
+                              }
+                          }
+                      })
                     }
-                    console.log(vm.eventSources);
                 }
             });
             $rootScope.hasSubscribed = true;
@@ -266,14 +259,12 @@
                         }
 
                         $scope.confirm = function() {
-                          dataservice.validateAppointment(event.id).success(function (data){
-                              angular.forEach(vm.appointments, function(app,key) {
-                                  if (app.id == data.id) {
-                                      if (data.state) app.state = data.state;
-                                  }
-                              });
+                          return dataservice.validateAppointment(event.id).success(function (data){
+                              event.state = data.state;
+                              event.color = '#2EFE64 ';
                               dataservice.incrNbValidated(idCurrent);
                               $modalInstance.dismiss('cancel');
+                              return data;
                           });
                           logger.info('Le rendez-vous de '+ $scope.patient.name +' a été confirmé !')
                         }
