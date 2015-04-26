@@ -417,7 +417,7 @@
         }
 
         function appointmentHappened(id, value) {
-          return $sailsSocket.put(BackEndUrl+ 'appointment/' + id, {
+          return $sailsSocket.put(BackEndUrl+ 'appointment/' + id + '?populate=patient', {
               happened: value
           })
               .success(function(data){

@@ -258,8 +258,9 @@
                         $scope.isHappened = function(id, value) {
                           return dataservice.appointmentHappened(id, value)
                             .success(function(data) {
-                              console.log(data);
                               event.happened = data.happened;
+                              event.title = data.title;
+                              $modalInstance.dismiss('cancel');
                               return data;
                             })
                         }
@@ -333,8 +334,9 @@
                             });
                         };
 
-                        $scope.ok = function () {
+                        $scope.ok = function ($notify) {
                             addAppointment();
+                            $notify && $notify();
                         };
 
                         $scope.cancel = function () {
