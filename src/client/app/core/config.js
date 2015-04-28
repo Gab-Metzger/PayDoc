@@ -20,6 +20,8 @@
 
     core.value('config', config);
 
+    redirectOnUserAgent()
+
     core.config(configure);
 
     configure.$inject = ['$logProvider', 'routerHelperProvider', 'exceptionHandlerProvider', '$httpProvider','$sailsSocketProvider'];
@@ -33,6 +35,28 @@
         $sailsSocketProvider.interceptors.push('AuthInterceptor');
         $httpProvider.interceptors.push('AuthInterceptor');
 
+    }
+
+    function redirectOnUserAgent() {
+      var mapping = {
+        // scheme : market://details?id=<package_name>
+        'android': 'market://details?id=com.paydoc.paydoc',
+
+        //scheme : itms-apps://itunes.apple.com/app/id<numeric_app_id>
+        'iphone': 'itms-apps://itunes.apple.com/app/id987077385',
+
+        // if availables :
+        'ipad': 'itms-apps://itunes.apple.com/app/id987077385',
+        'ipod':'itms-apps://itunes.apple.com/app/id987077385',
+      }
+
+      var userAgent = navigator.userAgent.toLowerCase();
+      for (var dev in mapping) {
+        if (userAgent.search(dev) != -1) {
+            window.location = mapping[dev];
+            return;
+        }
+      }
     }
 
 })();
