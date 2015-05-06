@@ -18,6 +18,7 @@
 
             getPatientsList: getPatientsList,
             getPatientById: getPatientById,
+            getPatientByName: getPatientByName,
             addPatient: addPatient,
             updatePatient: updatePatient,
             getPatientsByDoctor: getPatientsByDoctor,
@@ -26,16 +27,23 @@
 
             getAppointmentsByPatient: getAppointmentsByPatient,
             getAppointmentsByDoctor: getAppointmentsByDoctor,
+            getAppointmentsByPatientAndDoctor: getAppointmentsByPatientAndDoctor,
             addAppointment: addAppointment,
             validateAppointment: validateAppointment,
             cancelAppointment: cancelAppointment,
+            cancelMailAppointment: cancelMailAppointment,
             deleteAppointment: deleteAppointment,
             chooseAppointment: chooseAppointment,
+            cancelFirstAppointment: cancelFirstAppointment,
             broadcastAppointment: broadcastAppointment,
             getBroadcasted: getBroadcasted,
             getBroadcastedHistory: getBroadcastedHistory,
             subscribeAppointment: subscribeAppointment,
-            mailCancelled: mailCancelled
+            mailCancelled: mailCancelled,
+            getAppointmentByDoctorAndDate : getAppointmentsByDoctorAndDate,
+            appointmentHappened: appointmentHappened,
+            moveAppointment: moveAppointment,
+            extendAppointment: extendAppointment
 
         };
 
@@ -62,6 +70,7 @@
                 })
         }
 
+
         function getDoctorById(id) {
             return $sailsSocket.get(BackEndUrl+'doctor/'+id+'?populate=appointments')
                 .success(function(data){
@@ -72,10 +81,21 @@
                 })
         }
 
+        function getPatientByName(val) {
+          return $sailsSocket.get(BackEndUrl+'patient?where={lastName:{"contains":'+ val +'}}')
+            .success(function(data) {
+              return data[0].name;
+            })
+            .error(function(err) {
+              console.log('Request Failed for getPatientByName. ' + err);
+            })
+        }
+
         function getPatientById(id) {
 
             return $sailsSocket.get(BackEndUrl+'patient/'+id+'?populate=appointments')
                 .success(function(data){
+                    data.dateOfBirth = new Date(data.dateOfBirth);
                     return data;
                 })
                 .error(function(err){
@@ -86,7 +106,18 @@
 
         function getAppointmentsByPatient(id)
         {
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+', "startDate": {">": "'+new Date().toISOString()+'"}}&limit=8&sort=startDate&populate=doctor')
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+id+', "start": {">": "'+new Date().toISOString()+'"}}&sort=start&populate=doctor')
+                .success(function(data){
+                    return data;
+                })
+                .error(function(err){
+                    console.log( err);
+                })
+        }
+
+        function getAppointmentsByPatientAndDoctor(idPatient, idDoctor)
+        {
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+idPatient+', "doctor":'+idDoctor+', "start": {">": "'+new Date().toISOString()+'"}}&sort=start')
                 .success(function(data){
                     return data;
                 })
@@ -108,9 +139,12 @@
 
         function getAppointmentsByDoctor(id)
         {
-
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+', "startDate": {">": "'+new Date().toISOString()+'"}, "patient": {"!": null}}&sort=startDate&populate=patient')
+            return $sailsSocket.get(BackEndUrl+'appointment/getAppointmentsByDoctor/'+id)
                 .success(function(data){
+                    for (var i = 0; i < data.length; i++) {
+                        data[i].start = new Date(data[i].start);
+                        data[i].end = new Date(data[i].end);
+                    }
                     return data;
                 })
                 .error(function(err){
@@ -121,6 +155,18 @@
         function cancelAppointment(id) {
             return $sailsSocket.put(BackEndUrl+'appointment/'+id, {
                 state: 'denied'
+            })
+                .success(function(data){
+                    return data;
+                })
+                .error(function(err){
+                    console.log('Request Failed for cancelAppointment. ' + err)
+                })
+        }
+
+        function cancelMailAppointment(id) {
+            return $sailsSocket.post(BackEndUrl+'appointment/cancel', {
+                id: id
             })
                 .success(function(data){
                     return data;
@@ -153,12 +199,8 @@
 
         }
 
-        function addAppointment(idPatient, idDoctor, startDate) {
-            return $sailsSocket.post(BackEndUrl+'appointment/',{
-                patient: idPatient,
-                doctor: idDoctor,
-                startDate: startDate
-            })
+        function addAppointment(dataToSend) {
+            return $sailsSocket.post(BackEndUrl+'appointment/',dataToSend)
                 .success(function(data){
                     return data;
                 })
@@ -197,11 +239,8 @@
                 })
         }
 
-        function broadcastAppointment(idDoctor, startDate){
-            return $sailsSocket.post(BackEndUrl+'appointment/broadcast',{
-                doctor: idDoctor,
-                startDate: startDate
-            })
+        function broadcastAppointment(dataToSend){
+            return $sailsSocket.post(BackEndUrl+'appointment/broadcast', dataToSend)
                 .success(function(data){
                     return data;
                 })
@@ -246,6 +285,26 @@
                     console.log('Request Failed for chooseAppointment. ' + err)
                     console.log(err)
                 })
+        }
+
+        function cancelFirstAppointment(patient, doctor) {
+          console.log(patient + ' ' + doctor);
+          return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+patient+', "doctor":'+doctor+', "state":{"!": "denied"}, "start": {">": "'+new Date().toISOString()+'"}}&sort=start')
+            .success(function(data) {
+              console.log(data);
+              return $sailsSocket.delete(BackEndUrl+'appointment/'+data[0].id)
+                  .success(function(data){
+                      console.log(data);
+                      return data;
+                  })
+                  .error(function(err){
+                      console.log('Request Failed for deleteAppointment [Delete]. ' + err)
+                  })
+            })
+            .error(function(err) {
+              console.log('Request Failed for cancelFirstAppointment [Search]. ' + err)
+              console.log(err)
+            })
         }
 
         function incrNbValidated(id) {
@@ -340,5 +399,59 @@
                     console.log(err)
                 })
         }
+
+        function getAppointmentsByDoctorAndDate(id,dateStart,dateEnd)
+        {
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+', "start": {">": "'+dateStart.toISOString()+'"},"end": {"<": "'+dateEnd.toISOString()+'"} }&populate=patient')
+                .success(function(data){
+                    for (var i = 0; i < data.length; i++) {
+                        data[i].start = new Date(data[i].start);
+                        data[i].end = new Date(data[i].end);
+                    }
+                    return data;
+                })
+                .error(function(err){
+                    console.log('Request Failed for getAppointmentsByDoctor. ' + err );
+                    return err;
+                })
+        }
+
+        function appointmentHappened(id, value) {
+          return $sailsSocket.put(BackEndUrl+ 'appointment/' + id + '?populate=patient', {
+              happened: value
+          })
+              .success(function(data){
+                  return data;
+              })
+              .error(function(err){
+                  console.log('Request Failed for appointmentHappened. ' + err)
+              })
+        }
+
+        function moveAppointment(id, start, end) {
+          return $sailsSocket.put(BackEndUrl+ 'appointment/' + id, {
+              start: start,
+              end: end
+          })
+              .success(function(data){
+                  return data;
+              })
+              .error(function(err){
+                  console.log('Request Failed for moveAppointment. ' + err)
+              })
+        }
+
+        function extendAppointment(id, end) {
+          return $sailsSocket.put(BackEndUrl+ 'appointment/' + id, {
+              end: end
+          })
+              .success(function(data){
+                  return data;
+              })
+              .error(function(err){
+                  console.log('Request Failed for extendAppointment. ' + err)
+              })
+        }
+
     }
 })();

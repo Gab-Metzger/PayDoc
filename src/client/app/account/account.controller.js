@@ -8,7 +8,7 @@
     AccountController.$inject = ['$stateParams', 'dataservice', 'logger', '$q', '$state', 'authservice', '$rootScope','subscribeservice', 'storageservice'];
 
     /* @ngInject */
-    function AccountController($stateParams, dataservice, logger, $q, $state, authservice, $rootScope,subscribeservice, storageservice)
+    function AccountController($stateParams, dataservice, logger, $q, $state, authservice, $rootScope, subscribeservice, storageservice)
     {
         /* jshint validthis: true */
         var vm = this;
@@ -31,6 +31,7 @@
                 var idCurrent = authservice.currentUser().id;
                 var data = [];
                 if (authservice.isDoctor()) {
+                    vm.isDoctor = true;
                     if (!$rootScope.hasSubNotifDoctor){subscribeservice.notificationDoctor(idCurrent);}
                     data.push(getDoctor(idCurrent));
                 }
@@ -64,6 +65,7 @@
             return dataservice.addPatient(patient)
                 .success(function (data) {
                     vm.newPatient = {};
+                    console.log(data);
                     if (authservice.isDoctor()) {
                         $state.go('admin');
                         logger.info('Le compte patient a été crée !');
@@ -81,6 +83,7 @@
             if (authservice.isPatient()) {
                 return dataservice.updatePatient(id, user)
                     .success(function (data) {
+                        data.dateOfBirth = new Date(data.dateOfBirth);
                         data.token = user.token;
                         data.role = 'patient';
                         storageservice.set('auth_token', JSON.stringify(data));
@@ -128,8 +131,6 @@
                 password: vm.newPassword,
                 confirmation: vm.newPasswordConfirmation
             };
-
-            console.log(vm.newPassword + vm.newPasswordConfirmation);
 
             return dataservice.resetPassword(dataToSend)
                 .then(function(data) {

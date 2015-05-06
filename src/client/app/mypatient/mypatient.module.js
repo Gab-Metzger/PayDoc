@@ -1,11 +1,10 @@
 (function () {
     'use strict';
 
-    angular.module('app.admin', [
+    angular.module('app.mypatient', [
         'app.core',
         'app.widgets',
-        'ui.bootstrap',
-        'ui.calendar'
+        'ui.bootstrap'
       ]);
 
 })();

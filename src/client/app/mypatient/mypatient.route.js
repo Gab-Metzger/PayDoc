@@ -14,16 +14,16 @@
     function getStates() {
         return [
             {
-                state: 'admin',
+                state: 'mypatient',
                 config: {
-                    url: '/admin',
-                    templateUrl: 'app/admin/admin.html',
-                    controller: 'AdminController',
+                    url: '/mypatient',
+                    templateUrl: 'app/mypatient/mypatient.html',
+                    controller: 'MyPatientController',
                     controllerAs: 'vm',
-                    title: 'Admin',
+                    title: 'Mes Patients',
                     settings: {
-                        nav: 4,
-                        content: '<i class="fa fa-calendar"></i> Mon agenda'
+                        nav: 5,
+                        content: '<i class="fa fa-users"></i> Mes patients'
                     },
                     authorizedRoles: 'doctor'
                 }

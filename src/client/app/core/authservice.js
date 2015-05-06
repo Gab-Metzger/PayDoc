@@ -84,6 +84,7 @@
             return $http
                 .post('http://localhost:1337/auth/create', credentials, {withCredentials: true})
                 .then(function(response) {
+                    console.log(response);
                     if (response.data.message) {
                         logger.error(response.data.message);
                         $state.go('signin');
