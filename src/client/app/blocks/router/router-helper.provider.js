@@ -92,7 +92,12 @@
                     function(event, toState, toParams, fromState, fromParams) {
                         stateCounts.changes++;
                         handlingStateChangeError = false;
-                        var title = config.docTitle + ' ' + (toState.title || '');
+                        if (toState.name == 'admin' || toState.name == 'mypatient') {
+                          var title = authservice.currentUser().name;
+                        }
+                        else {
+                          var title = config.docTitle + ' ' + (toState.title || '');
+                        }
                         $rootScope.title = title; // data bind to <title>
                     }
                 );

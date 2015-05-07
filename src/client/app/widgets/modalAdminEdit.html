@@ -41,7 +41,7 @@
                       </tr>
                     </tbody>
                 </table>
-                <button class="btn btn-primary" ng-hide="state == 'approved'" ng-click="confirm()">Confirmer le rendez-vous</button>
+                <button class="btn btn-primary" ng-hide="editable || state == 'approved'" ng-click="confirm()">Confirmer le rendez-vous</button>
                 <div ng-show="editable">
                   <form name="patientForm" style="margin-left: 0px;" novalidate>
                     <div class="form-group" ng-class="{ 'has-error' : patientForm.firstName.$invalid && !patientForm.firstName.$pristine }">
@@ -84,8 +84,8 @@
                   </form>
 
                   <div class="btn-group btn-group-lg" role="group" style="margin-left: 0px;" aria-label="Large button group">
-                    <button type="button" class="btn btn-default" ng-disabled="patientForm.$invalid" ng-click="updatePatient(patient.id, patient)">Mettre à jour la fiche</button>
-                    <button type="button" class="btn btn-default" ng-click="switchEditable()">Annuler</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="patientForm.$invalid" ng-click="updatePatient(patient.id, patient)">Mettre à jour la fiche</button>
+                    <button type="button" class="btn btn-primary" ng-click="switchEditable()">Annuler</button>
                   </div>
                 </div>
             </div>
@@ -96,5 +96,5 @@
 
 <div class="modal-footer">
     <button class="btn btn-primary" ng-hide="editable" ng-click="switchEditable()">Editer la fiche</button>
-    <button class="btn btn-primary" ng-click="cancel()">Fermer</button>
+    <button class="btn btn-primary" ng-hide="editable" ng-click="cancel()">Fermer</button>
 </div>

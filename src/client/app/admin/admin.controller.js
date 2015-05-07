@@ -178,6 +178,19 @@
                                                 })
                                             })
                                         }
+                                        if(confirm('Voulez-vous proposer ce rendez-vous ?')) {
+                                          var dataToSend = {
+                                              start: event.start,
+                                              end: event.end,
+                                              doctor: idCurrent
+                                          };
+                                          dataservice.broadcastAppointment(dataToSend).success(function(res) {
+                                              res.start = new Date(res.start);
+                                              res.end = new Date(res.end);
+                                              vm.appointments.push(res);
+                                              logger.info("Le rendez-vous à été proposé ! ");
+                                          });
+                                        }
                                     }
                                 }
                             });
@@ -244,6 +257,7 @@
                                 $scope.patient = data;
                                 logger.info('La fiche à été modifiée !');
                                 $scope.editable = false;
+                                $modalInstance.dismiss('cancel');
                                 return data;
                             });
                         };
