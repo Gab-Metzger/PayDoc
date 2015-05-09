@@ -5,9 +5,9 @@
         .module('app.mypatient')
         .controller('MyPatientController', MyPatientController);
 
-    MyPatientController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$scope'];
+    MyPatientController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$scope', '$http'];
     /* @ngInject */
-    function MyPatientController(logger, dataservice, $q, authservice, $sailsSocket, $scope) {
+    function MyPatientController(logger, dataservice, $q, authservice, $sailsSocket, $scope, $http) {
         $scope.title = 'Mes Patients';
         $scope.patients = [];
         $scope.appointments = [];
@@ -19,7 +19,7 @@
         activate();
 
         function activate() {
-            var promises = [getPatients()];
+            var promises = [];
             return $q.all(promises).then(function() {
               $scope.editable = false;
             });
@@ -28,8 +28,15 @@
         function getPatients() {
             return dataservice.getPatientsList().success(function (data) {
                 $scope.patients = data;
+                console.log($scope.patients);
                 return $scope.patients;
             });
+        }
+
+        $scope.loadPatient = function(val) {
+         return dataservice.loadPatientAsync(val).then(function(data) {
+           return data;
+         });
         }
 
         $scope.updatePatient = function(id, patient) {

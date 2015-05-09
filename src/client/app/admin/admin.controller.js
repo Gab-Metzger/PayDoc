@@ -5,9 +5,9 @@
         .module('app.admin')
         .controller('AdminController', AdminController);
 
-    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$rootScope','subscribeservice','$scope', '$compile', '$modal','uiCalendarConfig'];
+    AdminController.$inject = ['logger', 'dataservice', '$q', 'authservice', '$sailsSocket', '$rootScope','subscribeservice','$scope', '$compile', '$modal','uiCalendarConfig', 'ngDialog'];
     /* @ngInject */
-    function AdminController(logger, dataservice, $q, authservice, $sailsSocket, $rootScope, subscribeservice,$scope, $compile, $modal,uiCalendarConfig) {
+    function AdminController(logger, dataservice, $q, authservice, $sailsSocket, $rootScope, subscribeservice,$scope, $compile, $modal,uiCalendarConfig, ngDialog) {
         var vm = this;
         vm.title = 'Admin';
         vm.patients = [];
@@ -83,7 +83,7 @@
 
 
         function activate() {
-            var promises = [getPatients()];
+            var promises = [];
             return $q.all(promises).then(function() {
                 var doctorConsultTime = authservice.currentUser().consultTime;
                 // Calendar config
@@ -154,44 +154,60 @@
 
                             element.bind('mousedown', function (e) {
                                 if (e.which == 3) {
-                                    if(confirm('Voulez-vous annuler ce rendez-vous ?')) {
-                                        if (event.patient != null) {
-                                            dataservice.cancelMailAppointment(event.id).success(function(res) {
-                                                dataservice.deleteAppointment(event.id).success(function(data) {
-                                                    angular.forEach(vm.appointments, function(app,key){
-                                                        if(app.id == data.id ){
-                                                            vm.appointments.splice(key, 1);
-                                                            logger.info('Le rendez-vous avec '+ event.patient.name + ' a été annulé !');
-                                                        }
-                                                    })
-                                                })
-                                            })
-                                        }
-                                        else {
+                                  ngDialog.openConfirm({
+                                    template: 'app/widgets/modalConfirm.html',
+                                    className: 'ngdialog-theme-default',
+                                    data: {message: 'Voulez-vous supprimer ce rendez-vous ?'}
+                                  }).then(function (value) {
+                                    if (event.patient != null) {
+                                        dataservice.cancelMailAppointment(event.id).success(function(res) {
                                             dataservice.deleteAppointment(event.id).success(function(data) {
                                                 angular.forEach(vm.appointments, function(app,key){
                                                     if(app.id == data.id ){
                                                         vm.appointments.splice(key, 1);
-                                                        //vm.eventSources.splice(key,1);
-                                                        logger.info('Le rendez-vous proposé a été annulé !');
+                                                        logger.info('Le rendez-vous avec '+ event.patient.name + ' a été annulé !');
                                                     }
                                                 })
                                             })
-                                        }
-                                        if(confirm('Voulez-vous proposer ce rendez-vous ?')) {
-                                          var dataToSend = {
-                                              start: event.start,
-                                              end: event.end,
-                                              doctor: idCurrent
-                                          };
-                                          dataservice.broadcastAppointment(dataToSend).success(function(res) {
-                                              res.start = new Date(res.start);
-                                              res.end = new Date(res.end);
-                                              vm.appointments.push(res);
-                                              logger.info("Le rendez-vous à été proposé ! ");
-                                          });
-                                        }
+                                        })
                                     }
+                                    else {
+                                        dataservice.deleteAppointment(event.id).success(function(data) {
+                                            angular.forEach(vm.appointments, function(app,key){
+                                                if(app.id == data.id ){
+                                                    vm.appointments.splice(key, 1);
+                                                    //vm.eventSources.splice(key,1);
+                                                    logger.info('Le rendez-vous proposé a été annulé !');
+                                                }
+                                            })
+                                        })
+                                    }
+                                    setTimeout(function() {
+                                      ngDialog.openConfirm({
+                                        template: 'app/widgets/modalConfirm.html',
+                                        className: 'ngdialog-theme-default',
+                                        data: {message: 'Voulez-vous proposer ce rendez-vous ?'}
+                                      }).then(function (value) {
+                                        var dataToSend = {
+                                            start: event.start,
+                                            end: event.end,
+                                            doctor: idCurrent
+                                        };
+                                        dataservice.broadcastAppointment(dataToSend).success(function(res) {
+                                            res.start = new Date(res.start);
+                                            res.end = new Date(res.end);
+                                            vm.appointments.push(res);
+                                            logger.info("Le rendez-vous à été proposé ! ");
+                                        });
+                                        console.log('Proposed Modal promise resolved. Value: ', value);
+                                      }, function (reason) {
+                                        console.log('Proposed Modal promise rejected. Reason: ', reason);
+                                      });  
+                                    },2000)
+                                    console.log('Cancel Modal promise resolved. Value: ', value);
+                                  }, function (reason) {
+                                    console.log('Cancel Modal promise rejected. Reason: ', reason);
+                                  });
                                 }
                             });
 
@@ -314,6 +330,12 @@
                             $scope.start = start;
                             $scope.end = end;
                             $scope.editable = false;
+                        }
+
+                        $scope.loadPatient = function(val) {
+                         return dataservice.loadPatientAsync(val).then(function(data) {
+                           return data;
+                         });
                         }
 
                         $scope.onSelect = function(patient){

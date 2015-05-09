@@ -1,5 +1,5 @@
 (function() {
     'use strict';
 
-    angular.module('app.widgets', ['ui.bootstrap']);
+    angular.module('app.widgets', ['ui.bootstrap', 'ngDialog']);
 })();

@@ -18,7 +18,7 @@
 
             getPatientsList: getPatientsList,
             getPatientById: getPatientById,
-            getPatientByName: getPatientByName,
+            loadPatientAsync: loadPatientAsync,
             addPatient: addPatient,
             updatePatient: updatePatient,
             getPatientsByDoctor: getPatientsByDoctor,
@@ -81,14 +81,15 @@
                 })
         }
 
-        function getPatientByName(val) {
-          return $sailsSocket.get(BackEndUrl+'patient?where={lastName:{"contains":'+ val +'}}')
-            .success(function(data) {
-              return data[0].name;
-            })
-            .error(function(err) {
-              console.log('Request Failed for getPatientByName. ' + err);
-            })
+        function loadPatientAsync(val) {
+          var url = BackEndUrl+'patient/search';
+          return $http.get(url, {
+            params: {
+              val: val,
+            }
+          }).then(function(response) {
+           return response.data;
+         });
         }
 
         function getPatientById(id) {

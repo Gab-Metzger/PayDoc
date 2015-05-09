@@ -3,7 +3,8 @@
         <div class="container">
           <div class="inner-addon right-addon" ng-hide="editable">
             <i class="glyphicon glyphicon-search"></i>
-            <input type="text" ng-model="selected" typeahead="patient.namebirth for patient in patients | filter:$viewValue | limitTo:8" typeahead-on-select="onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
+            <input type="text" ng-model="selected" typeahead="patient.namebirth for patient in loadPatient($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="loadingPatients" typeahead-min-length="3" typeahead-on-select="onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
+            <i ng-show="loadingPatients" class="glyphicon glyphicon-refresh"></i>
           </div>
           <br />
           <br />
