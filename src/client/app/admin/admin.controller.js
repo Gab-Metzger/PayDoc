@@ -151,7 +151,6 @@
                             element.bind("contextmenu", function(e) {
                                 e.preventDefault();
                             });
-
                             element.bind('mousedown', function (e) {
                                 if (e.which == 3) {
                                   ngDialog.openConfirm({
@@ -202,8 +201,8 @@
                                         console.log('Proposed Modal promise resolved. Value: ', value);
                                       }, function (reason) {
                                         console.log('Proposed Modal promise rejected. Reason: ', reason);
-                                      });  
-                                    },2000)
+                                      });
+                                    },1000)
                                     console.log('Cancel Modal promise resolved. Value: ', value);
                                   }, function (reason) {
                                     console.log('Cancel Modal promise rejected. Reason: ', reason);
