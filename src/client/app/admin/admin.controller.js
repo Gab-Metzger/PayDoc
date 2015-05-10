@@ -168,7 +168,29 @@
                                                     }
                                                 })
                                             })
-                                        })
+                                        });
+                                        setTimeout(function() {
+                                          ngDialog.openConfirm({
+                                            template: 'app/widgets/modalConfirm.html',
+                                            className: 'ngdialog-theme-default',
+                                            data: {message: 'Voulez-vous proposer ce rendez-vous ?'}
+                                          }).then(function (value) {
+                                            var dataToSend = {
+                                                start: event.start,
+                                                end: event.end,
+                                                doctor: idCurrent
+                                            };
+                                            dataservice.broadcastAppointment(dataToSend).success(function(res) {
+                                                res.start = new Date(res.start);
+                                                res.end = new Date(res.end);
+                                                vm.appointments.push(res);
+                                                logger.info("Le rendez-vous à été proposé ! ");
+                                            });
+                                            console.log('Proposed Modal promise resolved. Value: ', value);
+                                          }, function (reason) {
+                                            console.log('Proposed Modal promise rejected. Reason: ', reason);
+                                          });
+                                        },1000)
                                     }
                                     else {
                                         dataservice.deleteAppointment(event.id).success(function(data) {
@@ -181,28 +203,6 @@
                                             })
                                         })
                                     }
-                                    setTimeout(function() {
-                                      ngDialog.openConfirm({
-                                        template: 'app/widgets/modalConfirm.html',
-                                        className: 'ngdialog-theme-default',
-                                        data: {message: 'Voulez-vous proposer ce rendez-vous ?'}
-                                      }).then(function (value) {
-                                        var dataToSend = {
-                                            start: event.start,
-                                            end: event.end,
-                                            doctor: idCurrent
-                                        };
-                                        dataservice.broadcastAppointment(dataToSend).success(function(res) {
-                                            res.start = new Date(res.start);
-                                            res.end = new Date(res.end);
-                                            vm.appointments.push(res);
-                                            logger.info("Le rendez-vous à été proposé ! ");
-                                        });
-                                        console.log('Proposed Modal promise resolved. Value: ', value);
-                                      }, function (reason) {
-                                        console.log('Proposed Modal promise rejected. Reason: ', reason);
-                                      });
-                                    },1000)
                                     console.log('Cancel Modal promise resolved. Value: ', value);
                                   }, function (reason) {
                                     console.log('Cancel Modal promise rejected. Reason: ', reason);
