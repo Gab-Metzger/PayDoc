@@ -423,6 +423,7 @@
                                 var email = $scope.newPatient.lastName.toLowerCase() + '.' + $scope.newPatient.firstName.toLowerCase() + (Math.floor(Math.random() * (100 - 1)) + 1).toString() + '@paydoc.fr';
                                 $scope.newPatient.email = email;
                             }
+                            $scope.newPatient.dname = authservice.currentUser().lastName;
                             dataservice.addPatient($scope.newPatient).success(function (data) {
                                 var dataToSend = {
                                     start: start,
