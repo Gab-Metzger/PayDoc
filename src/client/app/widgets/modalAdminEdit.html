@@ -37,7 +37,7 @@
                       </tr>
                       <tr>
                         <td>Notes</td>
-                        <td><p>{{event.notes}}</p></td>
+                        <td><textarea class="form-control" ng-model="event.notes" ng-change="editNote(event.id,event.notes)">{{event.notes}}</textarea></td>
                       </tr>
                     </tbody>
                 </table>

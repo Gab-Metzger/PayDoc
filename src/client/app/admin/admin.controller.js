@@ -288,18 +288,27 @@
                         }
 
                         $scope.confirm = function() {
-                          return dataservice.validateAppointment(event.id).success(function (data){
+                          return dataservice.validateAppointment(event.id)
+                            .success(function (data){
                               event.state = data.state;
-                              event.color = '#2EFE64 ';
+                              event.color = data.color;
                               dataservice.incrNbValidated(idCurrent);
+                              logger.info('Le rendez-vous de '+ $scope.patient.name +' a été confirmé !')
                               $modalInstance.dismiss('cancel');
                               return data;
                           });
-                          logger.info('Le rendez-vous de '+ $scope.patient.name +' a été confirmé !')
                         }
 
                         $scope.switchEditable = function() {
                           $scope.editable = !$scope.editable;
+                        }
+
+                        $scope.editNote = function(id, note) {
+                          return dataservice.editNote(id, note)
+                            .success(function(data) {
+                              event.notes = data.notes;
+                              return data;
+                            })
                         }
                     }
                 ]

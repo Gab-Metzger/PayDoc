@@ -43,7 +43,8 @@
             getAppointmentByDoctorAndDate : getAppointmentsByDoctorAndDate,
             appointmentHappened: appointmentHappened,
             moveAppointment: moveAppointment,
-            extendAppointment: extendAppointment
+            extendAppointment: extendAppointment,
+            editNote: editNote
 
         };
 
@@ -288,9 +289,9 @@
                 })
         }
 
-        function cancelFirstAppointment(patient, doctor) {
+        function cancelFirstAppointment(start, patient, doctor) {
           console.log(patient + ' ' + doctor);
-          return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+patient+', "doctor":'+doctor+', "state":{"!": "denied"}, "start": {">": "'+new Date().toISOString()+'"}}&sort=start')
+          return $sailsSocket.get(BackEndUrl+'appointment?where={"patient":'+patient+', "doctor":'+doctor+', "state":{"!": "denied"}, "start": {">": "'+start+'"}}&sort=start')
             .success(function(data) {
               console.log(data);
               return $sailsSocket.delete(BackEndUrl+'appointment/'+data[0].id)
@@ -451,6 +452,18 @@
               })
               .error(function(err){
                   console.log('Request Failed for extendAppointment. ' + err)
+              })
+        }
+
+        function editNote(idAppointment, note) {
+          return $sailsSocket.put(BackEndUrl+ 'appointment/' + idAppointment, {
+              notes: note
+          })
+              .success(function(data){
+                  return data;
+              })
+              .error(function(err){
+                  console.log('Request Failed for editNote. ' + err)
               })
         }
 

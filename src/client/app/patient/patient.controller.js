@@ -19,6 +19,8 @@
         vm.appointments = [];
         vm.broadcastedAppointments =[];
         vm.cancelAppointment = cancelAppointment;
+        vm.chooseAppointment = chooseAppointment;
+        vm.validateAppointment = validateAppointment;
 
 
 
@@ -112,7 +114,7 @@
         }
 
         function chooseAppointment(appoint) {
-            dataservice.cancelFirstAppointment(idCurrent, appoint.doctor.id)
+            dataservice.cancelFirstAppointment(appoint.start, idCurrent, appoint.doctor.id)
               .success(function(res) {
                 angular.forEach(vm.appointments, function(app,key) {
                     if (app.id == res[0].id) {
@@ -131,44 +133,5 @@
               })
             logger.info('Le rendez-vous a été accepté !')
         }
-
-        vm.open = function (appoint, functionId) {
-
-            var modalInstance = $modal.open({
-                templateUrl: 'app/widgets/modalContent.html',
-                controller: ['$modalInstance', '$scope',
-                    function($modalInstance, $scope) {
-
-                        $scope.acceptConditions = false;
-
-                        $scope.ok = function () {
-                            if ($scope.payForm.$valid) {
-                                $modalInstance.close(functionId);
-                            }
-                            else {
-                                $scope.errorMessage = 'Veuillez entrer toutes les informations.';
-                            }
-
-                        };
-
-                        $scope.cancel = function () {
-                            $modalInstance.dismiss('cancel');
-                        };
-                    }
-                ]
-            });
-
-            modalInstance.result.then(function (functionId) {
-                if (functionId === 0) {
-                    validateAppointment(appoint);
-                }
-                else {
-                    chooseAppointment(appoint);
-                }
-
-            }, function () {
-                logger.error('Veuillez accepter les conditions d\'annulation');
-            });
-        };
     }
 })();
