@@ -10,6 +10,7 @@
         'app.patient',
         'app.account',
         'app.mypatient',
+        'app.rdv',
         'app.layout'
 
     ])

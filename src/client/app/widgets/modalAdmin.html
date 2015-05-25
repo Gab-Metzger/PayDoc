@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
     <div class="container">
-        <div class="row">
+        <div class="row" ng-hide="editable">
             <div class="col-md-5">
                 <input type="text" ng-if="searchInput" ng-model="selected" typeahead="patient.namebirth for patient in loadPatient($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="loadingPatients" typeahead-min-length="3" typeahead-on-select="onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
                 <i ng-show="loadingPatients" class="glyphicon glyphicon-refresh"></i>
@@ -111,7 +111,14 @@
             </div>
         </div>
         <div class="form-group" style="margin-top: 20px;">
-            <textarea class="form-control" name="notes" ng-model="notes.message" rows="4" placeholder="Notes"></textarea>
+          <h5>Type de consultations</h5>
+          <div class="radio" ng-repeat="category in categories">
+            <label>
+              <input type="radio" ng-model="color.name" name="consultationType" id="{{'consultationType-'+$index}}" ng-value="category.color">
+              {{category.name}}
+            </label>
+          </div>
+          <textarea class="form-control" name="notes" ng-model="notes.message" rows="4" placeholder="Notes"></textarea>
         </div>
     </div>
 </div>

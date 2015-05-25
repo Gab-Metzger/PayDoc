@@ -5,10 +5,10 @@
         .module('app.account')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$stateParams', 'dataservice', 'logger', '$q', '$state', 'authservice', '$rootScope','subscribeservice', 'storageservice'];
+    AccountController.$inject = ['$stateParams', 'dataservice', 'logger', '$q', '$state', 'authservice', '$rootScope','subscribeservice', 'storageservice', 'ngDialog'];
 
     /* @ngInject */
-    function AccountController($stateParams, dataservice, logger, $q, $state, authservice, $rootScope, subscribeservice, storageservice)
+    function AccountController($stateParams, dataservice, logger, $q, $state, authservice, $rootScope, subscribeservice, storageservice, ngDialog)
     {
         /* jshint validthis: true */
         var vm = this;
@@ -18,10 +18,14 @@
         vm.newPatient = {};
         vm.user = {};
         vm.credentials = {};
+        vm.categories = [];
+        vm.category = {};
         vm.addPatient = addPatient;
         vm.updateUser = updateUser;
         vm.sendResetPasswordLink = sendResetPasswordLink;
         vm.resetPassword = resetPassword;
+        vm.addCategory = addCategory;
+        vm.deleteCategory = deleteCategory;
         vm.login = login;
 
         activate();
@@ -34,6 +38,7 @@
                     vm.isDoctor = true;
                     if (!$rootScope.hasSubNotifDoctor){subscribeservice.notificationDoctor(idCurrent);}
                     data.push(getDoctor(idCurrent));
+                    data.push(getCategories(idCurrent));
                 }
                 else if (authservice.isPatient()) {
                     vm.isPatient = true;
@@ -138,6 +143,44 @@
                     $state.go('signin');
                     return data;
                 });
+        }
+
+        function getCategories(idCurrent) {
+          return dataservice.getCategoriesByDoctor(idCurrent)
+            .success(function (data){
+              vm.categories = data;
+              return data;
+          });
+        }
+
+        function addCategory(category) {
+          var idCurrent = authservice.currentUser().id;
+          return dataservice.addCategory(idCurrent, category)
+            .success(function (data){
+              vm.categories.push(data);
+              logger.success('Le type de consultation à bien été ajouté !');
+              vm.category = {}
+              return data;
+          });
+        }
+
+        function deleteCategory(id) {
+          ngDialog.openConfirm({
+            template: 'app/widgets/modalConfirm.html',
+            className: 'ngdialog-theme-default',
+            data: {message: 'Voulez-vous supprimer ce type de consultation ?'}
+          }).then(function (value) {
+            dataservice.deleteCategory(id).success(function(res) {
+              angular.forEach(vm.categories, function(category,key){
+                  if(category.id == id ){
+                      vm.categories.splice(key, 1);
+                  }
+              })
+              logger.info("Le type de consultation à bien été supprimé !");
+            });
+          }, function (reason) {
+            console.log('Proposed Modal promise rejected. Reason: ', reason);
+          });
         }
     }
 })();

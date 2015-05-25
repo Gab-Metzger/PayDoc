@@ -321,16 +321,23 @@
                 size: 'lg',
                 resolve:{
                     patients: function(){
-                        return vm.patients;
+                      return vm.patients;
+                    },
+                    categories: function() {
+                      return dataservice.getCategoriesByDoctor(idCurrent)
+                        .success(function (data){
+                          return data;
+                      });
                     }
                 },
-                controller: ['$modalInstance', '$scope','patients',
-                    function($modalInstance, $scope, patients) {
+                controller: ['$modalInstance', '$scope','patients', 'categories',
+                    function($modalInstance, $scope, patients, categories) {
 
                         activate();
 
                         function activate() {
                             $scope.patients = patients;
+                            $scope.categories = categories.data;
                             $scope.addPatientButton = false;
                             $scope.searchInput = true;
                             $scope.newPatient = {};
@@ -338,6 +345,7 @@
                             $scope.start = start;
                             $scope.end = end;
                             $scope.editable = false;
+                            $scope.color = {};
                         }
 
                         $scope.loadPatient = function(val) {
@@ -354,7 +362,7 @@
                         $scope.addPatientButtonClick = function() {
                             $scope.addPatientButton = true;
                             $scope.searchInput = false;
-                            $scope.editable = false;
+                            $scope.editable = true;
                             $scope.patient = null;
                         };
 
@@ -394,7 +402,8 @@
                               state: 'blocked',
                               patient: null,
                               doctor: idCurrent,
-                              notes: $scope.notes.message
+                              notes: $scope.notes.message,
+                              category: $scope.color.name
                           };
                           dataservice.addAppointment(dataToSend).success(function(data) {
                               data.start = new Date(data.start);
@@ -415,7 +424,8 @@
                                     state: 'pending',
                                     patient: $scope.patient.id,
                                     doctor: idCurrent,
-                                    notes: $scope.notes.message
+                                    notes: $scope.notes.message,
+                                    category: $scope.color.name
                                 };
                                 dataservice.addAppointment(dataToSend).success(function(data) {
                                     data.start = new Date(data.start);
@@ -440,7 +450,8 @@
                                     state: 'pending',
                                     patient: data.id,
                                     doctor: idCurrent,
-                                    notes: $scope.notes.message
+                                    notes: $scope.notes.message,
+                                    category: $scope.color.name
                                 };
                                 dataservice.addAppointment(dataToSend).success(function(res) {
                                     res.start = new Date(res.start);
@@ -466,6 +477,13 @@
                                 logger.info("Le rendez-vous à été proposé ! ");
                                 $modalInstance.close();
                             });
+                        }
+
+                        function getCategories() {
+                          return dataservice.getCategoriesByDoctor(idCurrent)
+                            .success(function (data){
+                              return data;
+                          });
                         }
                     }
                 ]

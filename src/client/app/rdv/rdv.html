@@ -1,0 +1,33 @@
+<section class="mainbar">
+    <section class="matter">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <button type='button' class='btn btn-default button-previous' name='previous' ng-click="vm.getPreviousAppointments()">Précédant</button>
+            </div>
+            <div class="col-md-4">
+              <h2 style="text-align: center;">{{vm.dateStart.format('LL')}}</h2>
+            </div>
+            <div class="col-md-4">
+  			      <button type='button' class='btn btn-default button-next' name='next' ng-click="vm.getNextAppointments()" style="float: right;">Suivant</button>
+  		      </div>
+          </div>
+
+          <table class="table table-hover">
+            <tr>
+              <th>Patient</th>
+              <th>Heure début</th>
+              <th>Actions</th>
+            </tr>
+            <tr ng-repeat="appointment in vm.appointments">
+              <td>{{appointment.patient.name}}</td>
+              <td>{{appointment.start}}</td>
+              <td>
+                <button type="button" class="btn btn-warning" ng-click="vm.remindAppointment(appointment)">Rappeler confirmation</button>
+                <button type="button" class="btn btn-danger" ng-click="vm.cancelAppointment(appointment.id)">Annuler</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+    </section>
+</section>

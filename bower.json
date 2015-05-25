@@ -31,6 +31,7 @@
     "sails.io.js": "~0.10.0-rc4",
     "angularSails": "*",
     "angular-ui-calendar": "~0.8.1",
-    "ngDialog": "~0.4.0"
+    "ngDialog": "~0.4.0",
+    "angular-bootstrap-colorpicker": "~3.0.18"
   }
 }

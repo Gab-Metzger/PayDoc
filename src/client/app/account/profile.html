@@ -1,86 +1,132 @@
 <section class="mainbar">
-    <section class="matter">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="box">
-                        <div class="box-icon">
-                            <span class="fa fa-4x fa-sign-in"></span>
-                        </div>
-                        <div class="info">
-                            <h4 class="text-center">Mon profil</h4>
-
-                            <form class="form" name="form" >
-
-                              <div class="form-group" ng-class="{ 'has-error' : form.firstName.$invalid && !form.firstName.$pristine }">
-                                  <input type="text" name="firstName" ng-model="vm.user.firstName" class="form-control" placeholder="Prénom *" required>
-                                  <p ng-show="form.firstName.$invalid && !form.firstName.$pristine" class="help-block">Le prénom est obligatoire.</p>
-                              </div>
-
-                              <div class="form-group" ng-class="{ 'has-error' : form.lastName.$invalid && !form.lastName.$pristine }">
-                                  <input type="text" name="lastName" ng-model="vm.user.lastName" class="form-control" placeholder="Nom de famille *" required>
-                                  <p ng-show="form.lastName.$invalid && !form.lastName.$pristine" class="help-block">Le nom de famille est obligatoire.</p>
-                              </div>
-
-                              <div class="form-group" ng-class="{ 'has-error' : form.email.$invalid && !form.email.$pristine }">
-                                  <input type="email" name="email" ng-model="vm.user.email" class="form-control" placeholder="Email *">
-                                  <p ng-show="form.email.$invalid && !form.email.$pristine" class="help-block">Ceci ne correspond pas à une adresse email valide.</p>
-                              </div>
-
-                              <div class="form-group" ng-class="{ 'has-error' : form.mobilePhone.$invalid && !form.mobilePhone.$pristine }">
-                                  <input type="text" name="mobilePhone" ng-model="vm.user.mobilePhone" class="form-control" placeholder="Numéro de téléphone mobile *" pattern="^(06|07)[0-9]{8}$">
-                                  <p ng-show="form.mobilePhone.$invalid && !form.mobilePhone.$pristine" class="help-block">Ceci ne correspond pas à un numéro de mobile valide.</p>
-                              </div>
-
-                              <div class="form-group" ng-class="{ 'has-error' : form.phone.$invalid && !form.phone.$pristine }">
-                                  <input type="text" name="phone" ng-model="vm.user.phone" class="form-control" placeholder="Numéro de téléphone fixe" pattern="^(01|02|03|04|05|08|09)[0-9]{8}$">
-                                  <p ng-show="form.phone.$invalid && !form.phone.$pristine" class="help-block">Ceci ne correspond pas à un numéro de fixe valide.</p>
-                              </div>
-
-                              <div class="form-group" ng-if="vm.isPatient" ng-class="{ 'has-error' : form.dateOfBirth.$invalid && !form.dateOfBirth.$pristine }">
-                                  <input type="date" name="dateOfBirth" ng-model="vm.user.dateOfBirth" class="form-control" placeholder="Date de naissance *">
-                                  <p ng-show="form.dateOfBirth.$invalid && !form.dateOfBirth.$pristine" class="help-block">Ceci ne correspond pas à une date de naissance valide.</p>
-                              </div>
-
-                              <div class="form-group" ng-class="{ 'has-error' : form.address.$invalid && !form.address.$pristine }">
-                                  <input type="text" name="address" ng-model="vm.user.address" class="form-control" placeholder="Adresse">
-                                  <p ng-show="form.address.$invalid && !form.address.$pristine" class="help-block">Ceci ne correspond pas à une adresse valide.</p>
-                              </div>
-
-                                <div class="form-group" ng-if="vm.isDoctor">
-                                    <select class="form-control" ng-model="vm.user.consultTime">
-                                        <option value="5">5 mn / consultation</option>
-                                        <option value="10">10 mn / consultation</option>
-                                        <option value="15">15 mn / consultation</option>
-                                        <option value="20">20 mn / consultation</option>
-                                        <option value="30">30 mn / consultation</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="password" name="password" ng-model="vm.user.password" class="form-control" placeholder="Mot de passe">
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="password" name="confirmation" ng-model="vm.user.confirmation" class="form-control" placeholder="Confirmez votre mot de passe">
-                                </div>
-
-                                <div class="checkbox" ng-if="vm.isPatient">
-                                    <label>
-                                        <input type="checkbox" ng-model="vm.user.receiveBroadcast"> Je souhaite être averti en cas de désistement.
-                                    </label>
-                                </div>
-
-                                <div>
-                                    <button class="btn btn-log" ng-disabled="form.$invalid" ng-click="vm.updateUser(vm.user.id, vm.user)" type="submit">
-                                        Modifier mes informations
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+  <section class="matter">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12" ng-if="vm.isDoctor">
+          <div class="row">
+            <div class="col-md-6">
+              <h3>Mes informations personnelles</h3>
+              <form class="form" name="form" >
+                <div class="form-group" ng-class="{ 'has-error' : form.firstName.$invalid && !form.firstName.$pristine }">
+                  <input type="text" name="firstName" ng-model="vm.user.firstName" class="form-control" placeholder="Prénom *" required>
+                  <p ng-show="form.firstName.$invalid && !form.firstName.$pristine" class="help-block">Le prénom est obligatoire.</p>
                 </div>
+                <div class="form-group" ng-class="{ 'has-error' : form.lastName.$invalid && !form.lastName.$pristine }">
+                  <input type="text" name="lastName" ng-model="vm.user.lastName" class="form-control" placeholder="Nom de famille *" required>
+                  <p ng-show="form.lastName.$invalid && !form.lastName.$pristine" class="help-block">Le nom de famille est obligatoire.</p>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : form.email.$invalid && !form.email.$pristine }">
+                  <input type="email" name="email" ng-model="vm.user.email" class="form-control" placeholder="Email *">
+                  <p ng-show="form.email.$invalid && !form.email.$pristine" class="help-block">Ceci ne correspond pas à une adresse email valide.</p>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : form.mobilePhone.$invalid && !form.mobilePhone.$pristine }">
+                  <input type="text" name="mobilePhone" ng-model="vm.user.mobilePhone" class="form-control" placeholder="Numéro de téléphone mobile *" pattern="^(06|07)[0-9]{8}$">
+                  <p ng-show="form.mobilePhone.$invalid && !form.mobilePhone.$pristine" class="help-block">Ceci ne correspond pas à un numéro de mobile valide.</p>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : form.phone.$invalid && !form.phone.$pristine }">
+                  <input type="text" name="phone" ng-model="vm.user.phone" class="form-control" placeholder="Numéro de téléphone fixe" pattern="^(01|02|03|04|05|08|09)[0-9]{8}$">
+                  <p ng-show="form.phone.$invalid && !form.phone.$pristine" class="help-block">Ceci ne correspond pas à un numéro de fixe valide.</p>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : form.address.$invalid && !form.address.$pristine }">
+                  <input type="text" name="address" ng-model="vm.user.address" class="form-control" placeholder="Adresse">
+                  <p ng-show="form.address.$invalid && !form.address.$pristine" class="help-block">Ceci ne correspond pas à une adresse valide.</p>
+                </div>
+                <div class="form-group" ng-if="vm.isDoctor">
+                  <select class="form-control" ng-model="vm.user.consultTime">
+                    <option value="5">5 mn / consultation</option>
+                    <option value="10">10 mn / consultation</option>
+                    <option value="15">15 mn / consultation</option>
+                    <option value="20">20 mn / consultation</option>
+                    <option value="30">30 mn / consultation</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <input type="password" name="password" ng-model="vm.user.password" class="form-control" placeholder="Mot de passe">
+                </div>
+                <div class="form-group">
+                  <input type="password" name="confirmation" ng-model="vm.user.confirmation" class="form-control" placeholder="Confirmez votre mot de passe">
+                </div>
+                <div>
+                  <button class="btn btn-log" ng-disabled="form.$invalid" ng-click="vm.updateUser(vm.user.id, vm.user)" type="submit">
+                    Modifier mes informations
+                  </button>
+                </div>
+              </form>
             </div>
+            <div class="col-md-6">
+              <h3>Type de consultations</h3>
+              <ul class="categories">
+                <li ng-repeat="category in vm.categories">{{category.name}} - <span class="category-delete" ng-click="vm.deleteCategory(category.id)">[X]</span></li>
+              </ul>
+              <div class="row">
+                <div class="col-md-4">
+                  <input type="text" class="form-control" ng-model="vm.category.name" placeholder="Nom"/>
+                </div>
+                <div class="col-md-4">
+                  <input colorpicker type="text" class="form-control" ng-model="vm.category.color" placeholder="Couleur"/>
+                </div>
+                <div class="col-md-4">
+                  <button type="button" class="btn btn-primary" ng-click="vm.addCategory(vm.category)">Ajouter</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
+        <!-- Patient profile view -->
+        <div class="col-md-12" ng-if="vm.isPatient">
+          <div class="row">
+            <div class="col-md-offset-3 col-md-6" style="text-align: center;">
+              <h3>Mes informations personnelles</h3>
+              <form class="form" name="form" >
+                <div class="form-group" ng-class="{ 'has-error' : form.firstName.$invalid && !form.firstName.$pristine }">
+                  <input type="text" name="firstName" ng-model="vm.user.firstName" class="form-control" placeholder="Prénom *" required>
+                  <p ng-show="form.firstName.$invalid && !form.firstName.$pristine" class="help-block">Le prénom est obligatoire.</p>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : form.lastName.$invalid && !form.lastName.$pristine }">
+                  <input type="text" name="lastName" ng-model="vm.user.lastName" class="form-control" placeholder="Nom de famille *" required>
+                  <p ng-show="form.lastName.$invalid && !form.lastName.$pristine" class="help-block">Le nom de famille est obligatoire.</p>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : form.email.$invalid && !form.email.$pristine }">
+                  <input type="email" name="email" ng-model="vm.user.email" class="form-control" placeholder="Email *">
+                  <p ng-show="form.email.$invalid && !form.email.$pristine" class="help-block">Ceci ne correspond pas à une adresse email valide.</p>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : form.mobilePhone.$invalid && !form.mobilePhone.$pristine }">
+                  <input type="text" name="mobilePhone" ng-model="vm.user.mobilePhone" class="form-control" placeholder="Numéro de téléphone mobile *" pattern="^(06|07)[0-9]{8}$">
+                  <p ng-show="form.mobilePhone.$invalid && !form.mobilePhone.$pristine" class="help-block">Ceci ne correspond pas à un numéro de mobile valide.</p>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : form.phone.$invalid && !form.phone.$pristine }">
+                  <input type="text" name="phone" ng-model="vm.user.phone" class="form-control" placeholder="Numéro de téléphone fixe" pattern="^(01|02|03|04|05|08|09)[0-9]{8}$">
+                  <p ng-show="form.phone.$invalid && !form.phone.$pristine" class="help-block">Ceci ne correspond pas à un numéro de fixe valide.</p>
+                </div>
+                <div class="form-group" ng-if="vm.isPatient" ng-class="{ 'has-error' : form.dateOfBirth.$invalid && !form.dateOfBirth.$pristine }">
+                  <input type="date" name="dateOfBirth" ng-model="vm.user.dateOfBirth" class="form-control" placeholder="Date de naissance *">
+                  <p ng-show="form.dateOfBirth.$invalid && !form.dateOfBirth.$pristine" class="help-block">Ceci ne correspond pas à une date de naissance valide.</p>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : form.address.$invalid && !form.address.$pristine }">
+                  <input type="text" name="address" ng-model="vm.user.address" class="form-control" placeholder="Adresse">
+                  <p ng-show="form.address.$invalid && !form.address.$pristine" class="help-block">Ceci ne correspond pas à une adresse valide.</p>
+                </div>
+                <div class="form-group">
+                  <input type="password" name="password" ng-model="vm.user.password" class="form-control" placeholder="Mot de passe">
+                </div>
+                <div class="form-group">
+                  <input type="password" name="confirmation" ng-model="vm.user.confirmation" class="form-control" placeholder="Confirmez votre mot de passe">
+                </div>
+                <div class="checkbox" ng-if="vm.isPatient">
+                  <label>
+                    <input type="checkbox" ng-model="vm.user.receiveBroadcast"> Je souhaite être averti en cas de désistement.
+                  </label>
+                </div>
+                <div>
+                  <button class="btn btn-log" ng-disabled="form.$invalid" ng-click="vm.updateUser(vm.user.id, vm.user)" type="submit">
+                    Modifier mes informations
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </section>

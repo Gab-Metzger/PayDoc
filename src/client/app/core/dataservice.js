@@ -28,6 +28,7 @@
             getAppointmentsByPatient: getAppointmentsByPatient,
             getAppointmentsByDoctor: getAppointmentsByDoctor,
             getAppointmentsByPatientAndDoctor: getAppointmentsByPatientAndDoctor,
+            getPendingAppointmentsByDoctor: getPendingAppointmentsByDoctor,
             addAppointment: addAppointment,
             validateAppointment: validateAppointment,
             cancelAppointment: cancelAppointment,
@@ -44,8 +45,12 @@
             appointmentHappened: appointmentHappened,
             moveAppointment: moveAppointment,
             extendAppointment: extendAppointment,
-            editNote: editNote
+            editNote: editNote,
+            remindAppointment: remindAppointment,
 
+            getCategoriesByDoctor: getCategoriesByDoctor,
+            addCategory: addCategory,
+            deleteCategory: deleteCategory
         };
 
         return service;
@@ -418,6 +423,27 @@
                 })
         }
 
+        function getPendingAppointmentsByDoctor(id, dateStart)
+        {
+            var dateEnd = moment(dateStart).add(12, 'h');
+            return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+', "state": "pending",  "start": {">": "'+dateStart.toISOString()+'"},"end": {"<": "'+dateEnd.toISOString()+'"} }&populate=patient&populate=doctor')
+                .success(function(data){
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].patient == null) {
+                          data.splice(i,1);
+                        }
+                        else {
+                          data[i].start = moment(data[i].start).format('LLL');
+                        }
+                    }
+                    return data;
+                })
+                .error(function(err){
+                    console.log('Request Failed for getPendingAppointmentsByDoctor. ' + err );
+                    return err;
+                })
+        }
+
         function appointmentHappened(id, value) {
           return $sailsSocket.put(BackEndUrl+ 'appointment/' + id + '?populate=patient', {
               happened: value
@@ -467,5 +493,53 @@
               })
         }
 
+        function remindAppointment(app) {
+          return $sailsSocket.post(BackEndUrl+ 'email/confirm', {
+              app: app
+          })
+          .success(function(data){
+            return data;
+          })
+          .error(function(err){
+            console.log('Request Failed for remindAppointment.')
+            console.log(err);
+          })
+        }
+
+        function getCategoriesByDoctor(id) {
+          return $sailsSocket.get(BackEndUrl+ 'doctor/'+ id +'/categories')
+          .success(function(data){
+            return data;
+          })
+          .error(function(err){
+            console.log('Request Failed for getCategoriesByDoctor.')
+            console.log(err);
+          })
+        }
+
+        function addCategory(idDoctor, category) {
+          return $sailsSocket.post(BackEndUrl+ 'category', {
+            name: category.name,
+            color: category.color,
+            owner: idDoctor
+          })
+          .success(function(data){
+            return data;
+          })
+          .error(function(err){
+            console.log('Request Failed for getCategoriesByDoctor.')
+            console.log(err);
+          })
+        }
+
+        function deleteCategory(id) {
+          return $sailsSocket.delete(BackEndUrl+'category/'+id)
+          .success(function(data){
+            return data;
+          })
+          .error(function(err){
+            console.log('Request Failed for deleteCategory. ' + err)
+          })
+        }
     }
 })();
