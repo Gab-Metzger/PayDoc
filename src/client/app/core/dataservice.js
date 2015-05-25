@@ -426,28 +426,10 @@
         function getPendingAppointmentsByDoctor(id, dateStart)
         {
             var dateEnd = moment(dateStart).add(12, 'h');
-            var email = '';
-            return $sailsSocket.get(BackEndUrl+'appointment?where={"doctor":'+id+', "state": "pending",  "start": {">": "'+dateStart.toISOString()+'"},"end": {"<": "'+dateEnd.toISOString()+'"} }&populate=patient&populate=doctor')
+            var email, phone;
+            var appointments = [];
+            return $sailsSocket.post(BackEndUrl+'appointment/getPendingAppointments', {doctor: id, start: dateStart.toISOString(), end: dateEnd.toISOString()})
                 .success(function(data){
-                    for (var i = 0; i < data.length; i++) {
-                        if (data[i].patient == null) {
-                          data.splice(i,1);
-                        }
-                        else {
-                          email = data[i].patient.email;
-                          if ((email.indexOf("paydoc.fr") != -1) && (data[i].patient.mobilePhone == null)) {
-                            data.splice(i,1);
-                          }
-                          else if (email.indexOf("paydoc.fr") != -1) {
-                            data[i].start = moment(data[i].start).format('LLL', 'fr');
-                            data[i].disabled = true;
-                          }
-                          else {
-                            data[i].start = moment(data[i].start).format('LLL', 'fr');
-                            data[i].disabled = false;
-                          }
-                        }
-                    }
                     return data;
                 })
                 .error(function(err){
