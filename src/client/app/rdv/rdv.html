@@ -23,7 +23,7 @@
               <td>{{appointment.patient.name}}</td>
               <td>{{appointment.start}}</td>
               <td>
-                <button type="button" ng-class="{disabled: appointment.disabled}" class="btn btn-warning" ng-click="vm.remindAppointment(appointment)">Relancer une demande de confirmation</button>
+                <button type="button" class="btn btn-warning" ng-click="vm.remindAppointment(appointment)">Relancer une demande de confirmation</button>
                 <button type="button" class="btn btn-danger" ng-click="vm.cancelAppointment(appointment.id)">Annuler le rendez-vous</button>
               </td>
             </tr>
