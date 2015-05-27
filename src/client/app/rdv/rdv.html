@@ -6,7 +6,7 @@
               <button type='button' class='btn btn-default button-previous' name='previous' ng-click="vm.getPreviousAppointments()">Précédant</button>
             </div>
             <div class="col-md-4">
-              <h2 style="text-align: center;">{{vm.dateStart.format('LL', 'fr')}}</h2>
+              <h2 style="text-align: center;">{{vm.dateStart.toDate() | date : "dd/MM/yyyy" : 'fr'}}</h2>
             </div>
             <div class="col-md-4">
   			      <button type='button' class='btn btn-default button-next' name='next' ng-click="vm.getNextAppointments()" style="float: right;">Suivant</button>
@@ -21,7 +21,7 @@
             </tr>
             <tr ng-repeat="appointment in vm.appointments">
               <td>{{appointment.patient.name}}</td>
-              <td>{{appointment.start}}</td>
+              <td>{{appointment.start | date : "dd/MM/yyyy 'à' HH'h'mm"}}</td>
               <td>
                 <button type="button" class="btn btn-warning" ng-click="vm.remindAppointment(appointment)">Relancer une demande de confirmation</button>
                 <button type="button" class="btn btn-danger" ng-click="vm.cancelAppointment(appointment.id)">Annuler le rendez-vous</button>
