@@ -171,7 +171,7 @@
                                         });
                                         setTimeout(function() {
                                           ngDialog.openConfirm({
-                                            template: 'app/widgets/modalConfirm.html',
+                                            template: 'app/widgets/modalPropose.html',
                                             className: 'ngdialog-theme-default',
                                             data: {message: 'Voulez-vous proposer ce rendez-vous ?'}
                                           }).then(function (value) {
