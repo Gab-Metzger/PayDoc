@@ -11,6 +11,7 @@
         'app.account',
         'app.mypatient',
         'app.rdv',
+        'app.searchengine',
         'app.layout'
 
     ])

@@ -1,0 +1,16 @@
+<h3>Créneau du {{ngDialogData.req | date: "dd/MM/yyyy 'à' HH'h'mm"}}</h3>
+<div class="container">
+  <div class="row">
+    <input type="text" ng-model="selected" typeahead="patient.namebirth for patient in vm.loadPatient($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="vm.loadingPatients" typeahead-min-length="3" typeahead-on-select="vm.onSelect($item)" class="form-control" placeholder="Rechercher un patient" autofocus="true">
+    <i ng-show="vm.loadingPatients" class="glyphicon glyphicon-refresh"></i>
+  </div>
+  <div class="row" ng-if="vm.patient">
+    <h3>{{vm.patient.name}}</h3>
+    <p>{{vm.patient.mobilePhone}} - {{vm.patient.phone}}</p>
+    <p>{{vm.patient.address}}</p>
+    <p>{{vm.patient.email}}</p>
+  </div>
+  <div class="row">
+    <button class="btn btn-primary" style="margin-left: 0; margin-top: 5px;" ng-click="vm.addAppointment(ngDialogData.req)">Ajouter le rendez-vous</button>
+  </div>
+</div>

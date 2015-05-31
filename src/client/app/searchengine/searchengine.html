@@ -1,0 +1,42 @@
+<section class="mainbar">
+  <section class="matter">
+    <div class="container">
+      <div class="row">
+        <h3>Rechercher un créneau disponible</h3>
+      </div>
+      <div class="row">
+        <div class="form-group" data-ng-repeat="choice in vm.choices">
+          <label for="choice" ng-show="vm.showChoiceLabel(choice)">Choix</label>
+          <button class="btn btn-primary" ng-show="vm.showAddChoice(choice)" ng-click="vm.addNewChoice()">Ajouter un choix</button>
+          <select class="form-control" ng-model="choice.day" convert-to-number>
+            <option value="7">Lundi</option>
+            <option value="8">Mardi</option>
+            <option value="9">Mercredi</option>
+            <option value="10">Jeudi</option>
+            <option value="11">Vendredi</option>
+          </select>
+          <select class="form-control" ng-model="choice.period">
+            <option value="morning">Matin</option>
+            <option value="afternoon">Après-midi</option>
+            <option value="evening">Soirée</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn btn-primary" ng-click="vm.search()">Rechercher</button>
+        <button class="btn btn-warning" ng-click="vm.clear()">Effacer</button>
+      </div>
+    </div>
+    <div class="container" style="margin-top: 20px;">
+      <div class="row">
+        <ul class="list-unstyled">
+          <li ng-repeat="app in vm.availableAppointments"><h4><a ng-click="vm.openModal(app)">{{app | date: "dd/MM/yyyy 'à' HH'h'mm"}}</a></h4></li>
+        </ul>
+        <div ng-if="vm.isSearching && vm.availableAppointments.length == 0">
+          <p>Aucun résultat trouvé !</p>
+          <a ng-click="vm.week = vm.week+1; vm.search()">Semaine suivante ?</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

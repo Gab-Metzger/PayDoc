@@ -50,7 +50,9 @@
 
             getCategoriesByDoctor: getCategoriesByDoctor,
             addCategory: addCategory,
-            deleteCategory: deleteCategory
+            deleteCategory: deleteCategory,
+
+            getAvailableAppointments : getAvailableAppointments
         };
 
         return service;
@@ -533,6 +535,22 @@
           })
           .error(function(err){
             console.log('Request Failed for deleteCategory. ' + err)
+          })
+        }
+
+        function getAvailableAppointments(days, periods, interval, week) {
+          return $sailsSocket.post(BackEndUrl+ 'searchEngine/search', {
+            days: days,
+            periods: periods,
+            interval: interval,
+            week: week
+          })
+          .success(function(data){
+            return data;
+          })
+          .error(function(err){
+            console.log('Request Failed for getAvailableAppointments.')
+            console.log(err);
           })
         }
     }
