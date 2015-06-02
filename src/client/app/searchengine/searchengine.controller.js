@@ -23,6 +23,8 @@
     vm.loadPatient = loadPatient;
     vm.onSelect = onSelect;
     vm.addAppointment = addAppointment;
+    vm.switchEditable = switchEditable;
+    vm.updatePatient = updatePatient;
 
     vm.title = 'Moteur de recherche';
     vm.choices = [{id: 'choice1'}];
@@ -42,8 +44,11 @@
 
 
     function activate() {
-      var promises = [];
+      var promises = [getCategories()];
       return $q.all(promises).then(function() {
+        vm.color = {};
+        vm.notes = {};
+        vm.editable = false;
       });
     }
 
@@ -110,12 +115,37 @@
         start: moment(start).toDate(),
         end: moment(start).add(interval, 'm').toDate(),
         patient: vm.patient.id,
-        doctor: idCurrent
+        doctor: idCurrent,
+        notes: vm.notes.message,
+        category: vm.color.name
       }
       dataservice.addAppointment(dataToSend).success(function(res) {
           dataservice.incrNbGiven(idCurrent);
           dialog.close();
           logger.info('Le rendez-vous a été ajouté !');
+      });
+    }
+
+    function getCategories() {
+      return dataservice.getCategoriesByDoctor(idCurrent)
+      .success(function (data){
+        vm.categories = data;
+        return data;
+      });
+    }
+
+    function switchEditable() {
+      vm.editable = !vm.editable;
+    }
+
+    function updatePatient(id, patient) {
+      return dataservice.updatePatient(id, patient)
+      .success(function (data) {
+        data.dateOfBirth = new Date(data.dateOfBirth);
+        vm.patient = data;
+        logger.info('La fiche à été modifiée !');
+        vm.editable = false;
+        return data;
       });
     }
   }

@@ -546,6 +546,9 @@
             week: week
           })
           .success(function(data){
+            for (var i = 0; i < data.length; i++) {
+              data[i] = new Date(data[i])
+            }
             return data;
           })
           .error(function(err){
