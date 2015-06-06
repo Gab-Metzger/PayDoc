@@ -538,8 +538,9 @@
           })
         }
 
-        function getAvailableAppointments(days, periods, interval, week) {
+        function getAvailableAppointments(doctor, days, periods, interval, week) {
           return $sailsSocket.post(BackEndUrl+ 'searchEngine/search', {
+            doctor: doctor,
             days: days,
             periods: periods,
             interval: interval,

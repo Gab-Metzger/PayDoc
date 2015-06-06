@@ -73,7 +73,7 @@
         days.push(parseInt(choice.day));
         periods.push(choice.period);
       });
-      return dataservice.getAvailableAppointments(days, periods, interval, vm.week)
+      return dataservice.getAvailableAppointments(idCurrent, days, periods, interval, vm.week)
       .success(function (data) {
         vm.availableAppointments = data;
         vm.isSearching = true;
