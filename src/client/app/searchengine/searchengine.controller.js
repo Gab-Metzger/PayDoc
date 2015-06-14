@@ -25,6 +25,7 @@
     vm.addAppointment = addAppointment;
     vm.switchEditable = switchEditable;
     vm.updatePatient = updatePatient;
+    vm.addPatientButtonClick = addPatientButtonClick;
 
     vm.title = 'Moteur de recherche';
     vm.choices = [{id: 'choice1'}];
@@ -49,6 +50,9 @@
         vm.color = {};
         vm.notes = {};
         vm.editable = false;
+        vm.addPatientButton = false;
+        vm.searchInput = true;
+        vm.newPatient = {};
       });
     }
 
@@ -88,6 +92,7 @@
       vm.choices = [{id: 'choice1'}];
       vm.availableAppointments = [];
       vm.isSearching = false;
+      vm.week = 0;
     }
 
     function openModal(app) {
@@ -111,19 +116,31 @@
     }
 
     function addAppointment(start) {
-      var dataToSend = {
-        start: moment(start).toDate(),
-        end: moment(start).add(interval, 'm').toDate(),
-        patient: vm.patient.id,
-        doctor: idCurrent,
-        notes: vm.notes.message,
-        category: vm.color.name
+      if (vm.addPatientButton) {
+        addPatientThenAppointment(start)
       }
-      dataservice.addAppointment(dataToSend).success(function(res) {
-          dataservice.incrNbGiven(idCurrent);
-          dialog.close();
-          logger.info('Le rendez-vous a été ajouté !');
-      });
+      else {
+        var dataToSend = {
+          start: moment(start).toDate(),
+          end: moment(start).add(interval, 'm').toDate(),
+          patient: vm.patient.id,
+          doctor: idCurrent,
+          notes: vm.notes.message,
+          category: vm.color.name
+        }
+        dataservice.addAppointment(dataToSend).success(function(res) {
+            dataservice.incrNbGiven(idCurrent);
+            dialog.close();
+            logger.info('Le rendez-vous a été ajouté !');
+        });
+      }
+    }
+        
+    function addPatientButtonClick() {
+      vm.addPatientButton = true;
+      vm.searchInput = false;
+      vm.editable = true;
+      vm.patient = null;
     }
 
     function getCategories() {
@@ -147,6 +164,32 @@
         vm.editable = false;
         return data;
       });
+    }
+
+    function addPatientThenAppointment(start) {
+        if (vm.newPatient.email == undefined) {
+            var email = vm.newPatient.lastName.toLowerCase() + '.' + vm.newPatient.firstName.toLowerCase() + (Math.floor(Math.random() * (100 - 1)) + 1).toString() + '@paydoc.fr';
+            vm.newPatient.email = email;
+        }
+        vm.newPatient.dname = authservice.currentUser().lastName;
+        dataservice.addPatient(vm.newPatient).success(function (data) {
+            var dataToSend = {
+                start: moment(start).toDate(),
+                end: moment(start).add(interval, 'm').toDate(),
+                state: 'pending',
+                patient: data.id,
+                doctor: idCurrent,
+                notes: vm.notes.message,
+                category: vm.color.name
+            };
+            dataservice.addAppointment(dataToSend).success(function(res) {
+                res.start = new Date(res.start);
+                res.end = new Date(res.end);
+                dataservice.incrNbGiven(idCurrent);
+                logger.info('Le rendez-vous a été ajouté !');
+                dialog.close();
+            });
+        })
     }
   }
 })();
